@@ -1,0 +1,170 @@
+#RobotSettings .line {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 950px;
+    height: 4px;
+    border-radius: 4px;
+    background-color: #ccc;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    
+}
+
+
+#RobotSettings {
+    margin: 0 auto;
+    min-width: 1000px;
+    width: 1000px;
+    border-radius: 8px;
+    /* border: 1px solid #000; */
+}
+#RobotSettings .category ul{
+    width: 1000px;
+    display: flex;
+ }
+ 
+#RobotSettings .category ul li{
+    text-align: center;
+    width: 250px;
+    overflow: hidden;
+    font-weight: bold;
+    padding: 4px;
+    /* border: 1px solid #000; */
+}
+
+#RobotSettings .createRobotList ul{
+    width: 1000px;
+    display: flex;
+}
+#RobotSettings .createRobotList ul li{
+    width: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    /* border: 1px solid #000; */
+}
+
+#RobotSettings .createRobotList ul li:nth-child(4){
+    align-items: left;
+    justify-content: left;
+}
+#RobotSettings .createRobotList ul li input{
+    width: 200px;
+    font-size: 16px;
+    padding: 4px;
+    align-items: center;
+    margin: 0 auto;
+    border: 1px solid #000;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+#RobotSettings .createRobotList ul li button{
+    width: 100px;
+    padding: 4px;
+    background-color: #33B84C;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 16px;
+    color: white;
+    cursor: pointer;
+    margin-left: 20px;
+}
+
+#RobotSettings .createRobotList ul li button:hover{
+    background-color: #228833;
+}
+
+#RobotSettings .robotList {
+
+    width: 1000px;
+}
+
+
+#RobotSettings h2{
+    text-align: center;
+}
+
+#RobotSettings  .robotListTitle ul{
+    display: flex;
+    /* border: 1px solid #000; */
+    
+    
+}
+
+#RobotSettings  .robotListTitle ul li{
+    display: flex;
+    padding: 4px;
+    background-color: #ccc;
+    border-radius: 4px;
+    font-weight: bold;
+    width: 242px;
+    padding: 4px;
+    margin: 4px;
+    justify-content: center;
+    /* border: 1px solid #000; */
+}
+
+
+#RobotSettings .robotList ul{
+    display: flex;
+    /* border: 1px solid #000; */
+}
+#RobotSettings .robotList ul li{
+    display: flex;
+    width: 250px;
+    margin: 4px;
+    flex-grow: 1;
+    padding: 4px;
+    text-align: center;
+    background-color: #ccc;
+    border-radius: 4px;
+    font-weight: bold;
+    padding: 10px;
+    /* text-align: center; */
+    /* justify-content: center; */
+    /* border: 1px solid #000; */
+}
+
+#RobotSettings .robotList ul li:nth-child(4){
+    background-color: #fff;
+    padding: 4px;
+
+}
+#RobotSettings .robotList ul li button:nth-child(1){
+    flex-grow: 1;
+    margin-right: 10px;
+    width: 100px;
+    padding: 4px;
+    border: 1px solid #000;
+    background-color: #33B84C;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 16px;
+    color: white;
+    cursor: pointer;
+}
+#RobotSettings .robotList ul li button:nth-child(1):hover{
+    background-color: #228833;
+}
+
+#RobotSettings .robotList ul li button:nth-child(2){
+    flex-grow: 1;
+    margin-left: 10px;
+    width: 100px;
+    padding: 4px;
+    background-color: #dd5522;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 16px;
+    color: white;
+    cursor: pointer;
+}
+#RobotSettings .robotList ul li button:nth-child(2):hover{
+    background-color: #993f1f;
+}

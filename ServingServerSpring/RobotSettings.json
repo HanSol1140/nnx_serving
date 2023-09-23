@@ -1,0 +1,19 @@
+[ {
+  "robotName" : "1",
+  "robotNumber" : "1",
+  "robotIP" : "1",
+  "robotRunningState" : false,
+  "robotLastOrderPoint" : ""
+}, {
+  "robotName" : "2",
+  "robotNumber" : "2",
+  "robotIP" : "2",
+  "robotRunningState" : false,
+  "robotLastOrderPoint" : ""
+}, {
+  "robotName" : "3",
+  "robotNumber" : "3",
+  "robotIP" : "3",
+  "robotRunningState" : false,
+  "robotLastOrderPoint" : ""
+} ]
