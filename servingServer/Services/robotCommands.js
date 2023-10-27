@@ -149,15 +149,15 @@ function checkBattery(robotName) {
 exports.checkBattery = checkBattery;
 //속도 변경
 //기본적인 작동테스트만함, 추가코딩필요
-function changeSpeed() {
+function changeSpeed(robotName, speed) {
     return __awaiter(this, void 0, void 0, function* () {
+        console.log("!!!!");
         try {
-            const response = yield axios_1.default.post(`http://192.168.0.177/cmd/nav_max_vel_x_config`, {
-                max_vel: 1
+            const response = yield axios_1.default.post(`http://${robotconfig_1.robotSettings[robotName].robotIP}/cmd/nav_max_vel_x_config`, {
+                max_vel: speed
             });
             if (response.status === 200) {
                 console.log(response.data);
-                console.log("test");
             }
         }
         catch (error) {
