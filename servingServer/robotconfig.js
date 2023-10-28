@@ -15,13 +15,13 @@ function setPointCoordinate(pointName, x, y, theta) {
 exports.setPointCoordinate = setPointCoordinate;
 // robotIP
 exports.robotCoordinate = {};
-function setRobotCoordinate(robotNumber, x, y, theta) {
-    exports.robotCoordinate[robotNumber] = { x, y, theta };
+function setRobotCoordinate(robotName, x, y, theta) {
+    exports.robotCoordinate[robotName] = { x, y, theta };
 }
 exports.setRobotCoordinate = setRobotCoordinate;
 // laserCoordinate
 exports.laserCoordinate = {};
-function setLaserCoordinate(robotNumber, centerPortion) {
-    exports.laserCoordinate[robotNumber] = centerPortion;
+function setLaserCoordinate(robotName, centerPortion) {
+    exports.laserCoordinate[robotName] = centerPortion;
 }
 exports.setLaserCoordinate = setLaserCoordinate;

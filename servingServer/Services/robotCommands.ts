@@ -187,25 +187,23 @@ export async function getLaser(robotName: string) {
         if (response.status === 200) {
             // response.data
             const coordinates = response.data.coordinates;
-            
-            const length = coordinates.length;
-            const middle = Math.floor(length / 2);
-            const range = Math.floor(length / 3) / 2;
 
-            const startIndex = middle - range;
-            const endIndex = middle + range;
-            const rawCenterPortion = coordinates.slice(startIndex, endIndex);
-            
-            // centerPortion의 각 항목을 LaserDataType (형태로 변환
-            const centerPortion = rawCenterPortion.map((item:[number, number]) => ({ x: item[0], y: item[1] }));
-            const robotNumber = robotSettings[robotName].robotNumber;
-            setLaserCoordinate(robotNumber, centerPortion);
+            const laserPosition = coordinates.map((item:[number, number]) => ({ x: item[0], y: item[1] }));
+            setLaserCoordinate(robotName, laserPosition);
         }
     } catch (error) {
         console.error('Error with API call:', error);
     }
 }
-
+            // const length = coordinates.length;
+            // const middle = Math.floor(length / 2);
+            // const range = Math.floor(length / 3) / 2;
+            // const startIndex = middle - range;
+            // const endIndex = middle + range;
+            // const rawCenterPortion = coordinates.slice(startIndex, endIndex);
+            // // centerPortion의 각 항목을 LaserDataType (형태로 변환
+            // const robotNumber = robotSettings[robotName].robotNumber;
+            // setLaserCoordinate(robotNumber, centerPortion);
 
 
 
@@ -256,9 +254,8 @@ export async function getPose(robotName: string) {
         const response = await axios.get(`http://${robotSettings[robotName].robotIP}/reeman/pose`);
         if (response.status === 200) {
             // console.log(response.data); // theta 는 radian이라서 변환이 필요함
-
             const currentRobotIndex = (robotSettings[robotName].robotNumber);
-            setRobotCoordinate(currentRobotIndex, response.data.x, response.data.y, response.data.theta);
+            setRobotCoordinate(robotName, response.data.x, response.data.y, response.data.theta);
         }
     } catch (error) {
         console.error('Error with API call:', error);

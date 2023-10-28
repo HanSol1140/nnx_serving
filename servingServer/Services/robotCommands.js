@@ -207,16 +207,8 @@ function getLaser(robotName) {
             if (response.status === 200) {
                 // response.data
                 const coordinates = response.data.coordinates;
-                const length = coordinates.length;
-                const middle = Math.floor(length / 2);
-                const range = Math.floor(length / 3) / 2;
-                const startIndex = middle - range;
-                const endIndex = middle + range;
-                const rawCenterPortion = coordinates.slice(startIndex, endIndex);
-                // centerPortion의 각 항목을 LaserDataType (형태로 변환
-                const centerPortion = rawCenterPortion.map((item) => ({ x: item[0], y: item[1] }));
-                const robotNumber = robotconfig_1.robotSettings[robotName].robotNumber;
-                (0, robotconfig_1.setLaserCoordinate)(robotNumber, centerPortion);
+                const laserPosition = coordinates.map((item) => ({ x: item[0], y: item[1] }));
+                (0, robotconfig_1.setLaserCoordinate)(robotName, laserPosition);
             }
         }
         catch (error) {
@@ -225,6 +217,15 @@ function getLaser(robotName) {
     });
 }
 exports.getLaser = getLaser;
+// const length = coordinates.length;
+// const middle = Math.floor(length / 2);
+// const range = Math.floor(length / 3) / 2;
+// const startIndex = middle - range;
+// const endIndex = middle + range;
+// const rawCenterPortion = coordinates.slice(startIndex, endIndex);
+// // centerPortion의 각 항목을 LaserDataType (형태로 변환
+// const robotNumber = robotSettings[robotName].robotNumber;
+// setLaserCoordinate(robotNumber, centerPortion);
 // 레이저 데이터 수집을 통해 방향체크
 function normalizeAngle(angle) {
     while (angle <= -180)
@@ -258,7 +259,7 @@ function getPose(robotName) {
             if (response.status === 200) {
                 // console.log(response.data); // theta 는 radian이라서 변환이 필요함
                 const currentRobotIndex = (robotconfig_1.robotSettings[robotName].robotNumber);
-                (0, robotconfig_1.setRobotCoordinate)(currentRobotIndex, response.data.x, response.data.y, response.data.theta);
+                (0, robotconfig_1.setRobotCoordinate)(robotName, response.data.x, response.data.y, response.data.theta);
             }
         }
         catch (error) {

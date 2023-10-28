@@ -34,23 +34,23 @@ export function setPointCoordinate(pointName: string, x: string, y: string, thet
 
 // robotIP
 export let robotCoordinate:{
-    [key: number]: {
+    [key: string]: {
         x:number,
         y:number,
         theta:number
     }
 } = {};
 
-export function setRobotCoordinate(robotNumber: number, x: number, y: number, theta: number) {
-    robotCoordinate[robotNumber] = { x, y, theta };    
+export function setRobotCoordinate(robotName: string, x: number, y: number, theta: number) {
+    robotCoordinate[robotName] = { x, y, theta };    
 }
 
 
 // laserCoordinate
 export let laserCoordinate: {
-    [key: number]: { x: number, y: number }[];
+    [key: string]: { x: number, y: number }[];
 } = {};
 
-export function setLaserCoordinate(robotNumber: number , centerPortion:[]) {
-    laserCoordinate[robotNumber] = centerPortion;    
+export function setLaserCoordinate(robotName: string , centerPortion:[]) { 
+    laserCoordinate[robotName] = centerPortion;    
 }
