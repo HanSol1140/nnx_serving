@@ -54,3 +54,14 @@ export let laserCoordinate: {
 export function setLaserCoordinate(robotName: string , centerPortion:[]) { 
     laserCoordinate[robotName] = centerPortion;    
 }
+
+// 교차로 관리
+export let crossRoadState: {
+    [key:string]: {
+        robotName : string
+    }
+} = {};
+
+export function setCrossRoadState(roadName: string , robotName:string) { 
+    crossRoadState[roadName] = robotName;    
+}

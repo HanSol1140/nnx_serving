@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.manualMove = exports.manualTurn = exports.movePointList = exports.test = exports.getPose = exports.getDivideDirection = exports.getLaser = exports.getSpeed = exports.getIMUstatus = exports.changeSpeed = exports.checkBattery = exports.charge = exports.movePlan = exports.retryMovePoint = exports.moveCoordinates = exports.movePoint = exports.cancle = void 0;
+exports.manualMove = exports.manualTurn = exports.movePointList = exports.test = exports.getPose = exports.detectCollision = exports.checkCrossRoad = exports.getDivideDirection = exports.getLaser = exports.getSpeed = exports.getIMUstatus = exports.changeSpeed = exports.checkBattery = exports.charge = exports.movePlan = exports.retryMovePoint = exports.moveCoordinates = exports.movePoint = exports.cancle = void 0;
 // func.ts
 const axios_1 = __importDefault(require("axios"));
 const robotconfig_1 = require("../robotconfig");
@@ -249,6 +249,57 @@ function getDivideDirection(robotTheta, obsX, obsY, robotX, robotY) {
     });
 }
 exports.getDivideDirection = getDivideDirection;
+// 교차로 체크
+function checkCrossRoad(robotName) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const robotX = robotconfig_1.robotCoordinate[robotName].x;
+        const robotY = robotconfig_1.robotCoordinate[robotName].y;
+        for (const pointName in robotconfig_1.pointCoordinate) {
+            if (pointName.includes('crossCheck')) {
+                const pointX = parseFloat(robotconfig_1.pointCoordinate[pointName].x);
+                const pointY = parseFloat(robotconfig_1.pointCoordinate[pointName].y);
+                const distance = Math.sqrt((pointX - robotX) ** 2 + (pointY - robotY) ** 2);
+                if (distance <= 0.5) {
+                    console.log("교차로 입장:", pointName);
+                    return true;
+                }
+                else {
+                    // console.log("교차로가 아닙니다.");
+                    return false;
+                }
+            }
+        }
+    });
+}
+exports.checkCrossRoad = checkCrossRoad;
+// 충돌 위험 체크
+function detectCollision(robotName) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const robotTheta = robotconfig_1.robotCoordinate[robotName].theta; // 라디안 값
+        const robotX = robotconfig_1.robotCoordinate[robotName].x;
+        const robotY = robotconfig_1.robotCoordinate[robotName].y;
+        for (const laserPoint of robotconfig_1.laserCoordinate[robotName]) {
+            const dx = laserPoint.x - robotX;
+            const dy = laserPoint.y - robotY;
+            const rotatedX = dx * Math.cos(-robotTheta) - dy * Math.sin(-robotTheta);
+            const rotatedY = dx * Math.sin(-robotTheta) + dy * Math.cos(-robotTheta);
+            // 충돌 검사 영역 설정
+            const rectangleWidth = 1.5; // 감지영역 거리
+            const rectangleHeight = 0.6; // 감지영역 폭
+            // 충돌 위험 판단
+            if (rotatedX >= 0 && rotatedX <= rectangleWidth && Math.abs(rotatedY) <= rectangleHeight / 2) {
+                const direction = rotatedY > 0 ? "left" : "right";
+                console.log("충돌 위험:", robotName, laserPoint, direction);
+                // const collisions = [];
+                // collisions.push({ robot: robotName, laserPoint, direction });
+                // console.log(collisions);
+                return true;
+            }
+        }
+        return false;
+    });
+}
+exports.detectCollision = detectCollision;
 // type crashType = {}
 // 좌표 받기
 function getPose(robotName) {
@@ -258,7 +309,7 @@ function getPose(robotName) {
             const response = yield axios_1.default.get(`http://${robotconfig_1.robotSettings[robotName].robotIP}/reeman/pose`);
             if (response.status === 200) {
                 // console.log(response.data); // theta 는 radian이라서 변환이 필요함
-                const currentRobotIndex = (robotconfig_1.robotSettings[robotName].robotNumber);
+                // const currentRobotIndex = (robotSettings[robotName].robotNumber);
                 (0, robotconfig_1.setRobotCoordinate)(robotName, response.data.x, response.data.y, response.data.theta);
             }
         }

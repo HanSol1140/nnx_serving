@@ -1,7 +1,7 @@
 "use strict";
 // robotconfig.ts
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.setLaserCoordinate = exports.laserCoordinate = exports.setRobotCoordinate = exports.robotCoordinate = exports.setPointCoordinate = exports.pointCoordinate = exports.setRobotSettings = exports.robotSettings = void 0;
+exports.setCrossRoadState = exports.crossRoadState = exports.setLaserCoordinate = exports.laserCoordinate = exports.setRobotCoordinate = exports.robotCoordinate = exports.setPointCoordinate = exports.pointCoordinate = exports.setRobotSettings = exports.robotSettings = void 0;
 exports.robotSettings = {};
 function setRobotSettings(name, robotNumber, robotIP, robotRunningState, robotLastOrderPoint) {
     exports.robotSettings[name] = { robotNumber, robotIP, robotRunningState, robotLastOrderPoint };
@@ -25,3 +25,9 @@ function setLaserCoordinate(robotName, centerPortion) {
     exports.laserCoordinate[robotName] = centerPortion;
 }
 exports.setLaserCoordinate = setLaserCoordinate;
+// 교차로 관리
+exports.crossRoadState = {};
+function setCrossRoadState(roadName, robotName) {
+    exports.crossRoadState[roadName] = robotName;
+}
+exports.setCrossRoadState = setCrossRoadState;

@@ -60,82 +60,52 @@ const RobotSetup = __importStar(require("./Services/robotSetup.js"));
 const Func = __importStar(require("./Services/robotCommands.js"));
 // 로봇명 전역변수 설정
 RobotSetup.serverSetup();
-//
-// setTimeout(() => {
-//     // Func.moveCoordinates("robot1", "0", "0", "0");
-//     Func.getLaser("robot1");
-//     setTimeout(() => {
-//         console.log(laserCoordinate["robot1"]);
-//     }, 1000);
-// }, 1000);
-// 각 로봇의 좌표 계속 전송
-// 각 로봇 레이저 좌표 계속 전송
-// setInterval(async () => {
-//     // 좌표와 레이저 정보 받기
-//     for(var i in robotSettings){ // i = 등록된 로봇Name
-//         // console.log(i); // 로봇명
-//         await Func.getPose(i);
-//         await Func.getLaser(i);
-//     }
-//     // 장애물 감지 
-//     for(var i in robotSettings){
-//         const robotTheta = robotCoordinate[i].theta * (180 / Math.PI); // robotCoordinate[i].theta은 라디안값이라 각도로
-//         const robotX = robotCoordinate[i].x;
-//         const robotY = robotCoordinate[i].y;
-//         for(const laserPoint of laserCoordinate[i]){
-//         // ====================================================================================
-//             const dx = robotX - laserPoint.x;
-//             const dy = robotY - laserPoint.y;
-//             const distance = Math.sqrt(dx * dx + dy * dy);
-//             // 장애물과 로봇이 일정거리 이내
-//             if(distance < 1.5) {
-//                 console.log(i + "가 인식한 장애물의 좌표" + laserPoint.x + " / "+ laserPoint.y);
-//                 var direction = await Func.getDivideDirection(robotTheta, laserPoint.x, laserPoint.y, robotX, robotY);
-//                 console.log(direction); // 로봇의 기준으로 장애물이 left / right인지 확인
-//                 break;
-//             }     
-//         }
-//     }
-// }, 33);
-// },100);
+setTimeout(() => {
+    // Func.moveCoordinates("192.168.0.177", "1.92", "7.31", "88");
+    // Func.moveCoordinates(i, "1.92", "-0.08", "1.5498");
+    // console.log(pointCoordinate);
+}, 1000);
 //         // ====================================================================================
 setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
-    // 좌표와 레이저 정보 받기
     for (var i in robotconfig_1.robotSettings) { // i = 등록된 로봇Name
+        // 로봇 좌표 받기
         yield Func.getPose(i);
+        // 로봇이 쏘는 레이저좌표 받기
         yield Func.getLaser(i);
+        // 교차로 체크
+        yield Func.checkCrossRoad(i);
+        // 레이저 좌표를 받아서 충돌위험 체크
+        yield Func.detectCollision(i);
+        // console.log(checkValue);
+        // detectCollision 리턴값이 true(충돌위험발생)이라면
+        // console.log(robotCoordinate);
+        // if(checkValue){
+        //     // 체크한다
+        //     // 
+        // }
     }
-    // 장애물 감지 
-    for (var i in robotconfig_1.robotSettings) {
-        const robotTheta = robotconfig_1.robotCoordinate[i].theta; // 라디안 값
-        const robotX = robotconfig_1.robotCoordinate[i].x;
-        const robotY = robotconfig_1.robotCoordinate[i].y;
-        for (const laserPoint of robotconfig_1.laserCoordinate[i]) {
-            const dx = laserPoint.x - robotX;
-            const dy = laserPoint.y - robotY;
-            const rotatedX = dx * Math.cos(-robotTheta) - dy * Math.sin(-robotTheta);
-            const rotatedY = dx * Math.sin(-robotTheta) + dy * Math.cos(-robotTheta);
-            // 충돌 검사 영역 설정 (예: 로봇 전면 1m x 0.5m 크기의 직사각형)
-            const rectangleWidth = 1.5;
-            const rectangleHeight = 0.8;
-            // 충돌 위험 판단
-            if (rotatedX >= 0 && rotatedX <= rectangleWidth && Math.abs(rotatedY) <= rectangleHeight / 2) {
-                const direction = rotatedY > 0 ? "left" : "right";
-                console.log("충돌 위험:", laserPoint, direction);
-            }
-        }
-    }
+    // // 장애물 감지 
+    // for (var i in robotSettings) {
+    //     const robotTheta = robotCoordinate[i].theta; // 라디안 값
+    //     const robotX = robotCoordinate[i].x;
+    //     const robotY = robotCoordinate[i].y;
+    //     for (const laserPoint of laserCoordinate[i]) {
+    //         const dx = laserPoint.x - robotX;
+    //         const dy = laserPoint.y - robotY;
+    //         const rotatedX = dx * Math.cos(-robotTheta) - dy * Math.sin(-robotTheta);
+    //         const rotatedY = dx * Math.sin(-robotTheta) + dy * Math.cos(-robotTheta);
+    //         // 충돌 검사 영역 설정 (예: 로봇 전면 1m x 0.5m 크기의 직사각형)
+    //         const rectangleWidth = 1.5;
+    //         const rectangleHeight = 0.8;
+    //         // 충돌 위험 판단
+    //         if (rotatedX >= 0 && rotatedX <= rectangleWidth && Math.abs(rotatedY) <= rectangleHeight / 2) {
+    //             const direction = rotatedY > 0 ? "left" : "right";
+    //             console.log("충돌 위험:", laserPoint, direction);
+    //         }
+    //     }
+    // }
 }), 33);
 //         // ====================================================================================
-// for(var i in robotSettings){
-// Func.moveCoordinates("192.168.0.177", "1.92", "7.31", "88");
-// Func.moveCoordinates(i, "1.92", "-0.08", "1.5498");
-// }
-// setTimeout(() => {
-// for(var i in robotSettings){
-//     console.log(i);
-//     console.log(robotSettings[i]);
-// }
 //원점
 //155 - 244도
 //157 - 244

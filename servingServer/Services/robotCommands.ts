@@ -93,7 +93,7 @@ export async function movePlan(robotName: string) {
         if (response.status === 200) {
 
             var valuelist = Object.values(response.data);
-            console.log(response.data.coordinates[response.data.coordinates.length-1]);
+            console.log(response.data.coordinates[response.data.coordinates.length - 1]);
             // console.log(valuelist);
 
         }
@@ -140,12 +140,12 @@ export async function changeSpeed(robotName: string, speed: number) {
     console.log("!!!!");
     try {
         const response = await axios.post(`http://${robotSettings[robotName].robotIP}/cmd/nav_max_vel_x_config`, {
-            max_vel:speed
+            max_vel: speed
         });
         if (response.status === 200) {
             console.log(response.data);
         }
- 
+
     } catch (error) {
         console.error('Error', error);
     }
@@ -188,36 +188,32 @@ export async function getLaser(robotName: string) {
             // response.data
             const coordinates = response.data.coordinates;
 
-            const laserPosition = coordinates.map((item:[number, number]) => ({ x: item[0], y: item[1] }));
+            const laserPosition = coordinates.map((item: [number, number]) => ({ x: item[0], y: item[1] }));
             setLaserCoordinate(robotName, laserPosition);
         }
     } catch (error) {
         console.error('Error with API call:', error);
     }
 }
-            // const length = coordinates.length;
-            // const middle = Math.floor(length / 2);
-            // const range = Math.floor(length / 3) / 2;
-            // const startIndex = middle - range;
-            // const endIndex = middle + range;
-            // const rawCenterPortion = coordinates.slice(startIndex, endIndex);
-            // // centerPortion의 각 항목을 LaserDataType (형태로 변환
-            // const robotNumber = robotSettings[robotName].robotNumber;
-            // setLaserCoordinate(robotNumber, centerPortion);
-
-
-
-
+// const length = coordinates.length;
+// const middle = Math.floor(length / 2);
+// const range = Math.floor(length / 3) / 2;
+// const startIndex = middle - range;
+// const endIndex = middle + range;
+// const rawCenterPortion = coordinates.slice(startIndex, endIndex);
+// // centerPortion의 각 항목을 LaserDataType (형태로 변환
+// const robotNumber = robotSettings[robotName].robotNumber;
+// setLaserCoordinate(robotNumber, centerPortion);
 
 // 레이저 데이터 수집을 통해 방향체크
 
-function normalizeAngle(angle:number) { // 각도 보정
+function normalizeAngle(angle: number) { // 각도 보정
     while (angle <= -180) angle += 360;
     while (angle > 180) angle -= 360;
     return angle;
 }
 
-export async function getDivideDirection(robotTheta:number, obsX:number, obsY:number, robotX:number, robotY:number){
+export async function getDivideDirection(robotTheta: number, obsX: number, obsY: number, robotX: number, robotY: number) {
     // 좌표 기준으로 방향을 체크
     // let checkDirection = Math.atan2((장애물 y좌표 - 로봇의 y현재좌표), (장애물 x좌표 -로봇의 x현재좌표));
     // checkDirection = aaa * 180 / Math.PI ;
@@ -231,11 +227,62 @@ export async function getDivideDirection(robotTheta:number, obsX:number, obsY:nu
     // 양수일 경우 좌측, 음수일 경우 우측에 장애물이 있다고 판단
     return deltaTheta > 0 ? "left" : "right";
 }
+// 교차로 체크
+export async function checkCrossRoad(robotName: string) {
+    const robotX = robotCoordinate[robotName].x;
+    const robotY = robotCoordinate[robotName].y;
 
+    for (const pointName in pointCoordinate) {
+        if (pointName.includes('crossCheck')) {
+            const pointX = parseFloat(pointCoordinate[pointName].x);
+            const pointY = parseFloat(pointCoordinate[pointName].y);
+
+            const distance = Math.sqrt((pointX - robotX) ** 2 + (pointY - robotY) ** 2);
+            if (distance <= 0.5) {
+                console.log("교차로 입장:", pointName);
+                return true;
+            } else {
+                // console.log("교차로가 아닙니다.");
+                return false;
+            }
+        }
+    }
+
+}
+// 충돌 위험 체크
+export async function detectCollision(robotName: string) {
+
+
+    const robotTheta = robotCoordinate[robotName].theta; // 라디안 값
+    const robotX = robotCoordinate[robotName].x;
+    const robotY = robotCoordinate[robotName].y;
+
+    for (const laserPoint of laserCoordinate[robotName]) {
+        const dx = laserPoint.x - robotX;
+        const dy = laserPoint.y - robotY;
+        const rotatedX = dx * Math.cos(-robotTheta) - dy * Math.sin(-robotTheta);
+        const rotatedY = dx * Math.sin(-robotTheta) + dy * Math.cos(-robotTheta);
+
+        // 충돌 검사 영역 설정
+        const rectangleWidth = 1.5; // 감지영역 거리
+        const rectangleHeight = 0.6; // 감지영역 폭
+
+        // 충돌 위험 판단
+        if (rotatedX >= 0 && rotatedX <= rectangleWidth && Math.abs(rotatedY) <= rectangleHeight / 2) {
+            const direction = rotatedY > 0 ? "left" : "right";
+            console.log("충돌 위험:", robotName, laserPoint, direction);
+            // const collisions = [];
+            // collisions.push({ robot: robotName, laserPoint, direction });
+            // console.log(collisions);
+            return true;
+        }
+    }
+    return false;
+}
 
 // ────────────────────────────────────────────────────────────────────────────────────────────
 
-type robotType =  {
+type robotType = {
     [key: number]: {
         x: number,
         y: number,
@@ -254,7 +301,7 @@ export async function getPose(robotName: string) {
         const response = await axios.get(`http://${robotSettings[robotName].robotIP}/reeman/pose`);
         if (response.status === 200) {
             // console.log(response.data); // theta 는 radian이라서 변환이 필요함
-            const currentRobotIndex = (robotSettings[robotName].robotNumber);
+            // const currentRobotIndex = (robotSettings[robotName].robotNumber);
             setRobotCoordinate(robotName, response.data.x, response.data.y, response.data.theta);
         }
     } catch (error) {
@@ -270,7 +317,7 @@ type crashType = {
 };
 let crashState: crashType = {};
 // 받은 좌표를 이용하여 수동으로 접근한 로봇을 피함
-let currentRobotIndex : number;
+let currentRobotIndex: number;
 export function test(robotName: string) {
     getPose(robotName); // 좌표 받기
     const tolerance = 2.5;
@@ -348,7 +395,7 @@ export async function manualTurn(robotName: string) {
         console.error('Error with API call:', error);
     }
 }
-function timerTurn(robotName: string, timer : number) {
+function timerTurn(robotName: string, timer: number) {
     const manualTurnInterval = setInterval(() => {
         manualTurn(robotName);
     }, 33);
@@ -358,7 +405,7 @@ function timerTurn(robotName: string, timer : number) {
 }
 
 
-              
+
 
 // 수동 이동
 export async function manualMove(robotName: string) {
@@ -378,7 +425,7 @@ export async function manualMove(robotName: string) {
     }
 }
 
-function timerMove(robotName:string, timer1:number, timer2:number){
+function timerMove(robotName: string, timer1: number, timer2: number) {
     setTimeout(() => {
         const manualMoveInterval = setInterval(() => {
             manualMove(robotName);
