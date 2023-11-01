@@ -9,7 +9,7 @@ print("Working Directory:", os.getcwd())
 np.set_printoptions(threshold=np.inf, linewidth=np.inf)
 
 # png 파일을 읽습니다.
-img = cv2.imread("C:\\songhansol\\nnx_serving\\mapTest\\map.png")
+img = cv2.imread("C:\\songhansol\\nnx_serving\\mapTest\\map2.png")
 
 # 파일을 읽지 못했을 경우 오류 메시지 출력
 if img is None:

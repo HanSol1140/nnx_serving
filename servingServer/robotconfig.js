@@ -28,6 +28,6 @@ exports.setLaserCoordinate = setLaserCoordinate;
 // 교차로 관리
 exports.crossRoadState = {};
 function setCrossRoadState(roadName, robotName) {
-    exports.crossRoadState[roadName] = robotName;
+    exports.crossRoadState[roadName] = { robotName };
 }
 exports.setCrossRoadState = setCrossRoadState;

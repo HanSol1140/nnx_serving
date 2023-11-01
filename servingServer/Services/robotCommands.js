@@ -97,6 +97,10 @@ function retryMovePoint(robotName) {
     });
 }
 exports.retryMovePoint = retryMovePoint;
+// 로봇 이동 경로 표시
+// ※ 주의 사항
+// 이동 명령을 받고 2, 3초 이내로 명령을 보내지않으면 경로를 안보내주고 에러메세지를 반환함
+// 즉, 실시간으로 경로를 받으면서 현재위치를 유추할 수 없음 
 function movePlan(robotName) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -104,11 +108,11 @@ function movePlan(robotName) {
             if (response.status === 200) {
                 var valuelist = Object.values(response.data);
                 console.log(response.data.coordinates[response.data.coordinates.length - 1]);
-                // console.log(valuelist);
+                console.log(valuelist);
             }
         }
         catch (error) {
-            // console.error('Error with API call:', error);
+            console.error('Error with API call:', error);
         }
     });
 }

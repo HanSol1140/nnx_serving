@@ -63,5 +63,5 @@ export let crossRoadState: {
 } = {};
 
 export function setCrossRoadState(roadName: string , robotName:string) { 
-    crossRoadState[roadName] = robotName;    
+    crossRoadState[roadName] = { robotName };    
 }
