@@ -41,34 +41,17 @@ import * as Func from './Services/robotCommands.js';
 RobotSetup.serverSetup();
 
 
-
-// ==
-export async function movePlan(robotName: string) {
-    try {
-        const response = await axios.get(`http://${robotSettings[robotName].robotIP}/reeman/global_plan`);
-        if (response.status === 200) {
-
-            var valuelist = Object.values(response.data);
-            console.log(response.data.coordinates[response.data.coordinates.length - 1]);
-            console.log(valuelist);
- 
-        }
-
-    } catch (error) {
-        console.error('Error with API call:', error);
-    }
-}
-// ==
-
 setTimeout(()=>{
     // Func.moveCoordinates("192.168.0.177", "1.92", "7.31", "88");
     // Func.moveCoordinates(i, "1.92", "-0.08", "1.5498");
     // console.log(pointCoordinate);
     for(var i in robotSettings){
-        movePlan(i);
+        Func.movePlan(i);
     }
-}, 1000);
+}, 100);
+
 //         // ====================================================================================
+
 setInterval(async () => {
     
     for (var i in robotSettings) { // i = 등록된 로봇Name

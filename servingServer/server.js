@@ -35,14 +35,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.movePlan = void 0;
 // server.ts
 const express_1 = __importDefault(require("express"));
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 const cors = require('cors');
 app.use(cors()); // 모든 도메인에서의 요청 허용
-const axios_1 = __importDefault(require("axios"));
 const PORT = process.env.PORT || 8084;
 // 서버 시작
 const server = app.listen(PORT, () => {
@@ -62,32 +60,14 @@ const RobotSetup = __importStar(require("./Services/robotSetup.js"));
 const Func = __importStar(require("./Services/robotCommands.js"));
 // 로봇명 전역변수 설정
 RobotSetup.serverSetup();
-// ==
-function movePlan(robotName) {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const response = yield axios_1.default.get(`http://${robotconfig_1.robotSettings[robotName].robotIP}/reeman/global_plan`);
-            if (response.status === 200) {
-                var valuelist = Object.values(response.data);
-                console.log(response.data.coordinates[response.data.coordinates.length - 1]);
-                console.log(valuelist);
-            }
-        }
-        catch (error) {
-            console.error('Error with API call:', error);
-        }
-    });
-}
-exports.movePlan = movePlan;
-// ==
 setTimeout(() => {
     // Func.moveCoordinates("192.168.0.177", "1.92", "7.31", "88");
     // Func.moveCoordinates(i, "1.92", "-0.08", "1.5498");
     // console.log(pointCoordinate);
     for (var i in robotconfig_1.robotSettings) {
-        movePlan(i);
+        Func.movePlan(i);
     }
-}, 1000);
+}, 100);
 //         // ====================================================================================
 setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
     for (var i in robotconfig_1.robotSettings) { // i = 등록된 로봇Name
