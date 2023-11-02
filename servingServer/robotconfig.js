@@ -1,13 +1,12 @@
 "use strict";
 // robotconfig.ts
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.setCrossRoadState = exports.crossRoadState = exports.setLaserCoordinate = exports.laserCoordinate = exports.setRobotCoordinate = exports.robotCoordinate = exports.setPointCoordinate = exports.pointCoordinate = exports.setRobotSettings = exports.robotSettings = void 0;
+exports.setMappingData = exports.mappingData = exports.setCrossRoadState = exports.crossRoadState = exports.setLaserCoordinate = exports.laserCoordinate = exports.setRobotCoordinate = exports.robotCoordinate = exports.setPointCoordinate = exports.pointCoordinate = exports.setRobotSettings = exports.robotSettings = void 0;
 exports.robotSettings = {};
 function setRobotSettings(name, robotNumber, robotIP, robotRunningState, robotLastOrderPoint) {
     exports.robotSettings[name] = { robotNumber, robotIP, robotRunningState, robotLastOrderPoint };
 }
 exports.setRobotSettings = setRobotSettings;
-// pointCoordinate
 exports.pointCoordinate = {};
 function setPointCoordinate(pointName, x, y, theta) {
     exports.pointCoordinate[pointName] = { x, y, theta };
@@ -31,3 +30,9 @@ function setCrossRoadState(roadName, robotName) {
     exports.crossRoadState[roadName] = { robotName };
 }
 exports.setCrossRoadState = setCrossRoadState;
+// 맵핑 데이터 변수할당
+exports.mappingData = [];
+function setMappingData(newData) {
+    exports.mappingData = newData;
+}
+exports.setMappingData = setMappingData;

@@ -9,7 +9,8 @@ import {
     robotCoordinate,
     setRobotCoordinate,
     laserCoordinate,
-    setLaserCoordinate
+    setLaserCoordinate,
+    mappingData
 } from '../robotconfig';
 
 
@@ -258,8 +259,7 @@ export async function checkCrossRoad(robotName: string) {
 
 }
 // 충돌 위험 체크
-export async function detectCollision(robotName: string) {
-
+export async function detectCollision(robotName: string){
 
     const robotTheta = robotCoordinate[robotName].theta; // 라디안 값
     const robotX = robotCoordinate[robotName].x;
@@ -273,16 +273,36 @@ export async function detectCollision(robotName: string) {
 
         // 충돌 검사 영역 설정
         const rectangleWidth = 1.5; // 감지영역 거리
-        const rectangleHeight = 0.6; // 감지영역 폭
+        const rectangleHeight = 0.8; // 감지영역 폭
 
         // 충돌 위험 판단
         if (rotatedX >= 0 && rotatedX <= rectangleWidth && Math.abs(rotatedY) <= rectangleHeight / 2) {
             const direction = rotatedY > 0 ? "left" : "right";
-            console.log("충돌 위험:", robotName, laserPoint, direction);
-            // const collisions = [];
-            // collisions.push({ robot: robotName, laserPoint, direction });
-            // console.log(collisions);
-            return true;
+            // console.log("충돌 위험:", robotName, laserPoint, direction);
+            // console.log(laserPoint);
+            // console.log(mappingData);
+            // mappingData와의 거리 계산
+            let isObstacle = true;
+            for (const mappingPoint of mappingData) {
+                // console.log(mappingPoint);
+                const distance = Math.sqrt(
+                    Math.pow(laserPoint.x - mappingPoint[0], 2) + Math.pow(laserPoint.y - mappingPoint[1], 2)
+                );
+                if (distance < 0.1) {
+                    // console.log("벽의 좌표:", laserPoint, mappingPoint);
+                    isObstacle = false;
+                    break;
+
+                }
+                          
+            }
+            if (isObstacle) {
+                console.log("장애물의 좌표:", laserPoint);
+            }
+
+
+            
+
         }
     }
     return false;

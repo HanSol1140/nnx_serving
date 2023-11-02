@@ -20,6 +20,8 @@ export function setRobotSettings(name: string, robotNumber:number, robotIP:strin
 }
 
 // pointCoordinate
+import fs from 'fs';
+
 export let pointCoordinate: {
     [key: string]: {
         x: string,
@@ -64,4 +66,11 @@ export let crossRoadState: {
 
 export function setCrossRoadState(roadName: string , robotName:string) { 
     crossRoadState[roadName] = { robotName };    
+}
+
+// 맵핑 데이터 변수할당
+export let mappingData: number[][] = [];
+
+export function setMappingData(newData: number[][]): void {
+    mappingData = newData;
 }

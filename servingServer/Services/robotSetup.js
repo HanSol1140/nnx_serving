@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.serverSetup = exports.setupPoints = exports.setupRobots = void 0;
+exports.serverSetup = exports.loadMappingData = exports.setupPoints = exports.setupRobots = void 0;
 const fs_1 = __importDefault(require("fs"));
 const robotconfig_1 = require("../robotconfig");
 // 서버 실행시 로봇리스트 받아오기
@@ -53,6 +53,19 @@ function setupPoints() {
     });
 }
 exports.setupPoints = setupPoints;
+// 맵핑 데이터 받아오기 
+function loadMappingData() {
+    const filePath = 'data.json';
+    if (fs_1.default.existsSync(filePath)) {
+        const fileData = fs_1.default.readFileSync(filePath, 'utf8');
+        const newData = JSON.parse(fileData);
+        (0, robotconfig_1.setMappingData)(newData);
+    }
+    else {
+        console.error("File not found: data.json");
+    }
+}
+exports.loadMappingData = loadMappingData;
 // 서버 실행시 로봇 / 포인트 설정
 function serverSetup() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -68,6 +81,7 @@ function serverSetup() {
         points.forEach(point => {
             (0, robotconfig_1.setPointCoordinate)(point.pointName, point.coordinatesX, point.coordinatesY, point.coordinatesTheta);
         });
+        yield loadMappingData();
     });
 }
 exports.serverSetup = serverSetup;

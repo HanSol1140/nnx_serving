@@ -1,4 +1,4 @@
-// func.ts
+// robotSetup.ts
 import axios from 'axios';
 import fs from 'fs';
 import {
@@ -9,7 +9,9 @@ import {
     robotCoordinate,
     setRobotCoordinate,
     laserCoordinate,
-    setLaserCoordinate
+    setLaserCoordinate,
+    mappingData,
+    setMappingData
 } from '../robotconfig';
 
 
@@ -46,6 +48,22 @@ export async function setupPoints() {
     }
 }
 
+// 맵핑 데이터 받아오기 
+export function loadMappingData():void {
+    const filePath = 'data.json';
+    if (fs.existsSync(filePath)) {
+        const fileData = fs.readFileSync(filePath, 'utf8');
+        const newData = JSON.parse(fileData);
+        setMappingData(newData);
+    } else {
+        console.error("File not found: data.json");
+    }
+}
+
+
+
+
+//
 interface robotsInfo {
     robotName: string;
     robotNumber: number;
@@ -65,6 +83,7 @@ export async function serverSetup() {
     // 로봇 설정
     const robots: robotsInfo[] = await setupRobots();
     console.log(robots);
+
     robots.forEach(robot => {
         setRobotSettings(robot.robotName, robot.robotNumber, robot.robotIP, robot.robotRunningState, robot.robotLastOrderPoint);
     });
@@ -77,4 +96,5 @@ export async function serverSetup() {
         setPointCoordinate(point.pointName, point.coordinatesX, point.coordinatesY, point.coordinatesTheta);
     });
 
+    await loadMappingData();
 }
