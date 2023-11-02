@@ -292,7 +292,6 @@ export async function detectCollision(robotName: string){
                     // console.log("벽의 좌표:", laserPoint, mappingPoint);
                     isObstacle = false;
                     break;
-
                 }
                           
             }
