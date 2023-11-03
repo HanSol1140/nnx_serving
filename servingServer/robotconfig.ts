@@ -1,4 +1,7 @@
 // robotconfig.ts
+// 현재 라즈베리파이와 연결된 로봇명을 기입
+export const currentRobotName = "robot2";
+
 
 // robotSettings
 type PointCoordinateType = {

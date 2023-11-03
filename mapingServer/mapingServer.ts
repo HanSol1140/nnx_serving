@@ -13,7 +13,7 @@ const server = app.listen(PORT, () => {
 });
 
 const IP = "192.168.0.15";
-const filePath = 'data.json';
+const filePath = 'MappingData.json';
 
 async function getLaserMapping(robotIP: string) {
     try {
@@ -22,17 +22,17 @@ async function getLaserMapping(robotIP: string) {
             // const coordinates: number[][] = response.data.coordinates;
             saveUniqueData(response.data.coordinates);
         }
-    } catch (error) {
+    } catch (error) { 
         console.error('Error with API call:', error);
     }
 }
 
 function saveUniqueData(newData: number[][]): void {
     const existingData = fs.existsSync(filePath) ? JSON.parse(fs.readFileSync(filePath, 'utf8')) : [];
-    const roundedNewData = newData.map(coord => coord.map(val => Math.round(val * 100) / 100) as [number, number]);
+    const roundedNewData = newData.map(coord => coord.map(val => Math.round(val * 100) / 100) as [number, number]); 
     const uniqueData = roundedNewData.filter(newCoord => 
         !existingData.some(existingCoord => 
-            (Math.abs(existingCoord[0] - newCoord[0]) <= 0.1 && Math.abs(existingCoord[1] - newCoord[1]) <= 0.1)
+            (Math.abs(existingCoord[0] - newCoord[0]) <= 0.05 && Math.abs(existingCoord[1] - newCoord[1]) <= 0.05)
         )
     );
     

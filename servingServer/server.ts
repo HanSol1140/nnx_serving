@@ -41,37 +41,51 @@ import * as Func from './Services/robotCommands.js';
 // 로봇명 전역변수 설정
 RobotSetup.serverSetup();
 
-
 setTimeout(()=>{
     // Func.moveCoordinates("192.168.0.177", "1.92", "7.31", "88");
     // Func.moveCoordinates(i, "1.92", "-0.08", "1.5498");
     // console.log(pointCoordinate);
     // for(var i in robotSettings){
-    //     Func.movePlan(i);
+    //     const robotNumber = robotSettings[i].robotNumber - 1;
+    //     console.log(robotNumber);
+    // //     Func.movePlan(i);
     // }
     // console.log(mappingData); 
+    // console.log(robotSettings);
+    // for(var i in robotSettings){
+    //     console.log(i);
+    // }
 }, 1000);
 
 //         // ====================================================================================
-
+let collision;
 setInterval(async () => {
     
     for (var i in robotSettings) { // i = 등록된 로봇Name
         // 로봇 좌표 받기
         await Func.getPose(i);
+        // console.log(i);
+        // console.log(robotCoordinate[i]);
         // 로봇이 쏘는 레이저좌표 받기
         await Func.getLaser(i);
         // 교차로 체크
         const crossCheck = await Func.checkCrossRoad(i); // true / false반환
-        if(crossCheck){ // 교차로
-
+            if(crossCheck){ // 교차로
         }
 
         // 레이저 좌표를 받아서 충돌위험 체크
-        const Collision = await Func.detectCollision(i); // true / false반환
-        if(Collision){ // mapingServer에서 기록한 맵핑데이터에 의해 벽충돌은 제거함
-            console.log(" 장애물 충돌 위험");
+        collision = await Func.detectCollision(i); // true / false반환
+        if(collision){ // mapingServer에서 기록한 맵핑데이터에 의해 벽충돌은 제거함
+        //     // 장애물이 감지됫다면
+            console.log(i + " 장애물 충돌 위험");
+        //     // 로봇인지 아닌지 체크
+            // console.log(collision);
+            console.log(collision);
+            console.log(robotCoordinate["robot1"].x, robotCoordinate["robot1"].y);
+            Func.checkRobotCoordinates(i, collision);
         }
+        
+        console.log("======================================");
         // detectCollision 리턴값이 true(충돌위험발생)이라면 
         // console.log(robotCoordinate);
         // if(checkValue){

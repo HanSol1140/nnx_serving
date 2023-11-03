@@ -49,8 +49,8 @@ export async function setupPoints() {
 }
 
 // 맵핑 데이터 받아오기 
-export function loadMappingData():void {
-    const filePath = 'data.json';
+export function setupMappingData():void {
+    const filePath = 'MappingData.json';
     if (fs.existsSync(filePath)) {
         const fileData = fs.readFileSync(filePath, 'utf8');
         const newData = JSON.parse(fileData);
@@ -95,6 +95,7 @@ export async function serverSetup() {
     points.forEach(point => {
         setPointCoordinate(point.pointName, point.coordinatesX, point.coordinatesY, point.coordinatesTheta);
     });
-
-    await loadMappingData();
+    
+    // 맵핑데이터 변수에 할당
+    await setupMappingData();
 }

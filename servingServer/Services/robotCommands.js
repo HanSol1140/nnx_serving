@@ -12,12 +12,29 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.manualMove = exports.manualTurn = exports.movePointList = exports.test = exports.getPose = exports.detectCollision = exports.checkCrossRoad = exports.getDivideDirection = exports.getLaser = exports.getSpeed = exports.getIMUstatus = exports.changeSpeed = exports.checkBattery = exports.charge = exports.movePlan = exports.retryMovePoint = exports.moveCoordinates = exports.movePoint = exports.cancle = void 0;
+exports.manualMove = exports.manualTurn = exports.movePointList = exports.test = exports.checkRobotCoordinates = exports.detectCollision = exports.checkCrossRoad = exports.getDivideDirection = exports.getLaser = exports.getSpeed = exports.getIMUstatus = exports.changeSpeed = exports.checkBattery = exports.charge = exports.movePlan = exports.retryMovePoint = exports.moveCoordinates = exports.movePoint = exports.cancle = exports.getPose = void 0;
 // func.ts
 const axios_1 = __importDefault(require("axios"));
 const robotconfig_1 = require("../robotconfig");
 // ────────────────────────────────────────────────────────────────────────────────────────────
-// 서빙봇 이동 API
+// 좌표 받기
+function getPose(robotName) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            // 좌표 받기
+            const response = yield axios_1.default.get(`http://${robotconfig_1.robotSettings[robotName].robotIP}/reeman/pose`);
+            if (response.status === 200) {
+                // console.log(response.data); // theta 는 radian이라서 변환이 필요함
+                // const currentRobotIndex = (robotSettings[robotName].robotNumber);
+                (0, robotconfig_1.setRobotCoordinate)(robotName, response.data.x, response.data.y, response.data.theta);
+            }
+        }
+        catch (error) {
+            console.error('Error with API call:', error);
+        }
+    });
+}
+exports.getPose = getPose;
 // 이동 취소
 function cancle(robotName) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -118,6 +135,8 @@ function movePlan(robotName) {
     });
 }
 exports.movePlan = movePlan;
+// ===============================================================================================================
+// 배터리 충전
 function charge(robotName, point) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -135,6 +154,7 @@ function charge(robotName, point) {
     });
 }
 exports.charge = charge;
+// ===============================================================================================================
 // 배터리 체크, 이게 일정 이하가 된다면 charge실행
 function checkBattery(robotName) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -152,6 +172,7 @@ function checkBattery(robotName) {
     });
 }
 exports.checkBattery = checkBattery;
+// ===============================================================================================================
 //속도 변경
 //기본적인 작동테스트만함, 추가코딩필요
 function changeSpeed(robotName, speed) {
@@ -171,6 +192,7 @@ function changeSpeed(robotName, speed) {
     });
 }
 exports.changeSpeed = changeSpeed;
+// ===============================================================================================================
 // 속도 턴속도 측정이라는데 변하질않음
 function getIMUstatus() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -187,6 +209,7 @@ function getIMUstatus() {
     });
 }
 exports.getIMUstatus = getIMUstatus;
+// ===============================================================================================================
 // 현재 속도 측정 => 가만히 있을땐 error출력, 움직일때만 작동하는 API
 function getSpeed() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -204,6 +227,7 @@ function getSpeed() {
     });
 }
 exports.getSpeed = getSpeed;
+// ===============================================================================================================
 // 레이저 데이터 수집
 function getLaser(robotName) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -232,6 +256,7 @@ exports.getLaser = getLaser;
 // const robotNumber = robotSettings[robotName].robotNumber;
 // setLaserCoordinate(robotNumber, centerPortion);
 // 레이저 데이터 수집을 통해 방향체크
+// ===============================================================================================================
 function normalizeAngle(angle) {
     while (angle <= -180)
         angle += 360;
@@ -254,6 +279,7 @@ function getDivideDirection(robotTheta, obsX, obsY, robotX, robotY) {
     });
 }
 exports.getDivideDirection = getDivideDirection;
+// ===============================================================================================================
 // 교차로 체크
 function checkCrossRoad(robotName) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -277,6 +303,7 @@ function checkCrossRoad(robotName) {
     });
 }
 exports.checkCrossRoad = checkCrossRoad;
+// ===============================================================================================================
 // 충돌 위험 체크
 function detectCollision(robotName) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -309,33 +336,47 @@ function detectCollision(robotName) {
                     }
                 }
                 if (isObstacle) {
-                    console.log("장애물의 좌표:", laserPoint);
+                    // console.log(robotName + " 장애물의 좌표:", laserPoint);
+                    return laserPoint;
                 }
+                // 장애물이 로봇인지, 아닌지 체크
             }
         }
-        return false;
+        return;
     });
 }
 exports.detectCollision = detectCollision;
-// type crashType = {}
-// 좌표 받기
-function getPose(robotName) {
+// ===============================================================================================================
+// 인식한 장애물이 로봇인지 체크\
+function checkRobotCoordinates(robotName, collision) {
     return __awaiter(this, void 0, void 0, function* () {
-        try {
-            // 좌표 받기
-            const response = yield axios_1.default.get(`http://${robotconfig_1.robotSettings[robotName].robotIP}/reeman/pose`);
-            if (response.status === 200) {
-                // console.log(response.data); // theta 는 radian이라서 변환이 필요함
-                // const currentRobotIndex = (robotSettings[robotName].robotNumber);
-                (0, robotconfig_1.setRobotCoordinate)(robotName, response.data.x, response.data.y, response.data.theta);
+        for (var i in robotconfig_1.robotSettings) {
+            if (i != robotconfig_1.currentRobotName) { // 비교군에서 자신을 제외
+                // currentRobotNumber = robotSettings[robotName].robotNumber;
+                // currentRobotCoordinatesX = robotCoordinate[robotName].x;
+                // currentRobotCoordinatesY = robotCoordinate[robotName].y;
+                const dx = collision.x - robotconfig_1.robotCoordinate[i].x;
+                const dy = collision.y - robotconfig_1.robotCoordinate[i].y;
+                console.log(robotconfig_1.currentRobotName);
+                // console.log(robotCoordinate);
+                console.log("비교할 로봇 : " + i);
+                console.log(collision.x + " / " + robotconfig_1.robotCoordinate[i].x);
+                console.log(collision.y + " / " + robotconfig_1.robotCoordinate[i].y);
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                if (distance < 0.3) {
+                    console.log("로봇입니다.");
+                    return true;
+                }
+                else {
+                    console.log("로봇이 아닙니다.");
+                    return false;
+                }
             }
-        }
-        catch (error) {
-            console.error('Error with API call:', error);
         }
     });
 }
-exports.getPose = getPose;
+exports.checkRobotCoordinates = checkRobotCoordinates;
+// type crashType = {}
 let robots = {};
 let crashState = {};
 // 받은 좌표를 이용하여 수동으로 접근한 로봇을 피함
