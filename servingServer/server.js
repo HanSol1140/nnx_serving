@@ -62,20 +62,11 @@ const Func = __importStar(require("./Services/robotCommands.js"));
 RobotSetup.serverSetup();
 setTimeout(() => {
     // Func.moveCoordinates("192.168.0.177", "1.92", "7.31", "88");
-    // Func.moveCoordinates(i, "1.92", "-0.08", "1.5498");
-    // console.log(pointCoordinate);
-    // for(var i in robotSettings){
-    //     const robotNumber = robotSettings[i].robotNumber - 1;
-    //     console.log(robotNumber);
-    // //     Func.movePlan(i);
-    // }
-    // console.log(mappingData); 
-    // console.log(robotSettings);
     // for(var i in robotSettings){
     //     console.log(i);
     // }
 }, 1000);
-//         // ====================================================================================
+// ====================================================================================
 let collision;
 setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
     for (var i in robotconfig_1.robotSettings) { // i = 등록된 로봇Name
@@ -109,4 +100,27 @@ setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
         // }
     }
 }), 33);
-//         // ====================================================================================
+// ====================================================================================
+const onoff_1 = require("onoff");
+// 버튼의 GPIO 핀을 설정합니다.
+const buttons = {
+    GPIO16: new onoff_1.Gpio(16, 'in', 'rising', { debounceTimeout: 10 }),
+    GPIO19: new onoff_1.Gpio(19, 'in', 'rising', { debounceTimeout: 10 }),
+    GPIO20: new onoff_1.Gpio(20, 'in', 'rising', { debounceTimeout: 10 }),
+    GPIO26: new onoff_1.Gpio(26, 'in', 'rising', { debounceTimeout: 10 }),
+};
+// 버튼 클릭 이벤트 리스너를 설정합니다.
+Object.keys(buttons).forEach((button) => {
+    buttons[button].watch((err, value) => {
+        if (err) {
+            throw err;
+        }
+        console.log(button); // 버튼의 GPIO 번호를 출력합니다.
+    });
+});
+// 서버 종료시 GPIO 자원을 해제합니다.
+process.on('SIGINT', () => {
+    Object.values(buttons).forEach((button) => {
+        button.unexport();
+    });
+});

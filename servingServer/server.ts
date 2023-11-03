@@ -43,21 +43,12 @@ RobotSetup.serverSetup();
 
 setTimeout(()=>{
     // Func.moveCoordinates("192.168.0.177", "1.92", "7.31", "88");
-    // Func.moveCoordinates(i, "1.92", "-0.08", "1.5498");
-    // console.log(pointCoordinate);
-    // for(var i in robotSettings){
-    //     const robotNumber = robotSettings[i].robotNumber - 1;
-    //     console.log(robotNumber);
-    // //     Func.movePlan(i);
-    // }
-    // console.log(mappingData); 
-    // console.log(robotSettings);
     // for(var i in robotSettings){
     //     console.log(i);
     // }
 }, 1000);
 
-//         // ====================================================================================
+// ====================================================================================
 let collision;
 setInterval(async () => {
     
@@ -70,15 +61,15 @@ setInterval(async () => {
         await Func.getLaser(i);
         // 교차로 체크
         const crossCheck = await Func.checkCrossRoad(i); // true / false반환
-            if(crossCheck){ // 교차로
+        if(crossCheck){ // 교차로
         }
-
+        
         // 레이저 좌표를 받아서 충돌위험 체크
         collision = await Func.detectCollision(i); // true / false반환
         if(collision){ // mapingServer에서 기록한 맵핑데이터에 의해 벽충돌은 제거함
-        //     // 장애물이 감지됫다면
+            //     // 장애물이 감지됫다면
             console.log(i + " 장애물 충돌 위험");
-        //     // 로봇인지 아닌지 체크
+            //     // 로봇인지 아닌지 체크
             // console.log(collision);
             console.log(collision);
             console.log(robotCoordinate["robot1"].x, robotCoordinate["robot1"].y);
@@ -89,12 +80,41 @@ setInterval(async () => {
         // detectCollision 리턴값이 true(충돌위험발생)이라면 
         // console.log(robotCoordinate);
         // if(checkValue){
-        //     // 체크한다
-        //     // 
-        // }
+            //     // 체크한다
+            //     // 
+            // }
+            
+        }
+        
+    }, 33);
+// ====================================================================================
+import { Gpio } from 'onoff';
+interface ButtonMap {
+    [key: string]: Gpio;
+  }
+// 버튼의 GPIO 핀을 설정합니다.
+const buttons: ButtonMap = {
+  GPIO16: new Gpio(16, 'in', 'rising', { debounceTimeout: 10 }),
+  GPIO19: new Gpio(19, 'in', 'rising', { debounceTimeout: 10 }),
+  GPIO20: new Gpio(20, 'in', 'rising', { debounceTimeout: 10 }),
+  GPIO26: new Gpio(26, 'in', 'rising', { debounceTimeout: 10 }),
+};
 
-    }
+// 버튼 클릭 이벤트 리스너를 설정합니다.
+Object.keys(buttons).forEach((button) => {
+    buttons[button].watch((err:any, value:any) => {
+        if (err) {
+        throw err;
+        }
+        console.log(button); // 버튼의 GPIO 번호를 출력합니다.
+    });
+});
+  
+// 서버 종료시 GPIO 자원을 해제합니다.
+process.on('SIGINT', () => {
+Object.values(buttons).forEach((button) => {
+    button.unexport();
+});
+});
 
-}, 33);
-
-//         // ====================================================================================
+    
