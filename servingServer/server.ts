@@ -96,10 +96,11 @@ interface ButtonMap {
   }
 // 버튼의 GPIO 핀을 설정합니다.
 const buttons: ButtonMap = {
-  GPIO16: new Gpio(16, 'in', 'rising', { debounceTimeout: 1000, activeLow:false }),
-  GPIO19: new Gpio(19, 'in', 'rising', { debounceTimeout: 1000, activeLow:false }),
-  GPIO20: new Gpio(20, 'in', 'rising', { debounceTimeout: 1000, activeLow:false }), 
-  GPIO26: new Gpio(26, 'in', 'rising', { debounceTimeout: 1000, activeLow:false }),
+  GPIO16: new Gpio(16, 'in', 'rising', { debounceTimeout: 1000, activeLow:true }),
+  GPIO19: new Gpio(19, 'in', 'rising', { debounceTimeout: 1000, activeLow:true }), 
+  GPIO20: new Gpio(20, 'in', 'rising', { debounceTimeout: 1000, activeLow:true }), 
+  GPIO26: new Gpio(26, 'in', 'rising', { debounceTimeout: 1000, activeLow:true }), 
+  GPIO21: new Gpio(21, 'in', 'rising', { debounceTimeout: 1000, activeLow:false }), 
 };
 
 // 버튼 클릭 이벤트 리스너를 설정합니다.

@@ -97,10 +97,11 @@ let collision;
 const onoff_1 = require("onoff");
 // 버튼의 GPIO 핀을 설정합니다.
 const buttons = {
-    GPIO16: new onoff_1.Gpio(16, 'in', 'rising', { debounceTimeout: 1000, activeLow: false }),
-    GPIO19: new onoff_1.Gpio(19, 'in', 'rising', { debounceTimeout: 1000, activeLow: false }),
-    GPIO20: new onoff_1.Gpio(20, 'in', 'rising', { debounceTimeout: 1000, activeLow: false }),
-    GPIO26: new onoff_1.Gpio(26, 'in', 'rising', { debounceTimeout: 1000, activeLow: false }),
+    GPIO16: new onoff_1.Gpio(16, 'in', 'rising', { debounceTimeout: 1000, activeLow: true }),
+    GPIO19: new onoff_1.Gpio(19, 'in', 'rising', { debounceTimeout: 1000, activeLow: true }),
+    GPIO20: new onoff_1.Gpio(20, 'in', 'rising', { debounceTimeout: 1000, activeLow: true }),
+    GPIO26: new onoff_1.Gpio(26, 'in', 'rising', { debounceTimeout: 1000, activeLow: true }),
+    GPIO21: new onoff_1.Gpio(21, 'in', 'rising', { debounceTimeout: 1000, activeLow: true }),
 };
 // 버튼 클릭 이벤트 리스너를 설정합니다.
 Object.keys(buttons).forEach((button) => {
