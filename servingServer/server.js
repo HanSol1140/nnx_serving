@@ -22,15 +22,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -55,9 +46,7 @@ const robotrouters_1 = __importDefault(require("./Routers/robotrouters"));
 const pointrouters_1 = __importDefault(require("./Routers/pointrouters"));
 app.use('/', robotrouters_1.default);
 app.use('/', pointrouters_1.default);
-const robotconfig_1 = require("./robotconfig");
 const RobotSetup = __importStar(require("./Services/robotSetup.js"));
-const Func = __importStar(require("./Services/robotCommands.js"));
 // 로봇명 전역변수 설정
 RobotSetup.serverSetup();
 setTimeout(() => {
@@ -68,46 +57,50 @@ setTimeout(() => {
 }, 1000);
 // ====================================================================================
 let collision;
-setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
-    for (var i in robotconfig_1.robotSettings) { // i = 등록된 로봇Name
-        // 로봇 좌표 받기
-        yield Func.getPose(i);
-        // console.log(i);
-        // console.log(robotCoordinate[i]);
-        // 로봇이 쏘는 레이저좌표 받기
-        yield Func.getLaser(i);
-        // 교차로 체크
-        const crossCheck = yield Func.checkCrossRoad(i); // true / false반환
-        if (crossCheck) { // 교차로
-        }
-        // 레이저 좌표를 받아서 충돌위험 체크
-        collision = yield Func.detectCollision(i); // true / false반환
-        if (collision) { // mapingServer에서 기록한 맵핑데이터에 의해 벽충돌은 제거함
-            //     // 장애물이 감지됫다면
-            console.log(i + " 장애물 충돌 위험");
-            //     // 로봇인지 아닌지 체크
-            // console.log(collision);
-            console.log(collision);
-            console.log(robotconfig_1.robotCoordinate["robot1"].x, robotconfig_1.robotCoordinate["robot1"].y);
-            Func.checkRobotCoordinates(i, collision);
-        }
-        console.log("======================================");
-        // detectCollision 리턴값이 true(충돌위험발생)이라면 
-        // console.log(robotCoordinate);
-        // if(checkValue){
-        //     // 체크한다
-        //     // 
-        // }
-    }
-}), 33);
+// setInterval(async () => {
+// try{
+//     for (var i in robotSettings) { // i = 등록된 로봇Name
+//         // 로봇 좌표 받기
+//         await Func.getPose(i);
+//         // console.log(i);
+//         // console.log(robotCoordinate[i]);
+//         // 로봇이 쏘는 레이저좌표 받기
+//         await Func.getLaser(i);
+//         // 교차로 체크
+//         const crossCheck = await Func.checkCrossRoad(i); // true / false반환
+//         if(crossCheck){ // 교차로
+//         }
+//         // 레이저 좌표를 받아서 충돌위험 체크
+//         collision = await Func.detectCollision(i); // true / false반환
+//         if(collision){ // mapingServer에서 기록한 맵핑데이터에 의해 벽충돌은 제거함
+//             //     // 장애물이 감지됫다면
+//             console.log(i + " 장애물 충돌 위험");
+//             //     // 로봇인지 아닌지 체크
+//             // console.log(collision);
+//             console.log(collision);
+//             console.log(robotCoordinate["robot1"].x, robotCoordinate["robot1"].y);
+//             Func.checkRobotCoordinates(i, collision);
+//         }
+//         console.log("======================================");
+//         // detectCollision 리턴값이 true(충돌위험발생)이라면 
+//         // console.log(robotCoordinate);
+//         // if(checkValue){
+//             //     // 체크한다
+//             //     // 
+//             // }
+//         }
+//     }catch(error){
+//         console.error("error");
+//     } 
+// }, 33);
 // ====================================================================================
 const onoff_1 = require("onoff");
 // 버튼의 GPIO 핀을 설정합니다.
 const buttons = {
-    GPIO16: new onoff_1.Gpio(16, 'in', 'rising', { debounceTimeout: 10 }),
-    GPIO19: new onoff_1.Gpio(19, 'in', 'rising', { debounceTimeout: 10 }),
-    GPIO20: new onoff_1.Gpio(20, 'in', 'rising', { debounceTimeout: 10 }),
-    GPIO26: new onoff_1.Gpio(26, 'in', 'rising', { debounceTimeout: 10 }),
+    GPIO16: new onoff_1.Gpio(16, 'in', 'rising', { debounceTimeout: 1000, activeLow: false }),
+    GPIO19: new onoff_1.Gpio(19, 'in', 'rising', { debounceTimeout: 1000, activeLow: false }),
+    GPIO20: new onoff_1.Gpio(20, 'in', 'rising', { debounceTimeout: 1000, activeLow: false }),
+    GPIO26: new onoff_1.Gpio(26, 'in', 'rising', { debounceTimeout: 1000, activeLow: false }),
 };
 // 버튼 클릭 이벤트 리스너를 설정합니다.
 Object.keys(buttons).forEach((button) => {
@@ -119,8 +112,8 @@ Object.keys(buttons).forEach((button) => {
     });
 });
 // 서버 종료시 GPIO 자원을 해제합니다.
-process.on('SIGINT', () => {
-    Object.values(buttons).forEach((button) => {
-        button.unexport();
-    });
-});
+// process.on('SIGINT', () => {
+// Object.values(buttons).forEach((button) => {
+//     button.unexport();
+// });
+// });
