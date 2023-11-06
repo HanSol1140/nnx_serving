@@ -96,12 +96,14 @@ interface ButtonMap {
   }
 // 버튼의 GPIO 핀을 설정합니다.
 const buttons: ButtonMap = {
-  GPIO16: new Gpio(16, 'in', 'rising', { debounceTimeout: 1000, activeLow:true }),
-  GPIO19: new Gpio(19, 'in', 'rising', { debounceTimeout: 1000, activeLow:true }), 
-  GPIO20: new Gpio(20, 'in', 'rising', { debounceTimeout: 1000, activeLow:true }), 
-  GPIO26: new Gpio(26, 'in', 'rising', { debounceTimeout: 1000, activeLow:true }), 
-  GPIO21: new Gpio(21, 'in', 'rising', { debounceTimeout: 1000, activeLow:false }), 
-};
+  GPIO16: new Gpio(16, 'in', 'falling', { debounceTimeout: 1000, activeLow:false }),
+  GPIO19: new Gpio(19, 'in', 'falling', { debounceTimeout: 1000, activeLow:false }), 
+  GPIO20: new Gpio(20, 'in', 'falling', { debounceTimeout: 1000, activeLow:false }), 
+  GPIO26: new Gpio(26, 'in', 'falling', { debounceTimeout: 1000, activeLow:false }),
+  // 핀에 출력을 HIGH/LOW로 설정한다면 HIGH일때 activeLow:false
+  // 버튼식으로 설정한다면 activeLow:true(풀업저항)으로 해야 누를때 rising이 감지됨 => 반대로 activeLow:false라면 누를때 falling감지
+  GPIO21: new Gpio(21, 'in', 'rising', { debounceTimeout: 1000, activeLow:false }),  
+}; 
 
 // 버튼 클릭 이벤트 리스너를 설정합니다.
 Object.keys(buttons).forEach((button) => {
