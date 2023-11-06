@@ -80,6 +80,12 @@ export function setupRobotPinCheck(){
         if(message == "GPIO20"){setCurrentRobotName("robot3");}
         if(message == "GPIO26"){setCurrentRobotName("robot4");}
     });
+    pySheel.end(function (err, code, signal) {
+        if (err) throw err;
+        console.log('The exit code was: ' + code);
+        console.log('The exit signal was: ' + signal);
+        console.log('PythonShell finished');
+    });
 }
 //===========================================================
 

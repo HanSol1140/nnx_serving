@@ -90,6 +90,13 @@ function setupRobotPinCheck() {
             (0, robotconfig_1.setCurrentRobotName)("robot4");
         }
     });
+    pySheel.end(function (err, code, signal) {
+        if (err)
+            throw err;
+        console.log('The exit code was: ' + code);
+        console.log('The exit signal was: ' + signal);
+        console.log('PythonShell finished');
+    });
 }
 exports.setupRobotPinCheck = setupRobotPinCheck;
 // 서버 실행시 로봇 / 포인트 설정
