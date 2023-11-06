@@ -2,26 +2,24 @@ import serial
 import time
 
 # UART2와 UART3 설정
+# GPIO00(27,TX) / GPIO07(28,RX)
 uart2 = serial.Serial("/dev/ttyAMA2", baudrate=115200)
+# GPIO04(7,TX) / GPIO05(29,RX)
 uart3 = serial.Serial("/dev/ttyAMA3", baudrate=115200)
 
 try:
     while True:
-        # UART2에서 데이터 보내기
-        uart2.write(b'Hello from UART2\n')
-        uart3.write(b'Hello from UART3\n')
-        # UART2에서 데이터가 있으면 읽기
+        # UART2 // 본체
         if uart2.inWaiting() > 0:
-            data = uart3.readline().decode('utf-8').strip()  # 데이터 읽고, 디코드하고, 공백 제거
-            print(f"Received from UART22: {data}")
-
-        # UART3에서 데이터가 있으면 읽기
+            data = uart2.readline()  # 데이터 읽고, 디코드하고, 공백 제거
+            # print(f"Received from UART22: {data}")
+            uart3.write(data)  
+        # UART3 // 모터
         if uart3.inWaiting() > 0:
-            data = uart3.readline().decode('utf-8').strip()  # 데이터 읽고, 디코드하고, 공백 제거
-            print(f"Received from UART33: {data}")
-
-        # CPU 사용을 줄이기 위한 작은 지연
-        time.sleep(1)
+            data = uart3.readline() # 데이터 읽고, 디코드하고, 공백 제거
+            # print(f"Received from UART33: {data}")
+            uart2.write(data)  
+        # time.sleep(0.01)
 
 except KeyboardInterrupt:
     # 프로그램을 중단하려면 Ctrl+C를 누릅니다.
