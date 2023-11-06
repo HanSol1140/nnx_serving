@@ -96,3 +96,37 @@ setTimeout(() => {
 //     } 
 // }, 33);
 // ====================================================================================
+const SerialPort = require('serialport');
+const Readline = require('@serialport/parser-readline');
+// UART2와 UART3 설정
+const uart2 = new SerialPort('/dev/ttyAMA2', { baudRate: 115200 });
+const uart3 = new SerialPort('/dev/ttyAMA3', { baudRate: 115200 });
+// Readline 파서 생성
+const parser2 = uart2.pipe(new Readline({ delimiter: '\r\n' }));
+const parser3 = uart3.pipe(new Readline({ delimiter: '\r\n' }));
+parser2.on('data', (data) => {
+    console.log(`Received from UART2: ${data}`);
+    uart3.write(data);
+});
+parser3.on('data', (data) => {
+    console.log(`Received from UART3: ${data}`);
+    uart2.write(data);
+});
+// 에러 핸들링
+uart2.on('error', function (err) {
+    console.log('Error on UART2: ', err.message);
+});
+uart3.on('error', function (err) {
+    console.log('Error on UART3: ', err.message);
+});
+// 서버가 종료될 때 포트 닫기
+process.on('SIGINT', () => {
+    console.log('Terminating the program...');
+    uart2.close(() => {
+        console.log('UART2 closed');
+    });
+    uart3.close(() => {
+        console.log('UART3 closed');
+        process.exit();
+    });
+});
