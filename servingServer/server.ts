@@ -120,16 +120,17 @@ uart2.on('readable', () => {
     hexData = hexData.match(/.{1,2}/g).join(' ');
     let byteArray = hexData.match(/.{1,2}/g).map(byte => parseInt(byte, 16));
     console.log(`Received from UART2: ${hexData}`);
-    uart3.write(data); 
+    uart3.write(byteArray); 
   }
 }); 
  
 uart3.on('readable', () => {
   const data = uart3.read();
   if (data) {
-    const hexData = data.toString('hex').toUpperCase();
-    console.log(`Received from UART3: ${hexData}`);
-    uart2.write(data);
+    let hexData = data.toString('hex').toUpperCase();
+    hexData = hexData.match(/.{1,2}/g).join(' ');
+    let byteArray = hexData.match(/.{1,2}/g).map(byte => parseInt(byte, 16));
+    console.log(`Received from UART2: ${hexData}`);
   }
 });
 
