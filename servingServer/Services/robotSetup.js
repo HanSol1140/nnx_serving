@@ -90,12 +90,10 @@ function setupRobotPinCheck() {
             (0, robotconfig_1.setCurrentRobotName)("robot4");
         }
     });
-    pySheel.end(function (err, code, signal) {
+    pySheel.end(function (err) {
         if (err)
             throw err;
-        console.log('The exit code was: ' + code);
-        console.log('The exit signal was: ' + signal);
-        console.log('PythonShell finished');
+        // console.log('PythonShell finished');
     });
 }
 exports.setupRobotPinCheck = setupRobotPinCheck;
@@ -116,6 +114,7 @@ function serverSetup() {
         });
         // 맵핑데이터 변수에 할당
         yield setupMappingData();
+        // 핀출력으로 로봇명 확인
         yield setupRobotPinCheck();
     });
 }

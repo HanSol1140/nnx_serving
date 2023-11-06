@@ -80,11 +80,9 @@ export function setupRobotPinCheck(){
         if(message == "GPIO20"){setCurrentRobotName("robot3");}
         if(message == "GPIO26"){setCurrentRobotName("robot4");}
     });
-    pySheel.end(function (err, code, signal) {
+    pySheel.end(function (err) {
         if (err) throw err;
-        console.log('The exit code was: ' + code);
-        console.log('The exit signal was: ' + signal);
-        console.log('PythonShell finished');
+        // console.log('PythonShell finished');
     });
 }
 //===========================================================
@@ -124,6 +122,6 @@ export async function serverSetup() {
     
     // 맵핑데이터 변수에 할당
     await setupMappingData();
-
+    // 핀출력으로 로봇명 확인
     await setupRobotPinCheck();
 }

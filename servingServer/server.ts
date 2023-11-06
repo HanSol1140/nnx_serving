@@ -52,7 +52,7 @@ setTimeout(()=>{
 }, 1000);
 
 // ====================================================================================
-let collision;
+// let collision;
 // setInterval(async () => {
 // try{
 //     for (var i in robotSettings) { // i = 등록된 로봇Name
@@ -93,52 +93,3 @@ let collision;
 //     } 
 // }, 33);
 // ====================================================================================
-// import { Gpio } from 'onoff';
-// interface ButtonMap {
-//     [key: string]: Gpio;
-//   }
-// // 버튼의 GPIO 핀을 설정합니다.
-// const buttons: ButtonMap = {
-//   GPIO16: new Gpio(16, 'in', 'falling', { debounceTimeout: 1000, activeLow:false }),
-//   GPIO19: new Gpio(19, 'in', 'falling', { debounceTimeout: 1000, activeLow:false }), 
-//   GPIO20: new Gpio(20, 'in', 'falling', { debounceTimeout: 1000, activeLow:false }), 
-//   GPIO26: new Gpio(26, 'in', 'falling', { debounceTimeout: 1000, activeLow:false }),
-//   // 핀에 출력을 HIGH/LOW로 설정한다면 HIGH일때 activeLow:false
-//   // 버튼식으로 설정한다면 activeLow:true(풀업저항)으로 해야 누를때 rising이 감지됨 => 반대로 activeLow:false라면 누를때 falling감지
-//   GPIO21: new Gpio(21, 'in', 'rising', { debounceTimeout: 1000, activeLow:false }),  
-// }; 
-
-// // 버튼 클릭 이벤트 리스너를 설정합니다.
-// Object.keys(buttons).forEach((button) => {
-//     buttons[button].watch((err:any, value:any) => {
-//         if (err) {
-//         throw err;
-//         }
-//         console.log(button); // 버튼의 GPIO 번호를 출력합니다.
-//     });
-// });
-  
-// 서버 종료시 GPIO 자원을 해제합니다.
-// process.on('SIGINT', () => {
-// Object.values(buttons).forEach((button) => {
-//     button.unexport();
-// });
-// });
-
- 
-
-// import { PythonShell, Options as PythonShellOptions } from 'python-shell';
-// // export function setupRobotPinCheck(){
-//     let options: PythonShellOptions = {
-//         mode: "text",
-//         pythonPath: "/usr/bin/python3",
-//         pythonOptions: ['-u'],
-//         scriptPath: "/home/NNX_SERVING/servingServer"
-//     };
-    
-//     let pySheel = new PythonShell('./Services/SetupPinCheck.py', options);
-
-//     pySheel.on("message", function(message){
-//         console.log(message);
-//     });
-// // }
