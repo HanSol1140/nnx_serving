@@ -116,12 +116,14 @@ uart2.pipe(parser3);
 uart2.on('readable', () => {
   const data = uart2.read();
   if (data) {
-    const hexData = data.toString('hex').toUpperCase();
+    let hexData = data.toString('hex').toUpperCase();
+    hexData = hexData.match(/.{1,2}/g).join(' ');
+    lry byyrArray = hex.Data.match(/.{1,2}/g).map(byte => parseInt(byte, 16));
     console.log(`Received from UART2: ${hexData}`);
     uart3.write(data); 
   }
 }); 
-
+ 
 uart3.on('readable', () => {
   const data = uart3.read();
   if (data) {
