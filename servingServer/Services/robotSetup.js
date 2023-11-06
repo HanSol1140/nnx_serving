@@ -72,9 +72,9 @@ function setupRobotPinCheck() {
         mode: "text",
         pythonPath: "/usr/bin/python3",
         pythonOptions: ['-u'],
-        scriptPath: "/home/NNX_SERVING/servingServer"
+        scriptPath: "/home/nanonix/nnx_serving/servingServer/Services"
     };
-    let pySheel = new python_shell_1.PythonShell('./Services/SetupPinCheck.py', options);
+    let pySheel = new python_shell_1.PythonShell('./SetupPinCheck.py', options);
     pySheel.on("message", function (message) {
         console.log(message);
     });
