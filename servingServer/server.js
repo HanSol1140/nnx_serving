@@ -46,6 +46,7 @@ const robotrouters_1 = __importDefault(require("./Routers/robotrouters"));
 const pointrouters_1 = __importDefault(require("./Routers/pointrouters"));
 app.use('/', robotrouters_1.default);
 app.use('/', pointrouters_1.default);
+const robotconfig_1 = require("./robotconfig");
 const RobotSetup = __importStar(require("./Services/robotSetup.js"));
 // 로봇명 전역변수 설정
 RobotSetup.serverSetup();
@@ -54,6 +55,7 @@ setTimeout(() => {
     // for(var i in robotSettings){
     //     console.log(i);
     // }
+    console.log(robotconfig_1.currentRobotName);
 }, 1000);
 // ====================================================================================
 let collision;

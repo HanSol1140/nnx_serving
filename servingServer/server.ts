@@ -32,7 +32,9 @@ import {
     setRobotCoordinate,
     laserCoordinate,
     setLaserCoordinate,
-    mappingData
+    mappingData,
+    currentRobotName,
+    setCurrentRobotName,
 } from './robotconfig';
 
 import * as RobotSetup from './Services/robotSetup.js';
@@ -46,6 +48,7 @@ setTimeout(()=>{
     // for(var i in robotSettings){
     //     console.log(i);
     // }
+    console.log(currentRobotName);
 }, 1000);
 
 // ====================================================================================

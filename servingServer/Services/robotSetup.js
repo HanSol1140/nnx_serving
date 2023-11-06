@@ -77,6 +77,18 @@ function setupRobotPinCheck() {
     let pySheel = new python_shell_1.PythonShell('./SetupPinCheck.py', options);
     pySheel.on("message", function (message) {
         console.log(message);
+        if (message == "GPIO16") {
+            (0, robotconfig_1.setCurrentRobotName)("robot1");
+        }
+        if (message == "GPIO19") {
+            (0, robotconfig_1.setCurrentRobotName)("robot2");
+        }
+        if (message == "GPIO20") {
+            (0, robotconfig_1.setCurrentRobotName)("robot3");
+        }
+        if (message == "GPIO26") {
+            (0, robotconfig_1.setCurrentRobotName)("robot4");
+        }
     });
 }
 exports.setupRobotPinCheck = setupRobotPinCheck;

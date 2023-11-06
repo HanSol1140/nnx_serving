@@ -11,7 +11,8 @@ import {
     laserCoordinate,
     setLaserCoordinate,
     mappingData,
-    setMappingData
+    setMappingData,
+    setCurrentRobotName
 } from '../robotconfig';
 
 
@@ -74,6 +75,10 @@ export function setupRobotPinCheck(){
 
     pySheel.on("message", function(message){
         console.log(message);
+        if(message == "GPIO16"){setCurrentRobotName("robot1");}
+        if(message == "GPIO19"){setCurrentRobotName("robot2");}
+        if(message == "GPIO20"){setCurrentRobotName("robot3");}
+        if(message == "GPIO26"){setCurrentRobotName("robot4");}
     });
 }
 //===========================================================
