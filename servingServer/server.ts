@@ -118,7 +118,7 @@ uart2.on('readable', () => {
   if (data) {
     let hexData = data.toString('hex').toUpperCase();
     hexData = hexData.match(/.{1,2}/g).join(' ');
-    lry byyrArray = hex.Data.match(/.{1,2}/g).map(byte => parseInt(byte, 16));
+    let byteArray = hex.Data.match(/.{1,2}/g).map(byte => parseInt(byte, 16));
     console.log(`Received from UART2: ${hexData}`);
     uart3.write(data); 
   }
