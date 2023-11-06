@@ -12,7 +12,8 @@ try:
         # UART2 // 본체
         if uart2.inWaiting() > 0:
             data = uart2.readline()  # 데이터 읽고, 디코드하고, 공백 제거
-            # print(f"Received from UART22: {data}")
+            # decimal_Data = int(data.decode("utf-8"), 16)
+            print(data)
             uart3.write(data)  
         # UART3 // 모터
         if uart3.inWaiting() > 0:
