@@ -1,7 +1,6 @@
 // robotSetup.ts
 import axios from 'axios';
 import fs from 'fs';
-import { PythonShell } from 'python-shell';
 import {
     robotSettings,
     setRobotSettings,
@@ -60,15 +59,18 @@ export function setupMappingData():void {
         console.error("File not found: data.json");
     }
 }
+
+
+import { PythonShell, Options as PythonShellOptions } from 'python-shell';
 export function setupRobotPinCheck(){
-    let options = {
+    let options: PythonShellOptions = {
         mode: "text",
         pythonPath: "/usr/bin/python3",
         pythonOptions: ['-u'],
-        scriptPath: "/home/nanonix/door"
+        scriptPath: "/home/NNX_SERVING/servingServer"
     };
-
-    let pySheel = new PythonShell('./SetupPinCheck.py', options);
+    
+    let pySheel = new PythonShell('./Services/SetupPinCheck.py', options);
 
     pySheel.on("message", function(message){
         console.log(message);
@@ -112,5 +114,5 @@ export async function serverSetup() {
     // 맵핑데이터 변수에 할당
     await setupMappingData();
 
-    setupRobotPinCheck();
+    await setupRobotPinCheck();
 }

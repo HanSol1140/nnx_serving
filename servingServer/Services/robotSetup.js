@@ -14,7 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.serverSetup = exports.setupRobotPinCheck = exports.setupMappingData = exports.setupPoints = exports.setupRobots = void 0;
 const fs_1 = __importDefault(require("fs"));
-const python_shell_1 = require("python-shell");
 const robotconfig_1 = require("../robotconfig");
 // 서버 실행시 로봇리스트 받아오기
 function setupRobots() {
@@ -67,14 +66,15 @@ function setupMappingData() {
     }
 }
 exports.setupMappingData = setupMappingData;
+const python_shell_1 = require("python-shell");
 function setupRobotPinCheck() {
     let options = {
         mode: "text",
         pythonPath: "/usr/bin/python3",
         pythonOptions: ['-u'],
-        scriptPath: "/home/nanonix/door"
+        scriptPath: "/home/NNX_SERVING/servingServer"
     };
-    let pySheel = new python_shell_1.PythonShell('./SetupPinCheck.py', options);
+    let pySheel = new python_shell_1.PythonShell('./Services/SetupPinCheck.py', options);
     pySheel.on("message", function (message) {
         console.log(message);
     });
@@ -97,7 +97,7 @@ function serverSetup() {
         });
         // 맵핑데이터 변수에 할당
         yield setupMappingData();
-        setupRobotPinCheck();
+        yield setupRobotPinCheck();
     });
 }
 exports.serverSetup = serverSetup;
