@@ -99,18 +99,36 @@ const {SerialPort, ReadlineParser} = require('serialport');
 const uart2 = new SerialPort({ path:'/dev/ttyAMA2', baudRate: 115200 });
 let parser2 = new ReadlineParser();
 uart2.pipe(parser2);
-const uart3 = new SerialPort({ path:'/dev/ttyAMA2', baudRate: 115200 });
+const uart3 = new SerialPort({ path:'/dev/ttyAMA3', baudRate: 115200 });
 let parser3 = new ReadlineParser();
 uart2.pipe(parser3);
 ;
    
-parser2.on('data', (data:any) => {
-  console.log(`Received from UART2: ${data}`);
-  uart3.write(data); 
-});
-parser3.on('data', (data:any) => {
-    console.log(`Received from UART2: ${data}`);
-    uart2.write(data); 
+// parser2.on('data', (data:any) => {
+//   const hexString = Buffer.from(data).toString('hex');
+//   console.log(`Received from UART2: ${hexString}`);
+//   uart3.write(data); 
+// });
+// parser3.on('data', (data:any) => {
+//     console.log(`Received from UART2: ${data.toString('hex')}`);
+//     uart2.write(data); 
+// });
+uart2.on('readable', () => {
+  const data = uart2.read();
+  if (data) {
+    const hexData = data.toString('hex').toUpperCase();
+    console.log(`Received from UART2: ${hexData}`);
+    uart3.write(data); 
+  }
+}); 
+
+uart3.on('readable', () => {
+  const data = uart3.read();
+  if (data) {
+    const hexData = data.toString('hex').toUpperCase();
+    console.log(`Received from UART3: ${hexData}`);
+    uart2.write(data);
+  }
 });
 
 // 에러 핸들링
