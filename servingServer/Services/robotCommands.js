@@ -357,18 +357,18 @@ function checkRobotCoordinates(robotName, collision) {
                 // currentRobotCoordinatesY = robotCoordinate[robotName].y;
                 const dx = collision.x - robotconfig_1.robotCoordinate[i].x;
                 const dy = collision.y - robotconfig_1.robotCoordinate[i].y;
-                console.log(robotconfig_1.currentRobotName);
+                // console.log(currentRobotName);
                 // console.log(robotCoordinate);
-                console.log("비교할 로봇 : " + i);
-                console.log(collision.x + " / " + robotconfig_1.robotCoordinate[i].x);
-                console.log(collision.y + " / " + robotconfig_1.robotCoordinate[i].y);
+                // console.log("비교할 로봇 : "+ i);
+                // console.log(collision.x + " / " + robotCoordinate[i].x);
+                // console.log(collision.y + " / " + robotCoordinate[i].y);
                 const distance = Math.sqrt(dx * dx + dy * dy);
                 if (distance < 0.3) {
-                    console.log("로봇입니다.");
+                    // console.log("로봇입니다.");
                     return true;
                 }
                 else {
-                    console.log("로봇이 아닙니다.");
+                    // console.log("로봇이 아닙니다.");
                     return false;
                 }
             }

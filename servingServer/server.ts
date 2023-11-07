@@ -52,7 +52,7 @@ setTimeout(()=>{
 }, 1000);
 
 // ====================================================================================
-let collision;
+
 setInterval(async () => {
 try{
     for (var i in robotSettings) { // i = 등록된 로봇Name
@@ -68,15 +68,20 @@ try{
         }
         
         // 레이저 좌표를 받아서 충돌위험 체크
-        collision = await Func.detectCollision(i); // true / false반환
+        const collision = await Func.detectCollision(i); // true / false반환
         if(collision){ // mapingServer에서 기록한 맵핑데이터에 의해 벽충돌은 제거함
-            //     // 장애물이 감지됫다면
+            // // 장애물이 감지됫다면
             console.log(i + " 장애물 충돌 위험");
-            //     // 로봇인지 아닌지 체크
-            // console.log(collision);
-            console.log(collision);
-            console.log(robotCoordinate["robot1"].x, robotCoordinate["robot1"].y);
-            Func.checkRobotCoordinates(i, collision);
+            // // 로봇인지 아닌지 체크
+            // // console.log(collision);
+            // console.log(collision); // 장애물 좌표
+            // console.log(robotCoordinate["robot1"].x, robotCoordinate["robot1"].y); // 로봇 좌표
+            const checkRobot = await Func.checkRobotCoordinates(i, collision);
+            if (checkRobot){
+                console.log("로봇입니다");
+            }else{
+                console.log("로봇이 아닙니다.");
+            }
         }
         
         // console.log("======================================");
