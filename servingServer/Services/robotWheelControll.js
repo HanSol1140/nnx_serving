@@ -106,8 +106,7 @@ function adjustSpeedAndSend(data) {
             if (match[2] != "00") {
                 let leftWheelSpeedHighByte = parseInt(match[2], 16) - 0x80; // `81`에서 `80`을 뺀다.
                 let leftWheelSpeedLowByte = parseInt(match[1], 16);
-                let leftWheelSpeed = (leftWheelSpeedHighByte * 256) + leftWheelSpeedLowByte; // 올바른 계산
-                console.log(leftWheelSpeed);
+                let leftWheelSpeed = (leftWheelSpeedHighByte * 256) + leftWheelSpeedLowByte;
                 // 속도 조정
                 leftWheelSpeed = Math.floor(leftWheelSpeed * 0.5); // A 바퀴의 속도를 0.5배로 조정
                 let rightWheelSpeed = Math.floor(leftWheelSpeed * 0.5); // B 바퀴의 속도를 A의 0.5배로 조정
@@ -124,6 +123,8 @@ function adjustSpeedAndSend(data) {
                 const newCommand = newCommandWithoutChecksum + checksumHex;
                 // 새로운 명령어를 바이트 배열로 변환하여 uart3으로 전송
                 const commandBuffer = Buffer.from(newCommand, 'hex');
+                let checkMean = commandBuffer.toString('hex').toUpperCase();
+                console.log(checkMean);
                 uart3.write(commandBuffer);
             }
         }
