@@ -114,25 +114,38 @@ uart2.pipe(parser3);
 //     uart2.write(data); 
 // });
 uart2.on('readable', () => {
-  const data = uart2.read();
-  if (data) {
-    let hexData = data.toString('hex').toUpperCase();
-    hexData = hexData.match(/.{1,2}/g).join(' ');
-    let byteArray = hexData.match(/.{1,2}/g).map(byte => parseInt(byte, 16));
-    console.log(`Received from UART2: ${hexData}`);
-    uart3.write(byteArray); 
-  }
-}); 
+    const data = uart2.read();
+    if (data) {
+      const hexData = data.toString('hex').toUpperCase();
+      console.log(`Received from UART2: ${hexData}`);
+  
+      // Buffer로 바이트 배열 생성
+      const bytes = Buffer.from(data);
+      
+      // 각 바이트를 순차적으로 전송
+      bytes.forEach(byte => {
+        uart3.write(Buffer.from([byte]));
+      });
+    }
+  });
+  
  
-uart3.on('readable', () => {
-  const data = uart3.read();
-  if (data) {
-    let hexData = data.toString('hex').toUpperCase();
-    hexData = hexData.match(/.{1,2}/g).join(' ');
-    let byteArray = hexData.match(/.{1,2}/g).map(byte => parseInt(byte, 16));
-    console.log(`Received from UART2: ${hexData}`);
-  }
-});
+  uart3.on('readable', () => {
+    const data = uart3.read();
+    if (data) {
+      const hexData = data.toString('hex').toUpperCase();
+      console.log(`Received from UART3: ${hexData}`);
+  
+      // Buffer로 바이트 배열 생성
+      const bytes = Buffer.from(data);
+      
+      // 각 바이트를 순차적으로 전송
+      bytes.forEach(byte => {
+        uart2.write(Buffer.from([byte]));
+      });
+    }
+  });
+  
 
 // 에러 핸들링
 uart2.on('error', function(err:any) {
