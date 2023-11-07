@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.checkWhell = exports.wheelControll2 = exports.wheelControll = void 0;
+exports.checkWhell = exports.wheelControll3 = exports.wheelControll2 = exports.wheelControll = void 0;
 const serialport_1 = require("serialport");
 // UART2와 UART3 설정
 const uart2 = new serialport_1.SerialPort({ path: '/dev/ttyAMA2', baudRate: 115200 });
@@ -18,71 +18,91 @@ const uart3 = new serialport_1.SerialPort({ path: '/dev/ttyAMA3', baudRate: 1152
 let parser3 = new serialport_1.ReadlineParser();
 uart2.pipe(parser2);
 uart3.pipe(parser3);
-function wheelControll() {
+function wheelControll(check) {
     return __awaiter(this, void 0, void 0, function* () {
-        uart2.on('readable', () => {
-            const data = uart2.read();
-            if (data) {
-                // let hexData1 = data.toString('hex').toUpperCase();
-                // console.log(hexData1);
-                // hexData1 = hexData1.match(/.{1,2}/g)
-                // let byteArray = hexData.match(/.{1,2}/g).map(byte => parseInt(byte, 16));
-                // console.log(`Received from UART2: ${hexData1}`);
-                uart3.write(data);
-            }
-        });
-        uart3.on('readable', () => {
-            const data = uart3.read();
-            if (data) {
-                // let hexData2 = data.toString('hex').toUpperCase();
-                // hexData2 = hexData2.match(/.{1,2}/g)
-                // let byteArray = hexData.match(/.{1,2}/g).map(byte => parseInt(byte, 16));
-                // console.log(`Received from UART3: ${hexData2}`);
-                uart2.write(data);
-            }
-        });
-        // 에러 핸들링
-        uart2.on('error', function (err) {
-            console.log('Error on UART2: ', err.message);
-        });
-        uart3.on('error', function (err) {
-            console.log('Error on UART3: ', err.message);
-        });
+        if (check) {
+            console.log("정상운행");
+            // UART2
+            uart2.on('readable', () => {
+                const data = uart2.read();
+                if (data) {
+                    // let hexData1 = data.toString('hex').toUpperCase();
+                    // console.log(hexData1);
+                    // hexData1 = hexData1.match(/.{1,2}/g)
+                    // let byteArray = hexData.match(/.{1,2}/g).map(byte => parseInt(byte, 16));
+                    // console.log(`Received from UART2: ${hexData1}`);
+                    uart3.write(data);
+                }
+            });
+            // UART3
+            uart3.on('readable', () => {
+                const data = uart3.read();
+                if (data) {
+                    // let hexData2 = data.toString('hex').toUpperCase();
+                    // hexData2 = hexData2.match(/.{1,2}/g)
+                    // let byteArray = hexData.match(/.{1,2}/g).map(byte => parseInt(byte, 16));
+                    // console.log(`Received from UART3: ${hexData2}`);
+                    uart2.write(data);
+                }
+            });
+            // 에러 핸들링
+            uart2.on('error', function (err) {
+                console.log('Error on UART2: ', err.message);
+            });
+            uart3.on('error', function (err) {
+                console.log('Error on UART3: ', err.message);
+            });
+        }
+        else {
+            // UART2
+            uart2.on('readable', () => {
+                const data = uart2.read();
+                if (data) {
+                    // let hexData1 = data.toString('hex').toUpperCase();
+                    // console.log(hexData1);
+                    adjustSpeedAndSend(data);
+                }
+            });
+            // UART3
+            uart3.on('readable', () => {
+                const data = uart3.read();
+                if (data) {
+                    // let hexData2 = data.toString('hex').toUpperCase();
+                    // hexData2 = hexData2.match(/.{1,2}/g)
+                    // let byteArray = hexData.match(/.{1,2}/g).map(byte => parseInt(byte, 16));
+                    // console.log(`Received from UART3: ${hexData2}`);
+                    uart2.write(data);
+                }
+            });
+            // 에러 핸들링
+            uart2.on('error', function (err) {
+                console.log('Error on UART2: ', err.message);
+            });
+            uart3.on('error', function (err) {
+                console.log('Error on UART3: ', err.message);
+            });
+        }
     });
 }
 exports.wheelControll = wheelControll;
-// ===================================================================================================================
 function wheelControll2() {
     return __awaiter(this, void 0, void 0, function* () {
-        // UART2와 UART3 설정
-        uart2.on('readable', () => {
-            const data = uart2.read();
-            if (data) {
-                // let hexData1 = data.toString('hex').toUpperCase();
-                // console.log(hexData1);
-                adjustSpeedAndSend(data);
-            }
-        });
-        uart3.on('readable', () => {
-            const data = uart3.read();
-            if (data) {
-                // let hexData2 = data.toString('hex').toUpperCase();
-                // hexData2 = hexData2.match(/.{1,2}/g)
-                // let byteArray = hexData.match(/.{1,2}/g).map(byte => parseInt(byte, 16));
-                // console.log(`Received from UART3: ${hexData2}`);
-                uart2.write(data);
-            }
-        });
-        // 에러 핸들링
-        uart2.on('error', function (err) {
-            console.log('Error on UART2: ', err.message);
-        });
-        uart3.on('error', function (err) {
-            console.log('Error on UART3: ', err.message);
-        });
     });
 }
 exports.wheelControll2 = wheelControll2;
+// ===================================================================================================================
+function wheelControll3() {
+    return __awaiter(this, void 0, void 0, function* () {
+    });
+}
+exports.wheelControll3 = wheelControll3;
+// ===================================================================================================================
+// ===================================================================================================================
+// ===================================================================================================================
+// ===================================================================================================================
+// ===================================================================================================================
+// ===================================================================================================================
+// ===================================================================================================================
 // ===================================================================================================================
 // ===================================================================================================================
 function calculateChecksum(buffer) {

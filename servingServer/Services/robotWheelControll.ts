@@ -1,4 +1,4 @@
-import { SerialPort, ReadlineParser, turnMode } from 'serialport';
+import { SerialPort, ReadlineParser } from 'serialport';
 
 
 // UART2와 UART3 설정
@@ -9,78 +9,93 @@ let parser3 = new ReadlineParser();
 uart2.pipe(parser2);
 uart3.pipe(parser3);
 
+export async function wheelControll(check: boolean) {
+    if (check) {
+        console.log("정상운행");
+        // UART2
+        uart2.on('readable', () => {
+            const data = uart2.read();
+            if (data) {
+                // let hexData1 = data.toString('hex').toUpperCase();
+                // console.log(hexData1);
+                // hexData1 = hexData1.match(/.{1,2}/g)
+                // let byteArray = hexData.match(/.{1,2}/g).map(byte => parseInt(byte, 16));
+                // console.log(`Received from UART2: ${hexData1}`);
+                uart3.write(data);
+            }
+        });
+        // UART3
+        uart3.on('readable', () => {
+            const data = uart3.read();
+            if (data) {
+                // let hexData2 = data.toString('hex').toUpperCase();
+                // hexData2 = hexData2.match(/.{1,2}/g)
+                // let byteArray = hexData.match(/.{1,2}/g).map(byte => parseInt(byte, 16));
+                // console.log(`Received from UART3: ${hexData2}`);
+                uart2.write(data);
+            }
+        });
 
-export async function wheelControll() {
-    uart2.on('readable', () => {
-        const data = uart2.read();
-        if (data) {
-            // let hexData1 = data.toString('hex').toUpperCase();
-            // console.log(hexData1);
-            // hexData1 = hexData1.match(/.{1,2}/g)
-            // let byteArray = hexData.match(/.{1,2}/g).map(byte => parseInt(byte, 16));
-            // console.log(`Received from UART2: ${hexData1}`);
-            uart3.write(data); 
-        }
-    });
+        // 에러 핸들링
+        uart2.on('error', function (err: any) {
+            console.log('Error on UART2: ', err.message);
+        });
+        uart3.on('error', function (err: any) {
+            console.log('Error on UART3: ', err.message);
+        });
+    } else {
+        // UART2
+        uart2.on('readable', () => {
+            const data = uart2.read();
+            if (data) {
+                // let hexData1 = data.toString('hex').toUpperCase();
+                // console.log(hexData1);
+                adjustSpeedAndSend(data)
+            }
+        });
+        // UART3
+        uart3.on('readable', () => {
+            const data = uart3.read();
+            if (data) {
+                // let hexData2 = data.toString('hex').toUpperCase();
+                // hexData2 = hexData2.match(/.{1,2}/g)
+                // let byteArray = hexData.match(/.{1,2}/g).map(byte => parseInt(byte, 16));
+                // console.log(`Received from UART3: ${hexData2}`);
+                uart2.write(data);
+            }
+        });
 
-    uart3.on('readable', () => {
-        const data = uart3.read();
-        if (data) {
-            // let hexData2 = data.toString('hex').toUpperCase();
-            // hexData2 = hexData2.match(/.{1,2}/g)
-            // let byteArray = hexData.match(/.{1,2}/g).map(byte => parseInt(byte, 16));
-            // console.log(`Received from UART3: ${hexData2}`);
-            uart2.write(data);
-        }
-    });
-
-    // 에러 핸들링
-    uart2.on('error', function (err: any) {
-        console.log('Error on UART2: ', err.message);
-    });
-    uart3.on('error', function (err: any) {
-        console.log('Error on UART3: ', err.message);
-    });
+        // 에러 핸들링
+        uart2.on('error', function (err: any) {
+            console.log('Error on UART2: ', err.message);
+        });
+        uart3.on('error', function (err: any) {
+            console.log('Error on UART3: ', err.message);
+        });
+    }
 }
-// ===================================================================================================================
-
-
 export async function wheelControll2() {
-    // UART2와 UART3 설정
-    uart2.on('readable', () => {
-        const data = uart2.read();
-        if (data) {
-            // let hexData1 = data.toString('hex').toUpperCase();
-            // console.log(hexData1);
-            adjustSpeedAndSend(data)
-        }
-    });
 
-    uart3.on('readable', () => {
-        const data = uart3.read();
-        if (data) {
-            // let hexData2 = data.toString('hex').toUpperCase();
-            // hexData2 = hexData2.match(/.{1,2}/g)
-            // let byteArray = hexData.match(/.{1,2}/g).map(byte => parseInt(byte, 16));
-            // console.log(`Received from UART3: ${hexData2}`);
-            uart2.write(data);
-        }
-    });
+}
+// ===================================================================================================================
 
-    // 에러 핸들링
-    uart2.on('error', function (err: any) {
-        console.log('Error on UART2: ', err.message);
-    });
-    uart3.on('error', function (err: any) {
-        console.log('Error on UART3: ', err.message);
-    });
+
+export async function wheelControll3() {
+
 }
 
 // ===================================================================================================================
 // ===================================================================================================================
+// ===================================================================================================================
+// ===================================================================================================================
+// ===================================================================================================================
+// ===================================================================================================================
+// ===================================================================================================================
+// ===================================================================================================================
+// ===================================================================================================================
 
 
-function calculateChecksum(buffer:Buffer) {
+function calculateChecksum(buffer: Buffer) {
     // 체크섬 계산 시 프레임 헤더는 제외
     const checksumBuffer = buffer.slice(2);
     const sum = checksumBuffer.reduce((a, b) => a + b, 0);
@@ -88,7 +103,7 @@ function calculateChecksum(buffer:Buffer) {
     return checksum;
 }
 
-function adjustSpeedAndSend(data:any) {
+function adjustSpeedAndSend(data: any) {
     // 입력된 데이터를 Buffer 객체로 변환
     let commandBuffer = Buffer.from(data, 'hex');
 

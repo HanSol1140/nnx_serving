@@ -106,6 +106,7 @@ setTimeout(()=>{
 // }, 33);
 // ====================================================================================
 // ====================================================================================
+let checkcollision = false;
 setInterval(async () => {
     try{
         for (var i in robotSettings) { // i = 등록된 로봇Name
@@ -113,8 +114,8 @@ setInterval(async () => {
             await Func.getPose(i);
             // console.log(i);
             // console.log(robotCoordinate[i]);
-            // 로봇이 쏘는 레이저좌표 받기
         }
+            // 자신이 쏘는 라이다 좌표 받기
             await Func.getLaser(currentRobotName);
             // 교차로 체크
             const crossCheck = await Func.checkCrossRoad(currentRobotName); // true / false반환
@@ -126,6 +127,7 @@ setInterval(async () => {
             const collision = await Func.detectCollision(currentRobotName); // true / false반환
             if(collision){ // mapingServer에서 기록한 맵핑데이터에 의해 벽충돌은 제거함
                 // // 장애물이 감지됫다면
+                checkcollision = true;
                 console.log(currentRobotName + " 장애물 충돌 위험");
 
                 // console.log(collision); // 장애물 좌표
@@ -140,6 +142,7 @@ setInterval(async () => {
                 }
             }else{
                 // 장애물 충돌 위험 없음
+                checkcollision = false;
             }
             
             // console.log("======================================");
@@ -170,53 +173,4 @@ setInterval(async () => {
 // ====================================================================================
 // ====================================================================================
 import { wheelControll, wheelControll2 } from './Services/robotWheelControll';
-wheelControll(); 
-// ====================================================================================
-// import {SerialPort, ReadlineParser} from 'serialport';
-
-// // UART2와 UART3 설정
-// const uart2 = new SerialPort({ path:'/dev/ttyAMA2', baudRate: 115200 });
-// let parser2 = new ReadlineParser();
-// uart2.pipe(parser2);
-// const uart3 = new SerialPort({ path:'/dev/ttyAMA3', baudRate: 115200 });
-// let parser3 = new ReadlineParser();
-// uart2.pipe(parser3);
-   
-// uart2.on('readable', () => {
-//   const data = uart2.read();
-//   if (data) {
-//     let hexData1 = data.toString('hex').toUpperCase();
-//     hexData1 = hexData1.match(/.{1,2}/g)
-//     // let byteArray = hexData.match(/.{1,2}/g).map(byte => parseInt(byte, 16));
-//     // console.log(`Received from UART2: ${hexData1}`);
-//     uart3.write(data); 
-//   }
-// }); 
- 
-// uart3.on('readable', () => {
-//   const data = uart3.read();
-//   if (data) {
-//     let hexData2 = data.toString('hex').toUpperCase();
-//     hexData2 = hexData2.match(/.{1,2}/g)
-//     // let byteArray = hexData.match(/.{1,2}/g).map(byte => parseInt(byte, 16));
-//     // console.log(`Received from UART3: ${hexData2}`);
-//     uart2.write(data); 
-//   }
-// });
-
-// // 에러 핸들링
-// uart2.on('error', function(err:any) {
-//   console.log('Error on UART2: ', err.message);
-// });
-// uart3.on('error', function(err:any) {
-//     console.log('Error on UART3: ', err.message);
-// });
-
-// 서버가 종료될 때 포트 닫기
-// process.on('SIGINT', () => {
-//   console.log('Terminating the program...');
-//   uart2.close(() => {
-//     console.log('UART2 closed');
-//   });
-// });
-
+wheelControll(checkcollision); 
