@@ -66,8 +66,56 @@ setTimeout(() => {
     //     console.log(i);
     // }
     // console.log(mappingData);
-    console.log(robotconfig_1.robotSettings["robot1"]);
+    console.log(robotconfig_1.laserCoordinate);
 }, 1000);
+// ====================================================================================
+// setInterval(async () => {
+// try{
+//     for (var i in robotSettings) { // i = 등록된 로봇Name
+//         // 로봇 좌표 받기
+//         await Func.getPose(i);
+//         // console.log(i);
+//         // console.log(robotCoordinate[i]);
+//         // 로봇이 쏘는 레이저좌표 받기
+//         await Func.getLaser(i);
+//         // 교차로 체크
+//         const crossCheck = await Func.checkCrossRoad(i); // true / false반환
+//         if(crossCheck){ // 교차로
+//         }
+//         // 레이저 좌표를 받아서 충돌위험 체크
+//         const collision = await Func.detectCollision(i); // true / false반환
+//         if(collision){ // mapingServer에서 기록한 맵핑데이터에 의해 벽충돌은 제거함
+//             // // 장애물이 감지됫다면
+//             console.log(i + " 장애물 충돌 위험");
+//             if(currentRobotName == i){
+//                 console.log("본체앞에 장애물이 있습니다.");
+//             }
+//             // // console.log(collision);
+//             // console.log(collision); // 장애물 좌표
+//             // console.log(robotCoordinate["robot1"].x, robotCoordinate["robot1"].y); // 로봇 좌표
+//             // // 로봇인지 아닌지 체크
+//             const checkRobot = await Func.checkRobotCoordinates(i, collision);
+//             if (checkRobot){
+//                 console.log("로봇입니다");
+//             }else{
+//                 console.log("로봇이 아닙니다.");
+//             }
+//         }else{
+//             // 장애물 충돌 위험 없음
+//         }
+//         // console.log("======================================");
+//         // detectCollision 리턴값이 true(충돌위험발생)이라면 
+//         // console.log(robotCoordinate);
+//         // if(checkValue){
+//             //     // 체크한다
+//             //     // 
+//             // }
+//         }
+//     }catch(error){
+//         console.error("error");
+//     } 
+// }, 33);
+// ====================================================================================
 // ====================================================================================
 setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -77,44 +125,61 @@ setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
             // console.log(i);
             // console.log(robotCoordinate[i]);
             // 로봇이 쏘는 레이저좌표 받기
-            yield Func.getLaser(i);
-            // 교차로 체크
-            const crossCheck = yield Func.checkCrossRoad(i); // true / false반환
-            if (crossCheck) { // 교차로
+        }
+        yield Func.getLaser(robotconfig_1.currentRobotName);
+        // 교차로 체크
+        const crossCheck = yield Func.checkCrossRoad(robotconfig_1.currentRobotName); // true / false반환
+        if (crossCheck) { // 교차로
+        }
+        // 레이저 좌표를 받아서 충돌위험 체크
+        // collision => 장애물의 좌표
+        const collision = yield Func.detectCollision(robotconfig_1.currentRobotName); // true / false반환
+        if (collision) { // mapingServer에서 기록한 맵핑데이터에 의해 벽충돌은 제거함
+            // // 장애물이 감지됫다면
+            console.log(robotconfig_1.currentRobotName + " 장애물 충돌 위험");
+            if (robotconfig_1.currentRobotName == robotconfig_1.currentRobotName) {
+                console.log("본체앞에 장애물이 있습니다.");
             }
-            // 레이저 좌표를 받아서 충돌위험 체크
-            const collision = yield Func.detectCollision(i); // true / false반환
-            if (collision) { // mapingServer에서 기록한 맵핑데이터에 의해 벽충돌은 제거함
-                // // 장애물이 감지됫다면
-                console.log(i + " 장애물 충돌 위험");
-                // // 로봇인지 아닌지 체크
-                // // console.log(collision);
-                // console.log(collision); // 장애물 좌표
-                // console.log(robotCoordinate["robot1"].x, robotCoordinate["robot1"].y); // 로봇 좌표
-                const checkRobot = yield Func.checkRobotCoordinates(i, collision);
-                if (checkRobot) {
-                    console.log("로봇입니다");
-                }
-                else {
-                    console.log("로봇이 아닙니다.");
-                }
+            // console.log(collision); // 장애물 좌표
+            // console.log(robotCoordinate["robot1"].x, robotCoordinate["robot1"].y); // 로봇 좌표
+            // // 로봇인지 아닌지 체크
+            const checkRobot = yield Func.checkRobotCoordinates(robotconfig_1.currentRobotName, collision);
+            if (checkRobot) {
+                console.log("로봇입니다");
             }
             else {
-                // 장애물 충돌 위험 없음
+                console.log("로봇이 아닙니다.");
             }
-            // console.log("======================================");
-            // detectCollision 리턴값이 true(충돌위험발생)이라면 
-            // console.log(robotCoordinate);
-            // if(checkValue){
-            //     // 체크한다
-            //     // 
-            // }
         }
+        else {
+            // 장애물 충돌 위험 없음
+        }
+        // console.log("======================================");
+        // detectCollision 리턴값이 true(충돌위험발생)이라면 
+        // console.log(robotCoordinate);
+        // if(checkValue){
+        //     // 체크한다
+        //     // 
+        // }
     }
     catch (error) {
         console.error("error");
     }
 }), 33);
+// ====================================================================================
+// ====================================================================================
+// ====================================================================================
+// ====================================================================================
+// ====================================================================================
+// ====================================================================================
+// ====================================================================================
+// ====================================================================================
+// ====================================================================================
+// ====================================================================================
+// ====================================================================================
+// ====================================================================================
+// ====================================================================================
+// ====================================================================================
 // ====================================================================================
 const robotWheelControll_1 = require("./Services/robotWheelControll");
 (0, robotWheelControll_1.wheelControll)();
