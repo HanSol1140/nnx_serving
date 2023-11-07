@@ -66,7 +66,7 @@ setTimeout(() => {
     //     console.log(i);
     // }
     // console.log(mappingData);
-    console.log(robotconfig_1.laserCoordinate);
+    // console.log(laserCoordinate);
 }, 1000);
 // ====================================================================================
 // setInterval(async () => {

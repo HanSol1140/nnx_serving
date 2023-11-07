@@ -49,7 +49,7 @@ setTimeout(()=>{
     //     console.log(i);
     // }
     // console.log(mappingData);
-    console.log(laserCoordinate);
+    // console.log(laserCoordinate);
 }, 1000);
 
 // ====================================================================================
