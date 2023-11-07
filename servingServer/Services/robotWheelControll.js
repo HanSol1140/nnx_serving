@@ -101,10 +101,9 @@ function adjustSpeedAndSend(data) {
         // 속도 데이터 추출
         const speedPattern = /(?:0A)([0-9A-F]{2})([0-9A-F]{2})(?:0B)([0-9A-F]{2})([0-9A-F]{2})/;
         const match = speedPattern.exec(hexData);
-        console.log(match);
         if (match) {
-            // 16진수를 10진수로 변환
-            let leftWheelSpeed = parseInt(match[1], 16) * 256 + parseInt(match[2], 16);
+            // 16진수를 10진수로 변환, 순서를 반대로 해석
+            let leftWheelSpeed = parseInt(match[2], 16) * 256 + parseInt(match[1], 16);
             // 속도 조정
             leftWheelSpeed = Math.floor(leftWheelSpeed * 0.5); // A 바퀴의 속도를 0.5배로 조정
             let rightWheelSpeed = Math.floor(leftWheelSpeed * 0.5); // B 바퀴의 속도를 A의 0.5배로 조정
