@@ -87,15 +87,15 @@ export async function wheelControll2() {
 // ===================================================================================================================
 
 
-function calculateChecksum(buffer) {
+function calculateChecksum(buffer:Buffer) {
     // 체크섬 계산 시 프레임 헤더는 제외
     const checksumBuffer = buffer.slice(2);
-    const sum = checksumBuffer.reduce((acc, val) => acc + val, 0);
+    const sum = checksumBuffer.reduce((a, b) => a + b, 0);
     const checksum = sum % 256;
     return checksum;
 }
 
-function adjustSpeedAndSend(data) {
+function adjustSpeedAndSend(data:any) {
     // 입력된 데이터를 Buffer 객체로 변환
     let commandBuffer = Buffer.from(data, 'hex');
     console.log(commandBuffer);

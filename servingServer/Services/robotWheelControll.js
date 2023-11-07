@@ -94,7 +94,7 @@ exports.wheelControll2 = wheelControll2;
 function calculateChecksum(buffer) {
     // 체크섬 계산 시 프레임 헤더는 제외
     const checksumBuffer = buffer.slice(2);
-    const sum = checksumBuffer.reduce((acc, val) => acc + val, 0);
+    const sum = checksumBuffer.reduce((a, b) => a + b, 0);
     const checksum = sum % 256;
     return checksum;
 }
