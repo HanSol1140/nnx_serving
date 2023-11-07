@@ -48,7 +48,7 @@ setTimeout(()=>{
     // for(var i in robotSettings){
     //     console.log(i);
     // }
-    console.log(currentRobotName);
+    console.log(mappingData);
 }, 1000);
 
 // ====================================================================================

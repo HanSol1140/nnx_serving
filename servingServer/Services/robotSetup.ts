@@ -51,7 +51,7 @@ export async function setupPoints() {
 
 // 맵핑 데이터 받아오기 
 export function setupMappingData():void {
-    const filePath = 'MappingData.json';
+    const filePath = 'Settings/MappingData.json';
     if (fs.existsSync(filePath)) {
         const fileData = fs.readFileSync(filePath, 'utf8');
         const newData = JSON.parse(fileData);
@@ -123,5 +123,5 @@ export async function serverSetup() {
     // 맵핑데이터 변수에 할당
     await setupMappingData();
     // 핀출력으로 로봇명 확인
-    await setupRobotPinCheck();
+    // await setupRobotPinCheck();
 }
