@@ -107,6 +107,9 @@ setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
     }
 }), 33);
 // ====================================================================================
+const robotWheelControll_1 = require("./Services/robotWheelControll");
+(0, robotWheelControll_1.wheelControll)();
+// ====================================================================================
 // import {SerialPort, ReadlineParser} from 'serialport';
 // // UART2와 UART3 설정
 // const uart2 = new SerialPort({ path:'/dev/ttyAMA2', baudRate: 115200 });
@@ -149,6 +152,3 @@ setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
 //     console.log('UART2 closed');
 //   });
 // });
-// ====================================================================================
-const robotWheelControll_1 = require("./Services/robotWheelControll");
-(0, robotWheelControll_1.wheelControll)();

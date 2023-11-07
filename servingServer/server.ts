@@ -93,6 +93,9 @@ try{
     } 
 }, 33);
 // ====================================================================================
+import { wheelControll } from './Services/robotWheelControll';
+wheelControll(); 
+// ====================================================================================
 // import {SerialPort, ReadlineParser} from 'serialport';
 
 // // UART2와 UART3 설정
@@ -141,6 +144,3 @@ try{
 //   });
 // });
 
-// ====================================================================================
-import { wheelControll } from './Services/robotWheelControll';
-wheelControll(); 
