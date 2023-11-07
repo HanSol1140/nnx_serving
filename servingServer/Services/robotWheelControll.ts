@@ -53,9 +53,6 @@ uart3.pipe(parser3);
   
 export async function wheelControll2() {
 // UART2와 UART3 설정
-
-
-    
     uart2.on('readable', () => { 
     const data = uart2.read();
     if (data) {
@@ -106,6 +103,7 @@ function adjustSpeedAndSend(data) {
       // 속도 데이터 추출
       const speedPattern = /(?:0A)([0-9A-F]{2})([0-9A-F]{2})(?:0B)([0-9A-F]{2})([0-9A-F]{2})/;
       const match = speedPattern.exec(hexData);
+      console.log(match);
   
       if (match && match[2] != "00") {
         let leftWheelSpeedHighByte = parseInt(match[2], 16) - 0x80; // 상위 바이트 계산
@@ -124,13 +122,14 @@ function adjustSpeedAndSend(data) {
   
         // 새로운 명령어 생성 (체크섬 전)
         let newCommandWithoutChecksum = `D55DFE0A8320020A${adjustedLeftWheelSpeedHex}${adjustedLeftWheelExtraHex}0B${adjustedRightWheelSpeedHex}${adjustedRightWheelExtraHex}`;
-  
+        
         // 체크섬 계산 및 추가
         const checksumHex = calculateChecksum(newCommandWithoutChecksum);
         const newCommand = newCommandWithoutChecksum + checksumHex;
   
         // 새로운 명령어를 바이트 배열로 변환하여 uart3으로 전송
         const commandBuffer = Buffer.from(newCommand, 'hex');
+        console.log(commandBuffer.toString('hex').toUpperCase());
         uart3.write(commandBuffer);
       }
     } else {

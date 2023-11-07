@@ -105,6 +105,7 @@ function adjustSpeedAndSend(data) {
         // 속도 데이터 추출
         const speedPattern = /(?:0A)([0-9A-F]{2})([0-9A-F]{2})(?:0B)([0-9A-F]{2})([0-9A-F]{2})/;
         const match = speedPattern.exec(hexData);
+        console.log(match);
         if (match && match[2] != "00") {
             let leftWheelSpeedHighByte = parseInt(match[2], 16) - 0x80; // 상위 바이트 계산
             let leftWheelSpeedLowByte = parseInt(match[1], 16); // 하위 바이트 계산
@@ -124,6 +125,7 @@ function adjustSpeedAndSend(data) {
             const newCommand = newCommandWithoutChecksum + checksumHex;
             // 새로운 명령어를 바이트 배열로 변환하여 uart3으로 전송
             const commandBuffer = Buffer.from(newCommand, 'hex');
+            console.log(commandBuffer.toString('hex').toUpperCase());
             uart3.write(commandBuffer);
         }
     }
