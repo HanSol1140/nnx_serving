@@ -1,5 +1,12 @@
 [
   {
+    "robotName": "robot1",
+    "robotNumber": 1,
+    "robotIP": "192.168.0.15",
+    "robotRunningState": false,
+    "robotLastOrderPoint": ""
+  },
+  {
     "robotName": "robot2",
     "robotNumber": 2,
     "robotIP": "192.168.0.177",
