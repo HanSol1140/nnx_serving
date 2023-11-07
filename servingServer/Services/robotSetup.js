@@ -112,6 +112,7 @@ function serverSetup() {
         points.forEach(point => {
             (0, robotconfig_1.setPointCoordinate)(point.pointName, point.coordinatesX, point.coordinatesY, point.coordinatesTheta);
         });
+        console.log(points);
         // 맵핑데이터 변수에 할당
         yield setupMappingData();
         // 핀출력으로 로봇명 확인

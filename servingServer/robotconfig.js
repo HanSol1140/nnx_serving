@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.setMappingData = exports.mappingData = exports.setCrossRoadState = exports.crossRoadState = exports.setLaserCoordinate = exports.laserCoordinate = exports.setRobotCoordinate = exports.robotCoordinate = exports.setPointCoordinate = exports.pointCoordinate = exports.setRobotSettings = exports.robotSettings = exports.setCurrentRobotName = exports.currentRobotName = void 0;
+exports.setMappingData = exports.mappingData = exports.setCrossRoadState = exports.crossRoadState = exports.setCrossRoadCoordinates = exports.crossRoadCoordinates = exports.setLaserCoordinate = exports.laserCoordinate = exports.setRobotCoordinate = exports.robotCoordinate = exports.setPointCoordinate = exports.pointCoordinate = exports.setRobotSettings = exports.robotSettings = exports.setCurrentRobotName = exports.currentRobotName = void 0;
 // robotconfig.ts
 // 현재 라즈베리파이와 연결된 로봇명을 기입
 exports.currentRobotName = "robot1";
@@ -31,6 +31,11 @@ function setLaserCoordinate(robotName, centerPortion) {
 }
 exports.setLaserCoordinate = setLaserCoordinate;
 // 교차로 관리
+exports.crossRoadCoordinates = {};
+function setCrossRoadCoordinates(crossName, x, y, theta) {
+    exports.crossRoadCoordinates[crossName] = { x, y };
+}
+exports.setCrossRoadCoordinates = setCrossRoadCoordinates;
 exports.crossRoadState = {};
 function setCrossRoadState(roadName, robotName) {
     exports.crossRoadState[roadName] = { robotName };

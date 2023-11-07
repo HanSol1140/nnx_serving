@@ -111,7 +111,6 @@ export async function serverSetup() {
     robots.forEach(robot => {
         setRobotSettings(robot.robotName, robot.robotNumber, robot.robotIP, robot.robotRunningState, robot.robotLastOrderPoint);
     });
-
     // 포인트 좌표 설정
     const points: pointsInfo[] = await setupPoints();
     // console.log(points);
@@ -119,7 +118,7 @@ export async function serverSetup() {
     points.forEach(point => {
         setPointCoordinate(point.pointName, point.coordinatesX, point.coordinatesY, point.coordinatesTheta);
     });
-    
+    console.log(points);
     // 맵핑데이터 변수에 할당
     await setupMappingData();
     // 핀출력으로 로봇명 확인

@@ -63,6 +63,18 @@ export function setLaserCoordinate(robotName: string , centerPortion:[]) {
 }
 
 // 교차로 관리
+export let crossRoadCoordinates:{
+    [key: string]: {
+        x:number,
+        y:number
+    }
+} = {};
+
+export function setCrossRoadCoordinates(crossName: string, x: number, y: number, theta: number) {
+    crossRoadCoordinates[crossName] = { x, y };    
+}
+
+
 export let crossRoadState: {
     [key:string]: {
         robotName : string
