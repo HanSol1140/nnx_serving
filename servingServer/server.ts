@@ -106,7 +106,7 @@ setTimeout(() => {
 // }, 33);
 // ====================================================================================
 // ====================================================================================
-let checkcollision = false;
+
 setInterval(async () => {
     try {
         for (var i in robotSettings) { // i = 등록된 로봇Name
@@ -127,8 +127,7 @@ setInterval(async () => {
         const collision = await Func.detectCollision(currentRobotName); // true / false반환
         if (collision) { // mapingServer에서 기록한 맵핑데이터에 의해 벽충돌은 제거함
             // // 장애물이 감지됫다면
-            checkcollision = true;
-            wheelControll(false); 
+            wheelControll(true); 
             console.log(currentRobotName + " 장애물 충돌 위험");
 
             // console.log(collision); // 장애물 좌표
@@ -143,8 +142,7 @@ setInterval(async () => {
             }
         } else {
             // 장애물 충돌 위험 없음
-            checkcollision = false;
-            wheelControll(true); 
+            wheelControll(false); 
         }
 
         // console.log("======================================");
