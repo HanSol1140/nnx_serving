@@ -58,6 +58,7 @@ function wheelControll(check) {
             });
         }
         else {
+            console.log("충돌위험 => 바퀴 회전");
             // UART2
             uart2.on('readable', () => {
                 const data = uart2.read();

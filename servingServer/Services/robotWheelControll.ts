@@ -48,6 +48,7 @@ export async function wheelControll(check: boolean) {
             console.log('Error on UART3: ', err.message);
         });
     } else {
+        console.log("충돌위험 => 바퀴 회전");
         // UART2
         uart2.on('readable', () => {
             const data = uart2.read();
