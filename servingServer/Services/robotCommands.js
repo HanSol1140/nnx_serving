@@ -316,8 +316,8 @@ function detectCollision(robotName) {
             const rotatedX = dx * Math.cos(-robotTheta) - dy * Math.sin(-robotTheta);
             const rotatedY = dx * Math.sin(-robotTheta) + dy * Math.cos(-robotTheta);
             // 충돌 검사 영역 설정
-            const rectangleWidth = 1.0; // 감지영역 거리
-            const rectangleHeight = 0.3; // 감지영역 폭
+            const rectangleWidth = 1.5; // 감지영역 거리
+            const rectangleHeight = 0.6; // 감지영역 폭
             // 충돌 위험 판단
             if (rotatedX >= 0 && rotatedX <= rectangleWidth && Math.abs(rotatedY) <= rectangleHeight / 2) {
                 const direction = rotatedY > 0 ? "left" : "right";

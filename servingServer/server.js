@@ -58,6 +58,7 @@ app.use('/', pointrouters_1.default);
 const robotconfig_1 = require("./robotconfig");
 const RobotSetup = __importStar(require("./Services/robotSetup.js"));
 const Func = __importStar(require("./Services/robotCommands.js"));
+const robotWheelControll_1 = require("./Services/robotWheelControll");
 // 로봇명 전역변수 설정
 RobotSetup.serverSetup();
 setTimeout(() => {
@@ -167,4 +168,3 @@ setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
 }), 33);
 // ====================================================================================
 // ====================================================================================
-const robotWheelControll_1 = require("./Services/robotWheelControll");

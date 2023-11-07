@@ -39,6 +39,7 @@ import {
 
 import * as RobotSetup from './Services/robotSetup.js';
 import * as Func from './Services/robotCommands.js';
+import { wheelControll } from './Services/robotWheelControll';
 
 // 로봇명 전역변수 설정
 RobotSetup.serverSetup();
@@ -159,4 +160,3 @@ setInterval(async () => {
 }, 33);
 // ====================================================================================
 // ====================================================================================
-import { wheelControll } from './Services/robotWheelControll';
