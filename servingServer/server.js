@@ -65,7 +65,7 @@ setTimeout(() => {
     // for(var i in robotSettings){
     //     console.log(i);
     // }
-    console.log(robotconfig_1.mappingData);
+    // console.log(mappingData);
 }, 1000);
 // ====================================================================================
 let collision;
