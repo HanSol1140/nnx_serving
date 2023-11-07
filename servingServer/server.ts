@@ -117,8 +117,8 @@ uart2.on('readable', () => {
   const data = uart2.read();
   if (data) {
     let hexData = data.toString('hex').toUpperCase();
-    hexData = hexData.match(/.{1,2}/g).join(' ');
-    let byteArray = hexData.match(/.{1,2}/g).map(byte => parseInt(byte, 16));
+    // hexData = hexData.match(/.{1,2}/g).join(' ');
+    // let byteArray = hexData.match(/.{1,2}/g).map(byte => parseInt(byte, 16));
     console.log(`Received from UART2: ${hexData}`);
     uart3.write(data); 
   }
@@ -128,8 +128,8 @@ uart3.on('readable', () => {
   const data = uart3.read();
   if (data) {
     let hexData = data.toString('hex').toUpperCase();
-    hexData = hexData.match(/.{1,2}/g).join(' ');
-    let byteArray = hexData.match(/.{1,2}/g).map(byte => parseInt(byte, 16));
+    // hexData = hexData.match(/.{1,2}/g).join(' ');
+    // let byteArray = hexData.match(/.{1,2}/g).map(byte => parseInt(byte, 16));
     console.log(`Received from UART3: ${hexData}`);
     uart2.write(data); 
   }
@@ -140,7 +140,7 @@ uart2.on('error', function(err:any) {
   console.log('Error on UART2: ', err.message);
 });
 uart3.on('error', function(err:any) {
-    console.log('Error on UART2: ', err.message);
+    console.log('Error on UART3: ', err.message);
 });
 
 // 서버가 종료될 때 포트 닫기
