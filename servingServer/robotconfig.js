@@ -4,7 +4,6 @@ exports.setMappingData = exports.mappingData = exports.setCrossRoadState = expor
 // robotconfig.ts
 // 현재 라즈베리파이와 연결된 로봇명을 기입
 exports.currentRobotName = "robot1";
-
 function setCurrentRobotName(robotName) {
     exports.currentRobotName = robotName;
 }
