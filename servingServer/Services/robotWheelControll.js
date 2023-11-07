@@ -113,9 +113,13 @@ function adjustSpeedAndSend(data) {
                 let rightWheelSpeed = Math.floor(leftWheelSpeed * 0.5); // B 바퀴의 속도를 A의 0.5배로 조정
                 // 조정된 속도를 16진수 문자열로 다시 변환
                 let adjustedLeftWheelSpeedHex = (leftWheelSpeed >> 8).toString(16).padStart(2, '0').toUpperCase();
+                console.log(adjustedLeftWheelSpeedHex);
                 let adjustedLeftWheelExtraHex = (leftWheelSpeed & 0xFF).toString(16).padStart(2, '0').toUpperCase();
+                console.log(adjustedLeftWheelExtraHex);
                 let adjustedRightWheelSpeedHex = (rightWheelSpeed >> 8).toString(16).padStart(2, '0').toUpperCase();
+                console.log(adjustedRightWheelSpeedHex);
                 let adjustedRightWheelExtraHex = (rightWheelSpeed & 0xFF).toString(16).padStart(2, '0').toUpperCase();
+                console.log(adjustedRightWheelExtraHex);
                 // 새로운 명령어 생성 (체크섬 전)
                 let newCommandWithoutChecksum = `D55DFE0A83${adjustedLeftWheelSpeedHex}${adjustedLeftWheelExtraHex}0BDC${adjustedRightWheelSpeedHex}${adjustedRightWheelExtraHex}`;
                 // 체크섬 계산 및 추가
