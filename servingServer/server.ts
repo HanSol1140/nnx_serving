@@ -79,7 +79,7 @@ try{
             Func.checkRobotCoordinates(i, collision);
         }
         
-        console.log("======================================");
+        // console.log("======================================");
         // detectCollision 리턴값이 true(충돌위험발생)이라면 
         // console.log(robotCoordinate);
         // if(checkValue){
