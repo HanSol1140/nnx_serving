@@ -11,15 +11,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.checkWhell = exports.wheelControll2 = exports.wheelControll = void 0;
 const serialport_1 = require("serialport");
+// UART2와 UART3 설정
+const uart2 = new serialport_1.SerialPort({ path: '/dev/ttyAMA2', baudRate: 115200 });
+let parser2 = new serialport_1.ReadlineParser();
+const uart3 = new serialport_1.SerialPort({ path: '/dev/ttyAMA3', baudRate: 115200 });
+let parser3 = new serialport_1.ReadlineParser();
+uart2.pipe(parser2);
+uart3.pipe(parser3);
 function wheelControll() {
     return __awaiter(this, void 0, void 0, function* () {
-        const uart2 = new serialport_1.SerialPort({ path: '/dev/ttyAMA2', baudRate: 115200 });
-        let parser2 = new serialport_1.ReadlineParser();
-        const uart3 = new serialport_1.SerialPort({ path: '/dev/ttyAMA3', baudRate: 115200 });
-        let parser3 = new serialport_1.ReadlineParser();
-        // UART2와 UART3 설정
-        uart2.pipe(parser2);
-        uart2.pipe(parser3);
         uart2.on('readable', () => {
             const data = uart2.read();
             if (data) {
@@ -51,12 +51,7 @@ function wheelControll() {
     });
 }
 exports.wheelControll = wheelControll;
-const uart2 = new serialport_1.SerialPort({ path: '/dev/ttyAMA2', baudRate: 115200 });
-let parser2 = new serialport_1.ReadlineParser();
-const uart3 = new serialport_1.SerialPort({ path: '/dev/ttyAMA3', baudRate: 115200 });
-let parser3 = new serialport_1.ReadlineParser();
-uart2.pipe(parser2);
-uart3.pipe(parser3);
+// ===================================================================================================================
 function wheelControll2() {
     return __awaiter(this, void 0, void 0, function* () {
         // UART2와 UART3 설정
@@ -88,7 +83,6 @@ function wheelControll2() {
     });
 }
 exports.wheelControll2 = wheelControll2;
-// ===================================================================================================================
 // ===================================================================================================================
 // ===================================================================================================================
 function calculateChecksum(buffer) {
