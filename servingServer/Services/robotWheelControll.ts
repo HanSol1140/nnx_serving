@@ -8,7 +8,7 @@ export async function wheelControll() {
     uart2.pipe(parser2);
     uart2.pipe(parser3);
     
-    uart2.on('readable', () => {
+    uart2.on('readable', () => { 
     const data = uart2.read();
     if (data) {
         // let hexData1 = data.toString('hex').toUpperCase();
