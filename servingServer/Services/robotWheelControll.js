@@ -116,15 +116,16 @@ function adjustSpeedAndSend(data) {
             let leftWheelSpeedLowByte = parseInt(match[1], 16); // 하위 바이트 계산
             let leftWheelSpeed = (leftWheelSpeedHighByte * 256) + leftWheelSpeedLowByte;
             // 속도 조정
-            leftWheelSpeed = Math.floor(leftWheelSpeed * 0.5); // 왼쪽 바퀴 속도 조정
-            let rightWheelSpeed = Math.floor(leftWheelSpeed * 0.25); // 오른쪽 바퀴 속도 조정
+            // leftWheelSpeed = Math.floor(leftWheelSpeed * 0.5); // 왼쪽 바퀴 속도 조정
+            // let rightWheelSpeed = Math.floor(leftWheelSpeed * 0.25); // 오른쪽 바퀴 속도 조정
             // 조정된 속도를 16진수 문자열로 다시 변환
-            let adjustedLeftWheelSpeedHex = ((leftWheelSpeed >> 8) + 0x80).toString(16).padStart(2, '0').toUpperCase();
-            let adjustedLeftWheelExtraHex = (leftWheelSpeed & 0xFF).toString(16).padStart(2, '0').toUpperCase();
-            let adjustedRightWheelSpeedHex = ((rightWheelSpeed >> 8) + 0x80).toString(16).padStart(2, '0').toUpperCase();
-            let adjustedRightWheelExtraHex = (rightWheelSpeed & 0xFF).toString(16).padStart(2, '0').toUpperCase();
-            // 새로운 명령어 생성 (체크섬 전)
-            let newCommandWithoutChecksum = `D55DFE0A8320020A${adjustedLeftWheelExtraHex}${adjustedLeftWheelSpeedHex}0B${adjustedRightWheelExtraHex}${adjustedRightWheelSpeedHex}`;
+            let adjustedLeftWheelSpeed = Math.floor(leftWheelSpeed * 0.5);
+            let adjustedRightWheelSpeed = Math.floor(adjustedLeftWheelSpeed * 0.25);
+            let adjustedLeftWheelSpeedHex = ((adjustedLeftWheelSpeed >> 8) + 0x80).toString(16).padStart(2, '0').toUpperCase();
+            let adjustedLeftWheelExtraHex = (adjustedLeftWheelSpeed & 0xFF).toString(16).padStart(2, '0').toUpperCase();
+            let adjustedRightWheelSpeedHex = ((adjustedRightWheelSpeed >> 8) + 0x80).toString(16).padStart(2, '0').toUpperCase();
+            let adjustedRightWheelExtraHex = (adjustedRightWheelSpeed & 0xFF).toString(16).padStart(2, '0').toUpperCase();
+            let newCommandWithoutChecksum = `D55DFE0A8320020A${adjustedLeftWheelSpeedHex}${adjustedLeftWheelExtraHex}0B${adjustedRightWheelSpeedHex}${adjustedRightWheelExtraHex}`;
             // 체크섬 계산 및 추가
             const checksumHex = calculateChecksum(newCommandWithoutChecksum);
             const newCommand = newCommandWithoutChecksum + checksumHex;
