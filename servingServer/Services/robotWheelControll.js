@@ -95,10 +95,14 @@ exports.wheelControll2 = wheelControll2;
 // ===================================================================================================================
 // ===================================================================================================================
 function calculateChecksum(commandWithoutChecksum) {
+    // 프레임 헤더 'D55D'를 제거
+    const commandWithoutHeader = commandWithoutChecksum.startsWith('D55D')
+        ? commandWithoutChecksum.substring(4)
+        : commandWithoutChecksum;
     // 체크섬을 계산하기 위해 바이트 데이터의 합을 계산
     let sum = 0;
-    for (let i = 0; i < commandWithoutChecksum.length; i += 2) {
-        sum += parseInt(commandWithoutChecksum.substring(i, i + 2), 16);
+    for (let i = 0; i < commandWithoutHeader.length; i += 2) {
+        sum += parseInt(commandWithoutHeader.substring(i, i + 2), 16);
     }
     // 체크섬은 합계를 256으로 나눈 나머지
     return (sum % 256).toString(16).padStart(2, '0').toUpperCase();
