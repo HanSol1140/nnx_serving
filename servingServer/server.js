@@ -66,6 +66,7 @@ setTimeout(() => {
     //     console.log(i);
     // }
     // console.log(mappingData);
+    console.log(robotconfig_1.robotSettings["robot1"]);
 }, 1000);
 // ====================================================================================
 setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
@@ -97,6 +98,9 @@ setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
                 else {
                     console.log("로봇이 아닙니다.");
                 }
+            }
+            else {
+                // 장애물 충돌 위험 없음
             }
             // console.log("======================================");
             // detectCollision 리턴값이 true(충돌위험발생)이라면 

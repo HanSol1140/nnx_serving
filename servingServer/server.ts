@@ -49,6 +49,7 @@ setTimeout(()=>{
     //     console.log(i);
     // }
     // console.log(mappingData);
+    console.log(robotSettings["robot1"]);
 }, 1000);
 
 // ====================================================================================
@@ -79,9 +80,12 @@ try{
             const checkRobot = await Func.checkRobotCoordinates(i, collision);
             if (checkRobot){
                 console.log("로봇입니다");
+                
             }else{
                 console.log("로봇이 아닙니다.");
             }
+        }else{
+            // 장애물 충돌 위험 없음
         }
         
         // console.log("======================================");
