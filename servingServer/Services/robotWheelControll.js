@@ -101,7 +101,6 @@ function calculateChecksum(buffer) {
 function adjustSpeedAndSend(data) {
     // 입력된 데이터를 Buffer 객체로 변환
     let commandBuffer = Buffer.from(data, 'hex');
-    console.log(commandBuffer);
     if (commandBuffer.slice(0, 3).toString('hex').toUpperCase() === 'D55DFE' && commandBuffer[9] != 0x00) {
         // 속도 데이터 추출 및 조정
         const leftWheelSpeed = (commandBuffer[9] - 0x80) * 256 + commandBuffer[8];
@@ -117,7 +116,6 @@ function adjustSpeedAndSend(data) {
         commandBuffer[11] = adjustedRightWheelSpeed & 0xFF;
         // 체크섬 계산을 위해 마지막 바이트 제거
         commandBuffer = commandBuffer.slice(0, -1);
-        console.log(commandBuffer);
         // 체크섬 추가
         commandBuffer = Buffer.concat([commandBuffer, Buffer.from([calculateChecksum(commandBuffer)])]);
         // 명령어 전송
