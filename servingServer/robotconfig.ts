@@ -10,7 +10,7 @@ type PointCoordinateType = {
     x?: string,
     y?: string,
     theta?: string,
-}
+} 
 export let robotSettings: {
     [key: string]: {
         robotNumber:number,
