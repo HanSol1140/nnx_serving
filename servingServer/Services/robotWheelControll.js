@@ -104,9 +104,9 @@ function adjustSpeedAndSend(data) {
     console.log(commandBuffer);
     if (commandBuffer.slice(0, 3).toString('hex').toUpperCase() === 'D55DFE') {
         // 속도 데이터 추출 및 조정
-        const leftWheelSpeed = (commandBuffer[7] - 0x80) * 256 + commandBuffer[6];
+        const leftWheelSpeed = (commandBuffer[9] - 0x80) * 256 + commandBuffer[8];
         // 오른쪽 바퀴 속도를 왼쪽 바퀴 속도에 기반하여 계산
-        const rightWheelSpeed = (commandBuffer[11] - 0x80) * 256 + commandBuffer[10];
+        const rightWheelSpeed = (commandBuffer[12]) * 256 + commandBuffer[11];
         // 속도 조정 (예시: 왼쪽 바퀴 50%, 오른쪽 바퀴 25%로 조정)
         let adjustedLeftWheelSpeed = Math.floor(leftWheelSpeed * 0.5);
         let adjustedRightWheelSpeed = Math.floor(leftWheelSpeed * 0.25);
