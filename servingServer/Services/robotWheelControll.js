@@ -20,7 +20,7 @@ uart2.pipe(parser2);
 uart3.pipe(parser3);
 function wheelControll(check) {
     return __awaiter(this, void 0, void 0, function* () {
-        if (check) {
+        if (!check) {
             console.log("정상운행");
             // UART2
             uart2.on('readable', () => {

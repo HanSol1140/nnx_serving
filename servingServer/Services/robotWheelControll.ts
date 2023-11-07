@@ -10,7 +10,7 @@ uart2.pipe(parser2);
 uart3.pipe(parser3);
 
 export async function wheelControll(check: boolean) {
-    if (check) {
+    if (!check) {
         console.log("정상운행");
         // UART2
         uart2.on('readable', () => {
