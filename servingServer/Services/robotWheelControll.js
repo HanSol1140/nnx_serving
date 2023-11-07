@@ -63,15 +63,15 @@ function wheelControll2() {
         uart2.on('readable', () => {
             const data = uart2.read();
             if (data) {
-                let hexData1 = data.toString('hex').toUpperCase();
-                console.log(hexData1);
+                // let hexData1 = data.toString('hex').toUpperCase();
+                // console.log(hexData1);
                 adjustSpeedAndSend(data);
             }
         });
         uart3.on('readable', () => {
             const data = uart3.read();
             if (data) {
-                let hexData2 = data.toString('hex').toUpperCase();
+                // let hexData2 = data.toString('hex').toUpperCase();
                 // hexData2 = hexData2.match(/.{1,2}/g)
                 // let byteArray = hexData.match(/.{1,2}/g).map(byte => parseInt(byte, 16));
                 // console.log(`Received from UART3: ${hexData2}`);
