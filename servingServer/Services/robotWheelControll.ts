@@ -10,6 +10,10 @@ uart2.pipe(parser2);
 uart3.pipe(parser3);
 
 export async function wheelControll(check: boolean) {
+    uart2.removeAllListeners('readable');
+    uart2.removeAllListeners('error');
+    uart3.removeAllListeners('readable');
+    uart3.removeAllListeners('error');
     if (!check) {
         console.log("정상운행");
         // UART2
@@ -73,15 +77,6 @@ export async function wheelControll(check: boolean) {
             console.log('Error on UART3: ', err.message);
         });
     }
-}
-export async function wheelControll2() {
-
-}
-// ===================================================================================================================
-
-
-export async function wheelControll3() {
-
 }
 
 // ===================================================================================================================

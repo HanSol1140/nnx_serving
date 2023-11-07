@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.checkWhell = exports.wheelControll3 = exports.wheelControll2 = exports.wheelControll = void 0;
+exports.checkWhell = exports.wheelControll = void 0;
 const serialport_1 = require("serialport");
 // UART2와 UART3 설정
 const uart2 = new serialport_1.SerialPort({ path: '/dev/ttyAMA2', baudRate: 115200 });
@@ -20,6 +20,10 @@ uart2.pipe(parser2);
 uart3.pipe(parser3);
 function wheelControll(check) {
     return __awaiter(this, void 0, void 0, function* () {
+        uart2.removeAllListeners('readable');
+        uart2.removeAllListeners('error');
+        uart3.removeAllListeners('readable');
+        uart3.removeAllListeners('error');
         if (!check) {
             console.log("정상운행");
             // UART2
@@ -85,17 +89,6 @@ function wheelControll(check) {
     });
 }
 exports.wheelControll = wheelControll;
-function wheelControll2() {
-    return __awaiter(this, void 0, void 0, function* () {
-    });
-}
-exports.wheelControll2 = wheelControll2;
-// ===================================================================================================================
-function wheelControll3() {
-    return __awaiter(this, void 0, void 0, function* () {
-    });
-}
-exports.wheelControll3 = wheelControll3;
 // ===================================================================================================================
 // ===================================================================================================================
 // ===================================================================================================================
