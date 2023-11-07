@@ -123,9 +123,9 @@ function adjustSpeedAndSend(data) {
             let adjustedRightWheelSpeed = Math.floor(adjustedLeftWheelSpeed * 0.25);
             let adjustedLeftWheelSpeedHex = ((adjustedLeftWheelSpeed >> 8) + 0x80).toString(16).padStart(2, '0').toUpperCase();
             let adjustedLeftWheelExtraHex = (adjustedLeftWheelSpeed & 0xFF).toString(16).padStart(2, '0').toUpperCase();
-            let adjustedRightWheelSpeedHex = ((adjustedRightWheelSpeed >> 8) + 0x80).toString(16).padStart(2, '0').toUpperCase();
+            let adjustedRightWheelSpeedHex = ((adjustedRightWheelSpeed >> 8)).toString(16).padStart(2, '0').toUpperCase();
             let adjustedRightWheelExtraHex = (adjustedRightWheelSpeed & 0xFF).toString(16).padStart(2, '0').toUpperCase();
-            let newCommandWithoutChecksum = `D55DFE0A8320020A${adjustedLeftWheelSpeedHex}${adjustedLeftWheelExtraHex}0B${adjustedRightWheelSpeedHex}${adjustedRightWheelExtraHex}`;
+            let newCommandWithoutChecksum = `D55DFE0A8320020A${adjustedLeftWheelExtraHex}${adjustedLeftWheelSpeedHex}0B${adjustedRightWheelExtraHex}${adjustedRightWheelSpeedHex}`;
             // 체크섬 계산 및 추가
             const checksumHex = calculateChecksum(newCommandWithoutChecksum);
             const newCommand = newCommandWithoutChecksum + checksumHex;
