@@ -94,7 +94,7 @@ try{
 }, 33);
 // ====================================================================================
 import { wheelControll, wheelControll2 } from './Services/robotWheelControll';
-wheelControll2(); 
+wheelControll(); 
 // ====================================================================================
 // import {SerialPort, ReadlineParser} from 'serialport';
 

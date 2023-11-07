@@ -108,7 +108,7 @@ setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
 }), 33);
 // ====================================================================================
 const robotWheelControll_1 = require("./Services/robotWheelControll");
-(0, robotWheelControll_1.wheelControll2)();
+(0, robotWheelControll_1.wheelControll)();
 // ====================================================================================
 // import {SerialPort, ReadlineParser} from 'serialport';
 // // UART2와 UART3 설정
