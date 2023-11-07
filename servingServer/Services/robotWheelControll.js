@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.wheelControll2 = exports.wheelControll = void 0;
+exports.checkWhell = exports.wheelControll2 = exports.wheelControll = void 0;
 const serialport_1 = require("serialport");
 function wheelControll() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -56,25 +56,15 @@ const uart3 = new serialport_1.SerialPort({ path: '/dev/ttyAMA3', baudRate: 1152
 let parser3 = new serialport_1.ReadlineParser();
 uart2.pipe(parser2);
 uart3.pipe(parser3);
-const Speed = Buffer.from([0xD5, 0x5D, 0xFE, 0x0A, 0x83, 0x20, 0x02, 0x0A, 0x49, 0x80, 0x0B, 0x49, 0x00, 0xD4]);
-function sendSpeedCommand() {
-    uart3.write(Speed, function (err) {
-        if (err) {
-            return console.log('Error on write: ', err.message);
-        }
-        console.log('Speed Command Sent');
-    });
-}
 function wheelControll2() {
     return __awaiter(this, void 0, void 0, function* () {
         // UART2와 UART3 설정
-        setInterval(sendSpeedCommand, 500);
-        // uart2.on('readable', () => { 
-        // const data = uart2.read();
-        // if (data) {
-        // adjustSpeedAndSend(data)
-        // }
-        // }); 
+        uart2.on('readable', () => {
+            const data = uart2.read();
+            if (data) {
+                adjustSpeedAndSend(data);
+            }
+        });
         uart3.on('readable', () => {
             const data = uart3.read();
             if (data) {
@@ -96,6 +86,15 @@ function wheelControll2() {
 }
 exports.wheelControll2 = wheelControll2;
 // ===================================================================================================================
+function calculateChecksum(commandWithoutChecksum) {
+    // 체크섬을 계산하기 위해 바이트 데이터의 합을 계산
+    let sum = 0;
+    for (let i = 0; i < commandWithoutChecksum.length; i += 2) {
+        sum += parseInt(commandWithoutChecksum.substring(i, i + 2), 16);
+    }
+    // 체크섬은 합계를 256으로 나눈 나머지
+    return (sum % 256).toString(16).padStart(2, '0').toUpperCase();
+}
 function adjustSpeedAndSend(data) {
     const hexData = data.toString('hex').toUpperCase();
     if (hexData.startsWith('D55DFE')) {
@@ -104,22 +103,20 @@ function adjustSpeedAndSend(data) {
         const match = speedPattern.exec(hexData);
         if (match) {
             // 16진수를 10진수로 변환
-            let leftWheelSpeed = parseInt(match[1], 16);
-            let leftWheelExtra = parseInt(match[2], 16);
+            let leftWheelSpeed = parseInt(match[1], 16) * 256 + parseInt(match[2], 16);
             // 속도 조정
-            leftWheelSpeed = Math.floor(leftWheelSpeed * 0.5);
-            leftWheelExtra = Math.floor(leftWheelExtra * 0.5);
-            // B 바퀴의 속도도 A 바퀴의 0.25배로 조정
-            let rightWheelSpeed = Math.floor(leftWheelSpeed * 0.25);
-            let rightWheelExtra = Math.floor(leftWheelExtra * 0.25);
+            leftWheelSpeed = Math.floor(leftWheelSpeed * 0.5); // A 바퀴의 속도를 0.5배로 조정
+            let rightWheelSpeed = Math.floor(leftWheelSpeed * 0.5); // B 바퀴의 속도를 A의 0.5배로 조정
             // 조정된 속도를 16진수 문자열로 다시 변환
-            const adjustedLeftWheelSpeedHex = leftWheelSpeed.toString(16).padStart(2, '0').toUpperCase();
-            const adjustedLeftWheelExtraHex = leftWheelExtra.toString(16).padStart(2, '0').toUpperCase();
-            const adjustedRightWheelSpeedHex = rightWheelSpeed.toString(16).padStart(2, '0').toUpperCase();
-            const adjustedRightWheelExtraHex = rightWheelExtra.toString(16).padStart(2, '0').toUpperCase();
-            // 체크섬 업데이트는 필요한 경우 여기에서 수행해야 합니다.
-            // 새로운 명령어 생성
-            const newCommand = `D55DFE0A83${adjustedLeftWheelSpeedHex}${adjustedLeftWheelExtraHex}0BDC${adjustedRightWheelSpeedHex}${adjustedRightWheelExtraHex}C2`;
+            let adjustedLeftWheelSpeedHex = (leftWheelSpeed >> 8).toString(16).padStart(2, '0').toUpperCase();
+            let adjustedLeftWheelExtraHex = (leftWheelSpeed & 0xFF).toString(16).padStart(2, '0').toUpperCase();
+            let adjustedRightWheelSpeedHex = (rightWheelSpeed >> 8).toString(16).padStart(2, '0').toUpperCase();
+            let adjustedRightWheelExtraHex = (rightWheelSpeed & 0xFF).toString(16).padStart(2, '0').toUpperCase();
+            // 새로운 명령어 생성 (체크섬 전)
+            let newCommandWithoutChecksum = `D55DFE0A83${adjustedLeftWheelSpeedHex}${adjustedLeftWheelExtraHex}0BDC${adjustedRightWheelSpeedHex}${adjustedRightWheelExtraHex}`;
+            // 체크섬 계산 및 추가
+            const checksumHex = calculateChecksum(newCommandWithoutChecksum);
+            const newCommand = newCommandWithoutChecksum + checksumHex;
             // 새로운 명령어를 바이트 배열로 변환하여 uart3으로 전송
             const commandBuffer = Buffer.from(newCommand, 'hex');
             uart3.write(commandBuffer);
@@ -130,3 +127,18 @@ function adjustSpeedAndSend(data) {
         uart3.write(data);
     }
 }
+function sendSpeedCommand() {
+    const Speed = Buffer.from([0xD5, 0x5D, 0xFE, 0x0A, 0x83, 0x20, 0x02, 0x0A, 0x49, 0x80, 0x0B, 0x49, 0x00, 0xD4]);
+    uart3.write(Speed, function (err) {
+        if (err) {
+            return console.log('Error on write: ', err.message);
+        }
+        console.log('Speed Command Sent');
+    });
+}
+function checkWhell() {
+    return __awaiter(this, void 0, void 0, function* () {
+        setInterval(sendSpeedCommand, 500);
+    });
+}
+exports.checkWhell = checkWhell;
