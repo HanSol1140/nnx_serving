@@ -118,6 +118,7 @@ export async function serverSetup() {
     points.forEach(point => {
         setPointCoordinate(point.pointName, point.coordinatesX, point.coordinatesY, point.coordinatesTheta);
     });
+    
     console.log(points);
     // 맵핑데이터 변수에 할당
     await setupMappingData();

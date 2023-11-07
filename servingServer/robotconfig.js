@@ -32,7 +32,7 @@ function setLaserCoordinate(robotName, centerPortion) {
 exports.setLaserCoordinate = setLaserCoordinate;
 // 교차로 관리
 exports.crossRoadCoordinates = {};
-function setCrossRoadCoordinates(crossName, x, y, theta) {
+function setCrossRoadCoordinates(crossName, x, y) {
     exports.crossRoadCoordinates[crossName] = { x, y };
 }
 exports.setCrossRoadCoordinates = setCrossRoadCoordinates;

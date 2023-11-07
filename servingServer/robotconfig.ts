@@ -70,7 +70,7 @@ export let crossRoadCoordinates:{
     }
 } = {};
 
-export function setCrossRoadCoordinates(crossName: string, x: number, y: number, theta: number) {
+export function setCrossRoadCoordinates(crossName: string, x: number, y: number) {
     crossRoadCoordinates[crossName] = { x, y };    
 }
 
