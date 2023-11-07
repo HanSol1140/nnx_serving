@@ -124,10 +124,10 @@ function adjustSpeedAndSend(data) {
       commandBuffer = Buffer.concat([commandBuffer, Buffer.from([calculateChecksum(commandBuffer)])]);
   
       // 명령어 전송
-      // uart3.write(commandBuffer);
+      uart3.write(commandBuffer);
     } else {
       // 'D55DFE'로 시작하지 않는 데이터는 그대로 전송
-      // uart3.write(data);
+      uart3.write(data);
     }
 }
   
