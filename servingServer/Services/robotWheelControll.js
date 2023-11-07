@@ -92,7 +92,9 @@ exports.wheelControll2 = wheelControll2;
 // ===================================================================================================================
 // ===================================================================================================================
 function calculateChecksum(buffer) {
-    const sum = buffer.reduce((acc, val) => acc + val, 0);
+    // 체크섬 계산 시 프레임 헤더는 제외
+    const checksumBuffer = buffer.slice(2);
+    const sum = checksumBuffer.reduce((acc, val) => acc + val, 0);
     const checksum = sum % 256;
     return checksum;
 }
@@ -100,29 +102,30 @@ function adjustSpeedAndSend(data) {
     // 입력된 데이터를 Buffer 객체로 변환
     let commandBuffer = Buffer.from(data, 'hex');
     console.log(commandBuffer);
-    if (commandBuffer.slice(0, 3).toString('hex').toUpperCase() === 'D55DFE') {
+    if (commandBuffer.slice(0, 7).toString('hex').toUpperCase() === 'D55DFE0A83') {
         // 속도 데이터 추출 및 조정
-        const leftWheelSpeed = (commandBuffer[5] - 0x80) * 256 + commandBuffer[4];
-        const rightWheelSpeed = (commandBuffer[9] - 0x80) * 256 + commandBuffer[8];
+        const leftWheelSpeed = (commandBuffer[7] - 0x80) * 256 + commandBuffer[6];
+        // 오른쪽 바퀴 속도를 왼쪽 바퀴 속도에 기반하여 계산
+        const rightWheelSpeed = (commandBuffer[11] - 0x80) * 256 + commandBuffer[10];
         // 속도 조정 (예시: 왼쪽 바퀴 50%, 오른쪽 바퀴 25%로 조정)
         let adjustedLeftWheelSpeed = Math.floor(leftWheelSpeed * 0.5);
         let adjustedRightWheelSpeed = Math.floor(leftWheelSpeed * 0.25);
         // 조정된 속도값으로 Buffer 업데이트
-        commandBuffer[5] = (adjustedLeftWheelSpeed >> 8) + 0x80;
-        commandBuffer[4] = adjustedLeftWheelSpeed & 0xFF;
-        commandBuffer[9] = (adjustedRightWheelSpeed >> 8) + 0x80;
-        commandBuffer[8] = adjustedRightWheelSpeed & 0xFF;
+        commandBuffer[7] = (adjustedLeftWheelSpeed >> 8) + 0x80;
+        commandBuffer[6] = adjustedLeftWheelSpeed & 0xFF;
+        commandBuffer[11] = (adjustedRightWheelSpeed >> 8);
+        commandBuffer[10] = adjustedRightWheelSpeed & 0xFF;
         // 체크섬 계산을 위해 마지막 바이트 제거
         commandBuffer = commandBuffer.slice(0, -1);
         console.log(commandBuffer);
         // 체크섬 추가
         commandBuffer = Buffer.concat([commandBuffer, Buffer.from([calculateChecksum(commandBuffer)])]);
         // 명령어 전송
-        //   uart3.write(commandBuffer);
+        // uart3.write(commandBuffer);
     }
     else {
         // 'D55DFE'로 시작하지 않는 데이터는 그대로 전송
-        uart3.write(data);
+        // uart3.write(data);
     }
 }
 // ===================================================================================================================
