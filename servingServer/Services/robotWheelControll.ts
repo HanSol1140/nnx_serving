@@ -100,8 +100,7 @@ function adjustSpeedAndSend(data) {
     let commandBuffer = Buffer.from(data, 'hex');
     console.log(commandBuffer);
 
-    if (commandBuffer.slice(0, 3).toString('hex').toUpperCase() === 'D55DFE' && commandBuffer[9] == 0x00) {
-
+    if (commandBuffer.slice(0, 3).toString('hex').toUpperCase() === 'D55DFE' && commandBuffer[9] != 0x00) {
         // 속도 데이터 추출 및 조정
         const leftWheelSpeed = (commandBuffer[9] - 0x80) * 256 + commandBuffer[8];
         // 오른쪽 바퀴 속도를 왼쪽 바퀴 속도에 기반하여 계산
