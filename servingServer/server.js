@@ -138,7 +138,7 @@ setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
         if (collision) { // mapingServer에서 기록한 맵핑데이터에 의해 벽충돌은 제거함
             // // 장애물이 감지됫다면
             checkcollision = true;
-            (0, robotWheelControll_1.wheelControll)(checkcollision);
+            (0, robotWheelControll_1.wheelControll)(false);
             console.log(robotconfig_1.currentRobotName + " 장애물 충돌 위험");
             // console.log(collision); // 장애물 좌표
             // console.log(robotCoordinate["robot1"].x, robotCoordinate["robot1"].y); // 로봇 좌표
@@ -154,7 +154,7 @@ setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
         else {
             // 장애물 충돌 위험 없음
             checkcollision = false;
-            (0, robotWheelControll_1.wheelControll)(checkcollision);
+            (0, robotWheelControll_1.wheelControll)(true);
         }
         // console.log("======================================");
         // detectCollision 리턴값이 true(충돌위험발생)이라면 
