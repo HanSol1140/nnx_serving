@@ -62,12 +62,7 @@ function wheelControll2() {
         uart2.on('readable', () => {
             const data = uart2.read();
             if (data) {
-                let hexData1 = data.toString('hex').toUpperCase();
-                let buffer = Buffer.from(hexData1, 'hex');
-                // // hexData1 = hexData1.match(/.{1,2}/g)
-                // // let byteArray = hexData.match(/.{1,2}/g).map(byte => parseInt(byte, 16));
-                // console.log(`Received from UART2: ${hexData1}`);
-                uart3.write(buffer);
+                adjustSpeedAndSend(data);
             }
         });
         uart3.on('readable', () => {
