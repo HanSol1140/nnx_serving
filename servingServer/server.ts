@@ -127,9 +127,7 @@ setInterval(async () => {
             if(collision){ // mapingServer에서 기록한 맵핑데이터에 의해 벽충돌은 제거함
                 // // 장애물이 감지됫다면
                 console.log(currentRobotName + " 장애물 충돌 위험");
-                if(currentRobotName == currentRobotName){
-                    console.log("본체앞에 장애물이 있습니다.");
-                }
+
                 // console.log(collision); // 장애물 좌표
                 // console.log(robotCoordinate["robot1"].x, robotCoordinate["robot1"].y); // 로봇 좌표
                 // // 로봇인지 아닌지 체크
