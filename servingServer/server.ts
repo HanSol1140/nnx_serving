@@ -120,7 +120,7 @@ uart2.on('readable', () => {
     // hexData1 = hexData1.match(/.{1,2}/g).join(' ');
     // let byteArray = hexData.match(/.{1,2}/g).map(byte => parseInt(byte, 16));
     console.log(`Received from UART2: ${data}`);
-    uart3.write(hexData1); 
+    uart3.write(data); 
   }
 }); 
  
@@ -131,7 +131,7 @@ uart3.on('readable', () => {
     // hexData2 = hexData2.match(/.{1,2}/g).join(' ');
     // let byteArray = hexData.match(/.{1,2}/g).map(byte => parseInt(byte, 16));
     console.log(`Received from UART3: ${data}`);
-    uart2.write(hexData2); 
+    uart2.write(data); 
   }
 });
 
