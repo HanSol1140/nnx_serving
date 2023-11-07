@@ -101,7 +101,7 @@ function calculateChecksum(commandWithoutChecksum) {
       // 속도 데이터 추출
       const speedPattern = /(?:0A)([0-9A-F]{2})([0-9A-F]{2})(?:0B)([0-9A-F]{2})([0-9A-F]{2})/;
       const match = speedPattern.exec(hexData);
-      console.log(parseInt(match[1], 16));
+      console.log(match);
   
       if (match) {
         // 16진수를 10진수로 변환
