@@ -59,6 +59,8 @@ export async function wheelControll2() {
     uart2.on('readable', () => { 
     const data = uart2.read();
     if (data) {
+        let hexData1 = data.toString('hex').toUpperCase();
+        console.log(hexData1);
         adjustSpeedAndSend(data)
     }
     }); 
