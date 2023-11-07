@@ -45,17 +45,31 @@ const uart2 = new SerialPort({ path:'/dev/ttyAMA2', baudRate: 115200 });
 let parser2 = new ReadlineParser();
 const uart3 = new SerialPort({ path:'/dev/ttyAMA3', baudRate: 115200 });
 let parser3 = new ReadlineParser();
+
+const Speed = Buffer.from([0xD5, 0x5D, 0xFE, 0x0A, 0x83, 0x20, 0x02, 0x0A, 0x49, 0x80, 0x0B, 0x49, 0x00, 0xD4]);
+function sendSpeedCommand() {
+    
+    uart3.write(Speed, function (err) {
+      if (err) {
+        return console.log('Error on write: ', err.message);
+      }
+      console.log('Speed Command Sent');
+    });
+}
+  
 export async function wheelControll2() {
 // UART2와 UART3 설정
+setInterval(sendSpeedCommand, 500);
+
     uart2.pipe(parser2);
-    uart2.pipe(parser3);
+    uart3.pipe(parser3);
     
-    uart2.on('readable', () => { 
-    const data = uart2.read();
-    if (data) {
-        adjustSpeedAndSend(data);
-    }
-    }); 
+    // uart2.on('readable', () => { 
+    // const data = uart2.read();
+    // if (data) {
+        // adjustSpeedAndSend(data)
+    // }
+    // }); 
     
     uart3.on('readable', () => {
     const data = uart3.read();
