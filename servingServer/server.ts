@@ -131,7 +131,7 @@ uart3.on('readable', () => {
     hexData2 = hexData2.match(/.{1,2}/g)
     // let byteArray = hexData.match(/.{1,2}/g).map(byte => parseInt(byte, 16));
     console.log(`Received from UART3: ${hexData2}`);
-    uart2.write(hexData2); 
+    // uart2.write(hexData2); 
   }
 });
 
