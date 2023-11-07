@@ -128,6 +128,7 @@ setInterval(async () => {
         if (collision) { // mapingServer에서 기록한 맵핑데이터에 의해 벽충돌은 제거함
             // // 장애물이 감지됫다면
             checkcollision = true;
+            wheelControll(checkcollision); 
             console.log(currentRobotName + " 장애물 충돌 위험");
 
             // console.log(collision); // 장애물 좌표
@@ -143,6 +144,7 @@ setInterval(async () => {
         } else {
             // 장애물 충돌 위험 없음
             checkcollision = false;
+            wheelControll(checkcollision); 
         }
 
         // console.log("======================================");
