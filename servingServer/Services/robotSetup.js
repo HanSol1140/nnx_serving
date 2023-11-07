@@ -55,7 +55,7 @@ function setupPoints() {
 exports.setupPoints = setupPoints;
 // 맵핑 데이터 받아오기 
 function setupMappingData() {
-    const filePath = 'MappingData.json';
+    const filePath = 'Settings/MappingData.json';
     if (fs_1.default.existsSync(filePath)) {
         const fileData = fs_1.default.readFileSync(filePath, 'utf8');
         const newData = JSON.parse(fileData);
@@ -115,7 +115,7 @@ function serverSetup() {
         // 맵핑데이터 변수에 할당
         yield setupMappingData();
         // 핀출력으로 로봇명 확인
-        yield setupRobotPinCheck();
+        // await setupRobotPinCheck();
     });
 }
 exports.serverSetup = serverSetup;
