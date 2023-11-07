@@ -101,6 +101,7 @@ function calculateChecksum(commandWithoutChecksum) {
       // 속도 데이터 추출
       const speedPattern = /(?:0A)([0-9A-F]{2})([0-9A-F]{2})(?:0B)([0-9A-F]{2})([0-9A-F]{2})/;
       const match = speedPattern.exec(hexData);
+      console.log(match);
   
       if (match) {
         // 16진수를 10진수로 변환, 순서를 반대로 해석
@@ -116,8 +117,11 @@ function calculateChecksum(commandWithoutChecksum) {
             let adjustedLeftWheelSpeedHex = ((leftWheelSpeed >> 8) + 0x80).toString(16).padStart(2, '0').toUpperCase();
             console.log(adjustedLeftWheelSpeedHex);
             let adjustedLeftWheelExtraHex = (leftWheelSpeed & 0xFF).toString(16).padStart(2, '0').toUpperCase();
+            console.log(adjustedLeftWheelExtraHex);
             let adjustedRightWheelSpeedHex = (rightWheelSpeed >> 8).toString(16).padStart(2, '0').toUpperCase();
+            console.log(adjustedRightWheelSpeedHex);
             let adjustedRightWheelExtraHex = (rightWheelSpeed & 0xFF).toString(16).padStart(2, '0').toUpperCase();
+            console.log(adjustedRightWheelExtraHex);
     
             // 새로운 명령어 생성 (체크섬 전)
             let newCommandWithoutChecksum = `D55DFE0A83${adjustedLeftWheelSpeedHex}${adjustedLeftWheelExtraHex}0BDC${adjustedRightWheelSpeedHex}${adjustedRightWheelExtraHex}`;
