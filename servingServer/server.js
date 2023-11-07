@@ -168,4 +168,3 @@ setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
 // ====================================================================================
 // ====================================================================================
 const robotWheelControll_1 = require("./Services/robotWheelControll");
-(0, robotWheelControll_1.wheelControll)(checkcollision);

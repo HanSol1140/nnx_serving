@@ -160,4 +160,3 @@ setInterval(async () => {
 // ====================================================================================
 // ====================================================================================
 import { wheelControll } from './Services/robotWheelControll';
-wheelControll(checkcollision); 
