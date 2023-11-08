@@ -1,6 +1,6 @@
 // robotconfig.ts
 // 현재 라즈베리파이와 연결된 로봇명을 기입
-export let currentRobotName = "robot1";
+export let currentRobotName = "robot2";
 
 export function  setCurrentRobotName(robotName:string){
     currentRobotName = robotName;
@@ -63,7 +63,7 @@ export function setLaserCoordinate(robotName: string , centerPortion:[]) {
     laserCoordinate[robotName] = centerPortion;    
 }
 
-// 교차로 관리
+// crossRoad(교차로) 변수에 등록
 export let crossRoadCoordinates:{
     [key: string]: {
         x:number,
@@ -75,15 +75,13 @@ export function setCrossRoadCoordinates(crossName: string, x: number, y: number)
     crossRoadCoordinates[crossName] = { x, y };    
 }
 
-
+// 교차로 안에 들어온 로봇체크
 export let crossRoadState: {
-    [key:string]: {
-        robotName : string
-    }
+    [key:string]:string;
 } = {};
 
-export function setCrossRoadState(roadName: string , robotName:string) { 
-    crossRoadState[roadName] = { robotName };    
+export function setCrossRoadState(roadName: string, robotName:string, ) { 
+    crossRoadState[roadName] =  robotName ;    
 }
 
 // 맵핑 데이터 변수할당

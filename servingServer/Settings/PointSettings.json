@@ -1,20 +1,14 @@
 [
   {
-    "pointName": "0",
-    "coordinatesX": "0.06",
-    "coordinatesY": "-0.06",
-    "coordinatesTheta": "-0.03"
-  },
-  {
     "pointName": "crossCheck01",
-    "coordinatesX": "-4.46",
-    "coordinatesY": "1.21",
-    "coordinatesTheta": "-169.34"
+    "coordinatesX": "0.23",
+    "coordinatesY": "0.73",
+    "coordinatesTheta": "177.34"
   },
   {
     "pointName": "crossCheck02",
-    "coordinatesX": "-4.46",
-    "coordinatesY": "1.21",
-    "coordinatesTheta": "-169.34"
+    "coordinatesX": "-3.06",
+    "coordinatesY": "0.78",
+    "coordinatesTheta": "-179.17"
   }
 ]

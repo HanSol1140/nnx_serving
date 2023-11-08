@@ -112,11 +112,18 @@ function serverSetup() {
         points.forEach(point => {
             (0, robotconfig_1.setPointCoordinate)(point.pointName, point.coordinatesX, point.coordinatesY, point.coordinatesTheta);
         });
-        // 교차로 설정
+        // 교차로 좌표 설정
         points.forEach(point => {
             if (point.pointName.includes('cross')) {
                 // 'cross'가 포함된 pointName을 가진 포인트의 X, Y 좌표를 설정합니다.
                 (0, robotconfig_1.setCrossRoadCoordinates)(point.pointName, parseFloat(point.coordinatesX), parseFloat(point.coordinatesY));
+            }
+        });
+        // 교차로 변수 할당
+        points.forEach(point => {
+            if (point.pointName.includes('cross')) {
+                // 'cross'가 포함된 pointName을 가진 포인트의 X, Y 좌표를 설정합니다.
+                (0, robotconfig_1.setCrossRoadState)(point.pointName, "");
             }
         });
         console.log("교차로");
