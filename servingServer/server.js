@@ -81,10 +81,10 @@ setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
             // console.log(i);
             // console.log(robotCoordinate[i]);
             // 교차로 체크
-            const crossCheck = yield Func.checkCrossRoad(i); // true / false반환
-            if (crossCheck) {
-                console.log(robotconfig_1.crossRoadState);
-            }
+            // const crossCheck = await Func.checkCrossRoad(i); // true / false반환
+            // if (crossCheck) {
+            //     console.log(crossRoadState);
+            // }
         }
         // 자신이 쏘는 라이다 좌표 받기
         yield API.getLaser(robotconfig_1.currentRobotName);

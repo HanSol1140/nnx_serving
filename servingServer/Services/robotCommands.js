@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.test = exports.checkRobotCoordinates = exports.detectCollision = exports.checkCrossRoad = exports.getDivideDirection = void 0;
+exports.test = exports.checkRobotCoordinates = exports.detectCollision = exports.getDivideDirection = void 0;
 const robotconfig_1 = require("../robotconfig");
 // ────────────────────────────────────────────────────────────────────────────────────────────
 // ===============================================================================================================
@@ -37,29 +37,25 @@ function getDivideDirection(robotTheta, obsX, obsY, robotX, robotY) {
 exports.getDivideDirection = getDivideDirection;
 // ===============================================================================================================
 // 교차로 체크
-function checkCrossRoad(robotName) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const robotX = robotconfig_1.robotCoordinate[robotName].x;
-        const robotY = robotconfig_1.robotCoordinate[robotName].y;
-        for (const crossPointName in robotconfig_1.crossRoadState) {
-            if (crossPointName.includes('crossCheck')) {
-                // const pointX = parseFloat(crossRoadCoordinates[crossPointName].x);
-                // const pointY = parseFloat(crossRoadCoordinates[crossPointName].y);
-                const distance = Math.sqrt((pointX - robotX) ** 2 + (pointY - robotY) ** 2);
-                if (distance <= 1.0) {
-                    // console.log(robotName + " 교차로 입장 : ", pointName);
-                    (0, robotconfig_1.setCrossRoadState)(robotName, crossPointName);
-                    return true;
-                }
-                else {
-                    // console.log("교차로가 아닙니다.");
-                    return false;
-                }
-            }
-        }
-    });
-}
-exports.checkCrossRoad = checkCrossRoad;
+// export async function checkCrossRoad(robotName: string) {
+//     const robotX = robotCoordinate[robotName].x;
+//     const robotY = robotCoordinate[robotName].y;
+//     for (const pointName in crossRoadState) {
+//         if (pointName.includes('crossCheck')) {
+//             const pointX = parseFloat(crossRoadCoordinates[pointName].x);
+//             const pointY = parseFloat(crossRoadCoordinates[pointName].y);
+//             const distance = Math.sqrt((pointX - robotX) ** 2 + (pointY - robotY) ** 2);
+//             if (distance <= 1.0) {
+//                 // console.log(robotName + " 교차로 입장 : ", pointName);
+//                 setCrossRoadState(robotName, crossPointName);
+//                 return true;
+//             } else {
+//                 // console.log("교차로가 아닙니다.");
+//                 return false;
+//             }
+//         }
+//     }
+// }
 // ===============================================================================================================
 // 충돌 위험 체크
 function detectCollision(robotName) {
