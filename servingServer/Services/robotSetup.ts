@@ -12,6 +12,8 @@ import {
     setLaserCoordinate,
     mappingData,
     setMappingData,
+    crossRoadCoordinates,
+    setCrossRoadCoordinates,
     setCurrentRobotName
 } from '../robotconfig';
 
@@ -119,7 +121,16 @@ export async function serverSetup() {
         setPointCoordinate(point.pointName, point.coordinatesX, point.coordinatesY, point.coordinatesTheta);
     });
     
-    console.log(points);
+    // 교차로 설정
+    points.forEach(point => {
+        if (point.pointName.includes('cross')) {
+            // 'cross'가 포함된 pointName을 가진 포인트의 X, Y 좌표를 설정합니다.
+            setCrossRoadCoordinates(point.pointName, parseFloat(point.coordinatesX), parseFloat(point.coordinatesY));
+        }
+    });
+
+    console.log("교차로"); 
+    console.log(crossRoadCoordinates);
     // 맵핑데이터 변수에 할당
     await setupMappingData();
     // 핀출력으로 로봇명 확인

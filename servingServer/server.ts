@@ -35,7 +35,7 @@ import {
     mappingData,
     currentRobotName,
     setCurrentRobotName,
-} from './robotconfig';
+} from './robotconfig'; 
 
 import * as RobotSetup from './Services/robotSetup.js';
 import * as Func from './Services/robotCommands.js';

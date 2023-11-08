@@ -112,7 +112,15 @@ function serverSetup() {
         points.forEach(point => {
             (0, robotconfig_1.setPointCoordinate)(point.pointName, point.coordinatesX, point.coordinatesY, point.coordinatesTheta);
         });
-        console.log(points);
+        // 교차로 설정
+        points.forEach(point => {
+            if (point.pointName.includes('cross')) {
+                // 'cross'가 포함된 pointName을 가진 포인트의 X, Y 좌표를 설정합니다.
+                (0, robotconfig_1.setCrossRoadCoordinates)(point.pointName, parseFloat(point.coordinatesX), parseFloat(point.coordinatesY));
+            }
+        });
+        console.log("교차로");
+        console.log(robotconfig_1.crossRoadCoordinates);
         // 맵핑데이터 변수에 할당
         yield setupMappingData();
         // 핀출력으로 로봇명 확인
