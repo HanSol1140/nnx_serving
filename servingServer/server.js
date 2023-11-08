@@ -58,6 +58,7 @@ app.use('/', pointrouters_1.default);
 const robotconfig_1 = require("./robotconfig");
 const RobotSetup = __importStar(require("./Services/robotSetup.js"));
 const Func = __importStar(require("./Services/robotCommands.js"));
+const API = __importStar(require("./Services/robotApiCommands.js"));
 // 로봇명 전역변수 설정
 RobotSetup.serverSetup();
 setTimeout(() => {
@@ -76,7 +77,7 @@ setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
     try {
         for (var i in robotconfig_1.robotSettings) { // i = 등록된 로봇Name
             // 로봇 좌표 받기
-            yield Func.getPose(i);
+            yield API.getPose(i);
             // console.log(i);
             // console.log(robotCoordinate[i]);
             // 교차로 체크
@@ -86,7 +87,7 @@ setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
             }
         }
         // 자신이 쏘는 라이다 좌표 받기
-        yield Func.getLaser(robotconfig_1.currentRobotName);
+        yield API.getLaser(robotconfig_1.currentRobotName);
         // 레이저 좌표를 받아서 충돌위험 체크
         // collision => 장애물의 좌표
         const collision = yield Func.detectCollision(robotconfig_1.currentRobotName); // true / false반환
