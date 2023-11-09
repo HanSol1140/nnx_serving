@@ -89,7 +89,16 @@ setTimeout(() => {
     //             API.movePoint("point02");
     //         }, 20000);
     //     }, 40000);
-    Func.detectCollision(robotconfig_1.currentRobotName);
+    let collisionCheck = yield Func.detectCollision(robotconfig_1.currentRobotName); // true / false반환
+    console.log(collisionCheck);
+    console.log("test");
+    console.log("==================");
+    if (collisionCheck) {
+        console.log("값있음");
+    }
+    else {
+        console.log("값없음");
+    }
 }, 1000);
 setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
     try {
