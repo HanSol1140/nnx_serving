@@ -11,8 +11,6 @@ import {
 process.on('message', (message:any) => {
     if (message.booleanValue !== undefined) {
       let collisionValue = message.booleanValue;
-      console.log(collisionValue);
-    console.log(collision);
       setCollision(collisionValue);
     }
   });
