@@ -44,12 +44,24 @@ import {
 import * as RobotSetup from './Services/robotSetup.js';
 import * as Func from './Services/robotCommands.js';
 import * as API from './Services/robotApiCommands.js';
-import { wheelControll } from './Services/robotWheelControll';
+// ==========================
+import { fork } from 'child_process';
 
+// server2.ts를 별도의 자식 프로세스로 실행합니다.
+const server2 = fork('server2.js', [], {
+  env: { PORT: '8085' }
+});
+
+server2.on('message', (message) => {
+  console.log('Message from server2:', message);
+});
+
+server2.on('close', (code) => {
+  console.log(`server2 process exited with code ${code}`);
+});
+// ==========================
 // SETUP
 RobotSetup.serverSetup();
-
-wheelControll();
 
 setInterval(async () => {
     try {
