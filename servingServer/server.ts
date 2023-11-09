@@ -72,17 +72,17 @@ setInterval(async () => {
         let collisionCheck = await Func.detectCollision(currentRobotName); // true / false반환
         // setCollision(await Func.detectCollision(currentRobotName));
         console.log(collisionCheck);
-        if (collision) { // mapingServer에서 기록한 맵핑데이터에 의해 벽충돌은 제거함
+        if (collisionCheck) { // mapingServer에서 기록한 맵핑데이터에 의해 벽충돌은 제거함
             // // 장애물이 감지됫다면
             wheelControll(true);
             // console.log(currentRobotName + " 장애물 충돌 위험");
             // // // 로봇인지 아닌지 체크
-            // // const checkRobot = await Func.checkRobotCoordinates(currentRobotName, collisionCheck);
-            // if (checkRobot) {
-            //     console.log("로봇입니다");
-            // } else {
-            //     console.log("로봇이 아닙니다.");
-            // }
+            const checkRobot = await Func.checkRobotCoordinates(currentRobotName, collisionCheck);
+            if (checkRobot) {
+                console.log("로봇입니다");
+            } else {
+                console.log("로봇이 아닙니다.");
+            }
         } else {
             // 장애물 충돌 위험 없음
             wheelControll(false);
