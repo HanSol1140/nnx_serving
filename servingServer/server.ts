@@ -99,7 +99,6 @@ setInterval(async () => {
         }
         // 자신이 쏘는 라이다 좌표 받기
         await API.getLaser(currentRobotName);
-        console.log(laserCoordinate);
 
 
 
