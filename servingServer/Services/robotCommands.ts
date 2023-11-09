@@ -90,7 +90,7 @@ export async function detectCollision(robotName: string) {
         const rotatedY = dx * Math.sin(-robotTheta) + dy * Math.cos(-robotTheta);
 
         // 충돌 검사 영역 설정
-        const rectangleWidth = 2.5; // 감지영역 거리
+        const rectangleWidth = 2.0; // 감지영역 거리
         const rectangleHeight = 0.8; // 감지영역 폭
 
         // 충돌 위험 판단
@@ -101,7 +101,8 @@ export async function detectCollision(robotName: string) {
             // console.log(mappingData);
             // mappingData와의 거리 계산
             let isObstacle = true; // 먼저 장애물이라고 가정
-
+            
+            // 벽인지 아닌지 검사
             for (const mappingPoint of mappingData) {
                 // console.log(mappingPoint);
                 const distance = Math.sqrt(

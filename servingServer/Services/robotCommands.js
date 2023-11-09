@@ -75,7 +75,7 @@ function detectCollision(robotName) {
             const rotatedX = dx * Math.cos(-robotTheta) - dy * Math.sin(-robotTheta);
             const rotatedY = dx * Math.sin(-robotTheta) + dy * Math.cos(-robotTheta);
             // 충돌 검사 영역 설정
-            const rectangleWidth = 2.5; // 감지영역 거리
+            const rectangleWidth = 2.0; // 감지영역 거리
             const rectangleHeight = 0.8; // 감지영역 폭
             // 충돌 위험 판단
             if (rotatedX >= 0 && rotatedX <= rectangleWidth && Math.abs(rotatedY) <= rectangleHeight / 2) {
@@ -85,6 +85,7 @@ function detectCollision(robotName) {
                 // console.log(mappingData);
                 // mappingData와의 거리 계산
                 let isObstacle = true; // 먼저 장애물이라고 가정
+                // 벽인지 아닌지 검사
                 for (const mappingPoint of robotconfig_1.mappingData) {
                     // console.log(mappingPoint);
                     const distance = Math.sqrt(Math.pow(laserPoint.x - mappingPoint[0], 2) + Math.pow(laserPoint.y - mappingPoint[1], 2));
