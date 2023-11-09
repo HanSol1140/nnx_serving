@@ -4,7 +4,7 @@ const app = express();
 app.use(express.json());
 const cors = require('cors');
 app.use(cors()); // 모든 도메인에서의 요청 허용
-const PORT = process.env.PORT || 8084;
+const PORT = process.env.PORT || 8085;
 import {
     collision,
     setCollision,

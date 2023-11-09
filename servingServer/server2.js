@@ -9,7 +9,7 @@ const app = (0, express_1.default)();
 app.use(express_1.default.json());
 const cors = require('cors');
 app.use(cors()); // 모든 도메인에서의 요청 허용
-const PORT = process.env.PORT || 8084;
+const PORT = process.env.PORT || 8085;
 const robotconfig_1 = require("./robotconfig");
 let bool = process.on('message', (message) => {
     if (message.booleanValue == true && robotconfig_1.collision != true) {
