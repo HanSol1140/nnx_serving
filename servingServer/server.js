@@ -81,6 +81,7 @@ setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
         if (collisionCheck) { // mapingServer에서 기록한 맵핑데이터에 의해 벽충돌은 제거함
             console.log(collisionCheck);
             (0, robotconfig_1.setCollision)(true);
+            console.log("!!!");
             // // 장애물이 감지됫다면
             // console.log(currentRobotName + " 장애물 충돌 위험");
             // // // 로봇인지 아닌지 체크
