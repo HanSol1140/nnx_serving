@@ -41,7 +41,7 @@ const app = (0, express_1.default)();
 app.use(express_1.default.json());
 const cors = require('cors');
 app.use(cors()); // 모든 도메인에서의 요청 허용
-const PORT = process.env.PORT || 8084;
+const PORT = process.env.PORT || 8083;
 // 서버 시작
 const server = app.listen(PORT, () => {
     console.log(`Server listening on HTTP port ${PORT}`);
@@ -61,9 +61,14 @@ const Func = __importStar(require("./Services/robotCommands.js"));
 const API = __importStar(require("./Services/robotApiCommands.js"));
 // ==========================
 const child_process_1 = require("child_process");
-// server2.ts를 별도의 자식 프로세스로 실행합니다.
+server2.ts를;
+별도의;
+자식;
+프로세스로;
+실행합니다.
+;
 const server2 = (0, child_process_1.fork)('server2.js', [], {
-    env: { PORT: '8085' }
+    env: { PORT: '8084' }
 });
 server2.on('message', (message) => {
     console.log('Message from server2:', message);
@@ -76,6 +81,10 @@ server2.on('close', (code) => {
 // ==========================
 // SETUP
 RobotSetup.serverSetup();
+// setTimeout(() => {
+// API.moveCoordinates("robot2", "0", "0", "0",);
+// API.movePoint("point02");
+// }, 1000)
 setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
     try {
         for (var i in robotconfig_1.robotSettings) { // i = 등록된 로봇Name
@@ -124,13 +133,13 @@ setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
         console.error("error");
     }
 }), 33);
-// API.movePoint("point03");    
+// API.movePoint("point01");    
 // setTimeout(() => {
-//     API.movePoint("point04");
+//     API.movePoint("point02");
 // }, 20000);
 // setInterval(() => {
-//     API.movePoint("point03");
+//     API.movePoint("point01");
 //     setTimeout(() => {
-//         API.movePoint("point04");
+//         API.movePoint("point02");
 //     }, 20000);
 // }, 40000);

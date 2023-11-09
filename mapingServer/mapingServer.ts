@@ -6,7 +6,7 @@ const app = express();
 app.use(express.json());
 const cors = require('cors');
 app.use(cors());
-const PORT = process.env.PORT || 8084;
+const PORT = process.env.PORT || 8085;
 
 const server = app.listen(PORT, () => {
     console.log(`Server listening on HTTP port ${PORT}`);

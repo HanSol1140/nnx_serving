@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.setMappingData = exports.mappingData = exports.setCrossRoadState = exports.crossRoadState = exports.setCrossPointCoordinates = exports.crossPointCoordinates = exports.setLaserCoordinate = exports.laserCoordinate = exports.setRobotCoordinate = exports.robotCoordinate = exports.setPointCoordinate = exports.pointCoordinate = exports.setRobotSettings = exports.robotSettings = exports.setCollision = exports.collision = exports.setCurrentRobotName = exports.currentRobotName = void 0;
 // robotconfig.ts
-exports.currentRobotName = "robot1";
+exports.currentRobotName = "robot2";
 function setCurrentRobotName(robotName) {
     exports.currentRobotName = robotName;
 }
