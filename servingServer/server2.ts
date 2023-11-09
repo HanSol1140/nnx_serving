@@ -8,12 +8,12 @@ const PORT = process.env.PORT || 8084;
 import {
     collision, setCollision,
 } from './robotconfig';
-process.on('message', (message:any) => {
+process.on('message', (message: any) => {
     if (message.booleanValue !== undefined) {
-      let collisionValue = message.booleanValue;
-      setCollision(collisionValue);
+        console.log(message.booleanValue);
+        setCollision(message.booleanValue);
     }
-  });
+});
 // 서버 시작
 const server = app.listen(PORT, () => {
     console.log(`Server listening on HTTP port ${PORT}`);
