@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 8084;
 const robotconfig_1 = require("./robotconfig");
 process.on('message', (message) => {
     if (message.booleanValue !== undefined) {
-        console.log(message.booleanValue);
+        // console.log(message.booleanValue);
         (0, robotconfig_1.setCollision)(message.booleanValue);
     }
 });

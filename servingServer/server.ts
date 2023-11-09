@@ -67,24 +67,25 @@ server2.on('close', (code) => {
 // SETUP
 RobotSetup.serverSetup();
 setTimeout(() => {
-    console.log(mappingData);
+    // console.log(mappingData);
     // API.moveCoordinates("robot2", "0", "0", "0",);
     // API.movePoint("point02");
 
-    API.movePoint("point01");    
-    setTimeout(() => {
-        API.movePoint("point02");
-    }, 20000);
+    // API.movePoint("point01");    
+    // setTimeout(() => {
+    //     API.movePoint("point02");
+    // }, 20000);
     
     
-    setInterval(() => {
-        API.movePoint("point01");
+    // setInterval(() => {
+    //     API.movePoint("point01");
         
-        setTimeout(() => {
-            API.movePoint("point02");
-        }, 20000);
-    }, 40000);
-}, 1000)
+    //     setTimeout(() => {
+    //         API.movePoint("point02");
+    //     }, 20000);
+    // }, 40000);
+    API.getSpeed(currentRobotName);
+}, 500)
 
 setInterval(async () => {
     try {

@@ -228,10 +228,10 @@ function getIMUstatus() {
 }
 exports.getIMUstatus = getIMUstatus;
 // 현재 속도 측정 => 가만히 있을땐 error출력, 움직일때만 작동하는 API
-function getSpeed() {
+function getSpeed(robotName) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const response = yield axios_1.default.get(`http://192.168.0.177/reeman/speed`);
+            const response = yield axios_1.default.get(`http://${robotconfig_1.robotSettings[robotName].robotIP}/reeman/speed`);
             if (response.status === 200) {
                 console.log(response.data);
                 // console.log("!!");

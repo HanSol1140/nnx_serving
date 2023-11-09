@@ -10,7 +10,7 @@ import {
 } from './robotconfig';
 process.on('message', (message: any) => {
     if (message.booleanValue !== undefined) {
-        console.log(message.booleanValue);
+        // console.log(message.booleanValue);
         setCollision(message.booleanValue);
     }
 });

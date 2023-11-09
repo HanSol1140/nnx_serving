@@ -77,20 +77,21 @@ server2.on('close', (code) => {
 // SETUP
 RobotSetup.serverSetup();
 setTimeout(() => {
-    console.log(robotconfig_1.mappingData);
+    // console.log(mappingData);
     // API.moveCoordinates("robot2", "0", "0", "0",);
     // API.movePoint("point02");
-    API.movePoint("point01");
-    setTimeout(() => {
-        API.movePoint("point02");
-    }, 20000);
-    setInterval(() => {
-        API.movePoint("point01");
-        setTimeout(() => {
-            API.movePoint("point02");
-        }, 20000);
-    }, 40000);
-}, 1000);
+    // API.movePoint("point01");    
+    // setTimeout(() => {
+    //     API.movePoint("point02");
+    // }, 20000);
+    // setInterval(() => {
+    //     API.movePoint("point01");
+    //     setTimeout(() => {
+    //         API.movePoint("point02");
+    //     }, 20000);
+    // }, 40000);
+    API.getSpeed(robotconfig_1.currentRobotName);
+}, 500);
 setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
     try {
         for (var i in robotconfig_1.robotSettings) { // i = 등록된 로봇Name
