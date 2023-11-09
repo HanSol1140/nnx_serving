@@ -22,6 +22,15 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -46,53 +55,59 @@ const robotrouters_1 = __importDefault(require("./Routers/robotrouters"));
 const pointrouters_1 = __importDefault(require("./Routers/pointrouters"));
 app.use('/', robotrouters_1.default);
 app.use('/', pointrouters_1.default);
+const robotconfig_1 = require("./robotconfig");
 const RobotSetup = __importStar(require("./Services/robotSetup.js"));
+const Func = __importStar(require("./Services/robotCommands.js"));
+const API = __importStar(require("./Services/robotApiCommands.js"));
 const robotWheelControll_1 = require("./Services/robotWheelControll");
 // SETUP
 RobotSetup.serverSetup();
 (0, robotWheelControll_1.wheelControll)(true);
-// setInterval(async () => {
-//     try {
-//         for (var i in robotSettings) { // i = 등록된 로봇Name
-//             // 로봇 좌표 받기
-//             await API.getPose(i);
-//             // 교차로 체크
-//             // const crossCheck = await Func.checkCrossRoad(i); // true / false반환
-//             // if (crossCheck) {
-//             //     console.log(crossRoadState);
-//             // }
-//         }
-//         // 자신이 쏘는 라이다 좌표 받기
-//         await API.getLaser(currentRobotName);
-//         // 레이저 좌표를 받아서 충돌위험 체크
-//         let collisionCheck = await Func.detectCollision(currentRobotName); // true / false반환
-//         console.log(collisionCheck);
-//         if (collisionCheck) { // mapingServer에서 기록한 맵핑데이터에 의해 벽충돌은 제거함
-//             setCollision(true);
-//             // // 장애물이 감지됫다면
-//             // console.log(currentRobotName + " 장애물 충돌 위험");
-//             // // // 로봇인지 아닌지 체크
-//             const checkRobot = await Func.checkRobotCoordinates(currentRobotName, collisionCheck);
-//             if (checkRobot) {
-//                 console.log("로봇입니다");
-//             } else {
-//                 console.log("로봇이 아닙니다.");
-//             }
-//         } else {
-//             // 장애물 충돌 위험 없음
-//             setCollision(false);
-//         }
-//         // console.log("======================================");
-//         // detectCollision 리턴값이 true(충돌위험발생)이라면 
-//         // console.log(robotCoordinate);
-//         // if(checkValue){
-//         //     // 체크한다
-//         //     // 
-//         // }
-//     } catch (error) {
-//         console.error("error");
-//     }
-// }, 33);
+setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        for (var i in robotconfig_1.robotSettings) { // i = 등록된 로봇Name
+            // 로봇 좌표 받기
+            yield API.getPose(i);
+            // 교차로 체크
+            // const crossCheck = await Func.checkCrossRoad(i); // true / false반환
+            // if (crossCheck) {
+            //     console.log(crossRoadState);
+            // }
+        }
+        // 자신이 쏘는 라이다 좌표 받기
+        yield API.getLaser(robotconfig_1.currentRobotName);
+        // 레이저 좌표를 받아서 충돌위험 체크
+        let collisionCheck = yield Func.detectCollision(robotconfig_1.currentRobotName); // true / false반환
+        console.log(collisionCheck);
+        if (collisionCheck) { // mapingServer에서 기록한 맵핑데이터에 의해 벽충돌은 제거함
+            (0, robotconfig_1.setCollision)(true);
+            // // 장애물이 감지됫다면
+            // console.log(currentRobotName + " 장애물 충돌 위험");
+            // // // 로봇인지 아닌지 체크
+            const checkRobot = yield Func.checkRobotCoordinates(robotconfig_1.currentRobotName, collisionCheck);
+            if (checkRobot) {
+                console.log("로봇입니다");
+            }
+            else {
+                console.log("로봇이 아닙니다.");
+            }
+        }
+        else {
+            // 장애물 충돌 위험 없음
+            (0, robotconfig_1.setCollision)(false);
+        }
+        // console.log("======================================");
+        // detectCollision 리턴값이 true(충돌위험발생)이라면 
+        // console.log(robotCoordinate);
+        // if(checkValue){
+        //     // 체크한다
+        //     // 
+        // }
+    }
+    catch (error) {
+        console.error("error");
+    }
+}), 33);
 // setInterval(() => {
 //     API.movePoint("point01");
 //     setTimeout(() => {

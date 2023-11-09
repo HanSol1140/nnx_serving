@@ -84,15 +84,17 @@ function detectCollision(robotName) {
                 // console.log(mappingData);
                 // mappingData와의 거리 계산
                 let isObstacle = true;
-                for (const mappingPoint of robotconfig_1.mappingData) {
-                    // console.log(mappingPoint);
-                    const distance = Math.sqrt(Math.pow(laserPoint.x - mappingPoint[0], 2) + Math.pow(laserPoint.y - mappingPoint[1], 2));
-                    if (distance < 0.1) {
-                        // console.log("벽의 좌표:", laserPoint, mappingPoint);
-                        isObstacle = false;
-                        break;
-                    }
-                }
+                // for (const mappingPoint of mappingData) {
+                //     // console.log(mappingPoint);
+                //     const distance = Math.sqrt(
+                //         Math.pow(laserPoint.x - mappingPoint[0], 2) + Math.pow(laserPoint.y - mappingPoint[1], 2)
+                //     );
+                //     if (distance < 0.1) {
+                //         // console.log("벽의 좌표:", laserPoint, mappingPoint);
+                //         isObstacle = false;
+                //         break;
+                //     }
+                // }
                 if (isObstacle) {
                     // console.log(robotName + " 장애물의 좌표:", laserPoint);
                     return laserPoint;
