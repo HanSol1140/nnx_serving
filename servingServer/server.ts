@@ -82,10 +82,12 @@ setTimeout(async() => {
 //             API.movePoint("point02");
 //         }, 20000);
 //     }, 40000);
+    console.log(Date.now());
     let collisionCheck = await Func.detectCollision(currentRobotName); // true / false반환
+    console.log(Date.now());
+    console.log("==================");
     console.log(collisionCheck);
     console.log("test");
-    console.log("==================");
     if (collisionCheck) { 
         console.log("값있음");
     }else{
