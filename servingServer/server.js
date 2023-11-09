@@ -92,7 +92,7 @@ setTimeout(() => {
 }, 500);
 setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        API.getSpeed(robotconfig_1.currentRobotName);
+        // API.getSpeed(currentRobotName); // 속도 측정
         for (var i in robotconfig_1.robotSettings) { // i = 등록된 로봇Name
             // 로봇 좌표 받기
             yield API.getPose(i);
@@ -125,7 +125,7 @@ setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
         else {
             // 장애물 충돌 위험 없음
             // setCollision(false);
-            server2.send({ booleanValue: true });
+            server2.send({ booleanValue: false });
         }
         // console.log("======================================");
         // detectCollision 리턴값이 true(충돌위험발생)이라면 

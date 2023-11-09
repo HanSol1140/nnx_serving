@@ -87,7 +87,7 @@ setTimeout(() => {
 
 setInterval(async () => {
     try {
-        API.getSpeed(currentRobotName);
+        // API.getSpeed(currentRobotName); // 속도 측정
         for (var i in robotSettings) { // i = 등록된 로봇Name
             // 로봇 좌표 받기
             await API.getPose(i);
@@ -121,7 +121,7 @@ setInterval(async () => {
         } else {
             // 장애물 충돌 위험 없음
             // setCollision(false);
-            server2.send({ booleanValue: true });
+            server2.send({ booleanValue: false });
         }
 
         // console.log("======================================");
