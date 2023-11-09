@@ -105,7 +105,7 @@ setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
         }
         else {
             // 장애물 충돌 위험 없음
-            (0, robotconfig_1.setCollision)(false);
+            (0, robotconfig_1.setCollision)(true);
         }
         // console.log("======================================");
         // detectCollision 리턴값이 true(충돌위험발생)이라면 
@@ -119,9 +119,9 @@ setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
         console.error("error");
     }
 }), 33);
-setInterval(() => {
-    API.movePoint("point01");
-    setTimeout(() => {
-        API.movePoint("point02");
-    }, 16000);
-}, 32000);
+// setInterval(() => {
+//     API.movePoint("point01");
+//     setTimeout(() => {
+//         API.movePoint("point02");
+//     }, 16000);
+// }, 32000);

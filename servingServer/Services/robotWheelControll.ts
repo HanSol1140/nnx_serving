@@ -30,7 +30,6 @@ export async function wheelControll() {
                 uart3.write(data);
             } else {
                 // collision이 true일 때 속도 조절
-                console.log("회피");
                 adjustSpeedAndSend(data);
             }
         }

@@ -96,7 +96,7 @@ setInterval(async () => {
             }
         } else {
             // 장애물 충돌 위험 없음
-            setCollision(false);
+            setCollision(true);
         }
 
         // console.log("======================================");
@@ -112,10 +112,10 @@ setInterval(async () => {
     }
 }, 33);
 
-setInterval(() => {
-    API.movePoint("point01");
+// setInterval(() => {
+//     API.movePoint("point01");
     
-    setTimeout(() => {
-        API.movePoint("point02");
-    }, 16000);
-}, 32000);
+//     setTimeout(() => {
+//         API.movePoint("point02");
+//     }, 16000);
+// }, 32000);
