@@ -84,11 +84,12 @@ setTimeout(() => {
     //         API.movePoint("point02");
     //     }, 20000);
     // }, 40000);
-    API.getSpeed(currentRobotName);
+    
 }, 500)
 
 setInterval(async () => {
     try {
+        API.getSpeed(currentRobotName);
         for (var i in robotSettings) { // i = 등록된 로봇Name
             // 로봇 좌표 받기
             await API.getPose(i);
