@@ -86,11 +86,12 @@ setInterval(async () => {
 
 
         // 레이저 좌표를 받아서 충돌위험 체크
+        // mapingServer에서 기록한 맵핑데이터에 의해 벽충돌은 제거함
         let collisionCheck = await Func.detectCollision(currentRobotName); // true / false반환
         // console.log(collisionCheck);
-        if (collisionCheck) { // mapingServer에서 기록한 맵핑데이터에 의해 벽충돌은 제거함
+        if (collisionCheck) { 
             // setCollision(true);
-            server2.send({ booleanValue: true });
+            server2.send({ booleanValue: false });
             // // 장애물이 감지됫다면
             // console.log(currentRobotName + " 장애물 충돌 위험");
             // // // 로봇인지 아닌지 체크
@@ -125,16 +126,16 @@ setInterval(async () => {
 
 
 
-API.movePoint("point03");    
-setTimeout(() => {
-    API.movePoint("point04");
-}, 20000);
+// API.movePoint("point03");    
+// setTimeout(() => {
+//     API.movePoint("point04");
+// }, 20000);
 
 
-setInterval(() => {
-    API.movePoint("point03");
+// setInterval(() => {
+//     API.movePoint("point03");
     
-    setTimeout(() => {
-        API.movePoint("point04");
-    }, 20000);
-}, 40000);
+//     setTimeout(() => {
+//         API.movePoint("point04");
+//     }, 20000);
+// }, 40000);
