@@ -84,7 +84,6 @@ setTimeout(async() => {
 //     }, 40000);
     console.log(Date.now());
     let collisionCheck = await Func.detectCollision(currentRobotName); // true / false반환
-    console.log(Date.now());
     console.log("==================");
     console.log(collisionCheck);
     console.log("test");
@@ -93,6 +92,7 @@ setTimeout(async() => {
     }else{
         console.log("값없음");
     }
+    console.log(Date.now());
 }, 1000)
 
 setInterval(async () => {

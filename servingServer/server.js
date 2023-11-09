@@ -91,7 +91,6 @@ setTimeout(() => __awaiter(void 0, void 0, void 0, function* () {
     //     }, 40000);
     console.log(Date.now());
     let collisionCheck = yield Func.detectCollision(robotconfig_1.currentRobotName); // true / false반환
-    console.log(Date.now());
     console.log("==================");
     console.log(collisionCheck);
     console.log("test");
@@ -101,6 +100,7 @@ setTimeout(() => __awaiter(void 0, void 0, void 0, function* () {
     else {
         console.log("값없음");
     }
+    console.log(Date.now());
 }), 1000);
 setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
     try {
