@@ -12,8 +12,8 @@ import {
     setLaserCoordinate,
     mappingData,
     setMappingData,
-    crossRoadCoordinates,
-    setCrossRoadCoordinates,
+    crossPointCoordinates,
+    setCrossPointCoordinates,
     setCrossRoadState,
     setCurrentRobotName
 } from '../robotconfig';
@@ -109,6 +109,7 @@ export async function serverSetup() {
 
     // 로봇 설정
     const robots: robotsInfo[] = await setupRobots();
+    console.log("로봇리스트");
     console.log(robots);
 
     robots.forEach(robot => {
@@ -116,17 +117,20 @@ export async function serverSetup() {
     });
     // 포인트 좌표 설정
     const points: pointsInfo[] = await setupPoints();
-    // console.log(points);
+    
+    console.log("포인트 리스트");
+    console.log(points);
 
     points.forEach(point => {
         setPointCoordinate(point.pointName, point.coordinatesX, point.coordinatesY, point.coordinatesTheta);
     });
     
     // 교차로 좌표 설정
+
     points.forEach(point => {
         if (point.pointName.includes('cross')) {
             // 'cross'가 포함된 pointName을 가진 포인트의 X, Y 좌표를 설정합니다.
-            setCrossRoadCoordinates(point.pointName, parseFloat(point.coordinatesX), parseFloat(point.coordinatesY));
+            setCrossPointCoordinates(point.pointName, parseFloat(point.coordinatesX), parseFloat(point.coordinatesY));
         }
     });
 
@@ -138,8 +142,8 @@ export async function serverSetup() {
         }
     });
 
-    console.log("교차로"); 
-    console.log(crossRoadCoordinates);
+    console.log("교차로 리스트"); 
+    console.log(crossPointCoordinates);
     // 맵핑데이터 변수에 할당
     await setupMappingData();
     // 핀출력으로 로봇명 확인

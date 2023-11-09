@@ -4,6 +4,7 @@ import axios from 'axios';
 import fs from 'fs';
 import { robotSettings, setRobotSettings, pointCoordinate, setPointCoordinate } from '../robotconfig';
 import * as Func from '../Services/robotCommands.js';
+import * as API from '../Services/robotApiCommands';
 export function initializeMQTT() {
     const mqttClient = mqtt.connect('mqtt://192.168.0.137:1883');
     mqttClient.on('error', function (err) {
@@ -35,7 +36,7 @@ export function initializeMQTT() {
             console.log("cancle request");
             // console.log(robotSettings[data.robotName]); // 서빙봇 정보
             console.log(robotSettings[data.robotName].robotIP); // IP
-            Func.cancle(data.robotName);
+            API.cancle(data.robotName);
             //
             // var message = {
             //     servingAPI : "cancle",
@@ -51,7 +52,7 @@ export function initializeMQTT() {
             console.log("movePoint request");
             // console.log(robotSettings[data.robotName]); // 서빙봇 정보
             console.log(robotSettings[data.robotName]); // IP
-            Func.movePoint(data.robotName, data.point);
+            API.movePoint(data.robotName, data.point);
             //
             // var message = {
             //     servingAPI : "movePoint",
@@ -68,7 +69,7 @@ export function initializeMQTT() {
             console.log("movePoint request");
             // console.log(robotSettings[data.robotName]); // 서빙봇 정보
             console.log(robotSettings[data.robotName]); // IP
-            Func.retryMovePoint(data.robotName);
+            API.retryMovePoint(data.robotName);
             //
             // var message = {
             //     servingAPI : "movePoint",
@@ -90,7 +91,7 @@ export function initializeMQTT() {
             console.log(radians);
             console.log("moverCoordinates request");
             console.log(robotSettings[data.robotName]); // IP
-            Func.moveCoordinates(data.robotName, data.coordinatesX, data.coordinatesY, radians);
+            API.moveCoordinates(data.robotName, data.coordinatesX, data.coordinatesY, radians);
             // var message = {
             //     servingAPI : "moverCoordinates",
             //     robotName : "robot1",
@@ -105,7 +106,7 @@ export function initializeMQTT() {
         if (data.servingAPI == "charge" && data.robotName && data.point) {
             console.log("charge request");
             console.log(robotSettings[data.robotName]); // IP
-            Func.charge(data.robotName, data.point);
+            API.charge(data.robotName, data.point);
 
             //
             // var message = {

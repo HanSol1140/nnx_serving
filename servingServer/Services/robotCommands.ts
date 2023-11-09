@@ -48,33 +48,32 @@ export async function getDivideDirection(robotTheta: number, obsX: number, obsY:
 // ===============================================================================================================
 
 // 교차로 체크
-// export async function checkCrossRoad(robotName: string) {
-//     const robotX = robotCoordinate[robotName].x;
-//     const robotY = robotCoordinate[robotName].y;
+export async function checkCrossRoad(robotName: string) {
+    const robotX = robotCoordinate[robotName].x;
+    const robotY = robotCoordinate[robotName].y;
 
-//     for (const pointName in crossRoadState) {
-//         if (pointName.includes('crossCheck')) {
-//             const pointX = parseFloat(crossRoadCoordinates[pointName].x);
-//             const pointY = parseFloat(crossRoadCoordinates[pointName].y);
+    for (const pointName in crossRoadState) {
+        const pointX = parseFloat(crossRoadCoordinates[pointName].x);
+        const pointY = parseFloat(crossRoadCoordinates[pointName].y);
 
-//             const distance = Math.sqrt((pointX - robotX) ** 2 + (pointY - robotY) ** 2);
-//             if (distance <= 1.0) {
-//                 // console.log(robotName + " 교차로 입장 : ", pointName);
-//                 setCrossRoadState(robotName, crossPointName);
-//                 return true;
-//             } else {
-//                 // console.log("교차로가 아닙니다.");
-//                 return false;
-//             }
-//         }
-//     }
+        const distance = Math.sqrt((pointX - robotX) ** 2 + (pointY - robotY) ** 2);
+        if (distance <= 1.0) {
+            // console.log(robotName + " 교차로 입장 : ", pointName);
+            setCrossRoadState(robotName, crossPointName);
+            return true;
+        } else {
+            // console.log("교차로가 아닙니다.");
+            return false;
+        }
 
-// }
+    }
+
+}
 
 
 // ===============================================================================================================
 // 충돌 위험 체크
-export async function detectCollision(robotName: string){
+export async function detectCollision(robotName: string) {
 
     const robotTheta = robotCoordinate[robotName].theta; // 라디안 값
     const robotX = robotCoordinate[robotName].x;
@@ -108,7 +107,7 @@ export async function detectCollision(robotName: string){
                     isObstacle = false;
                     break;
                 }
-                          
+
             }
             if (isObstacle) {
                 // console.log(robotName + " 장애물의 좌표:", laserPoint);
@@ -116,7 +115,7 @@ export async function detectCollision(robotName: string){
             }
             // 장애물이 로봇인지, 아닌지 체크
 
-            
+
 
         }
     }
@@ -124,10 +123,10 @@ export async function detectCollision(robotName: string){
 }
 // ===============================================================================================================
 // 인식한 장애물이 로봇인지 체크\
-export async function checkRobotCoordinates(robotName: string, collision: {x:number, y:number}){
-    for(var i in robotSettings){
+export async function checkRobotCoordinates(robotName: string, collision: { x: number, y: number }) {
+    for (var i in robotSettings) {
         if (i != currentRobotName) { // 비교군에서 자신을 제외
-            
+
             // currentRobotNumber = robotSettings[robotName].robotNumber;
             // currentRobotCoordinatesX = robotCoordinate[robotName].x;
             // currentRobotCoordinatesY = robotCoordinate[robotName].y;
@@ -142,7 +141,7 @@ export async function checkRobotCoordinates(robotName: string, collision: {x:num
             if (distance < 0.3) {
                 // console.log("로봇입니다.");
                 return true
-            }else{
+            } else {
                 // console.log("로봇이 아닙니다.");
                 return false
             }

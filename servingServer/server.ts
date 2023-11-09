@@ -67,7 +67,7 @@ setInterval(async () => {
             // console.log(i);
             // console.log(robotCoordinate[i]);
             // 교차로 체크
-            // const crossCheck = await Func.checkCrossRoad(i); // true / false반환
+            const crossCheck = await Func.checkCrossRoad(i); // true / false반환
             // if (crossCheck) {
             //     console.log(crossRoadState);
             // }

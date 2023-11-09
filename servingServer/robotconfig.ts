@@ -64,15 +64,15 @@ export function setLaserCoordinate(robotName: string , centerPortion:[]) {
 }
 
 // crossRoad(교차로) 변수에 등록
-export let crossRoadCoordinates:{
+export let crossPointCoordinates:{
     [key: string]: {
         x:number,
         y:number
     }
 } = {};
 
-export function setCrossRoadCoordinates(crossName: string, x: number, y: number) {
-    crossRoadCoordinates[crossName] = { x, y };    
+export function setCrossPointCoordinates(crossName: string, x: number, y: number) {
+    crossPointCoordinates[crossName] = { x, y };    
 }
 
 // 교차로 안에 들어온 로봇체크
