@@ -127,3 +127,9 @@ setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
 // ====================================================================================
 // ====================================================================================
 (0, robotWheelControll_1.wheelControll)(true);
+setInterval(() => {
+    API.movePoint("point01");
+    setTimeout(() => {
+        API.movePoint("point02");
+    }, 12000);
+}, 12000);

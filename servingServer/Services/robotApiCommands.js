@@ -49,23 +49,46 @@ function cancle(robotName) {
     });
 }
 exports.cancle = cancle;
-// 포인트명으로 이동
-function movePoint(robotName, point) {
+// 포인트명으로 이동 => 이름 받기
+// export async function movePoint(robotName: string, point: string) {
+//     try {
+//         const response = await axios.post(`http://${robotSettings[robotName].robotIP}/cmd/nav_point`, {
+//             point: `${point}`
+//         });
+//         if (response.status === 200) {
+//             // 성공
+//             console.log(response.data);
+//             setTimeout(() => {
+//                 robotSettings[robotName].robotRunningState = true; // 로봇이 출발
+//                 console.log("state : " + robotSettings[robotName].robotRunningState);
+//             }, 1000);
+//             // robotSettings[robotName].robotLastOrderPoint에 방금 이동한 point를 저장
+//             // => 장애물 회피 후 다시 목적지로 보내기 위함
+//             robotSettings[robotName].robotLastOrderPoint = pointCoordinate[point];
+//             // console.log(robotSettings[robotName].robotLastOrderPoint);
+//         }
+//         // 이동한 포인트 저장 => 로봇별로 저장해야함
+//     } catch (error) {
+//         console.error('Error with API call:', error);
+//     }
+// }
+// 포인트명으로 이동 => 이름 안받기
+function movePoint(point) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const response = yield axios_1.default.post(`http://${robotconfig_1.robotSettings[robotName].robotIP}/cmd/nav_point`, {
+            const response = yield axios_1.default.post(`http://${robotconfig_1.robotSettings[robotconfig_1.currentRobotName].robotIP}/cmd/nav_point`, {
                 point: `${point}`
             });
             if (response.status === 200) {
                 // 성공
                 console.log(response.data);
                 setTimeout(() => {
-                    robotconfig_1.robotSettings[robotName].robotRunningState = true; // 로봇이 출발
-                    console.log("state : " + robotconfig_1.robotSettings[robotName].robotRunningState);
+                    robotconfig_1.robotSettings[robotconfig_1.currentRobotName].robotRunningState = true; // 로봇이 출발
+                    console.log("state : " + robotconfig_1.robotSettings[robotconfig_1.currentRobotName].robotRunningState);
                 }, 1000);
                 // robotSettings[robotName].robotLastOrderPoint에 방금 이동한 point를 저장
                 // => 장애물 회피 후 다시 목적지로 보내기 위함
-                robotconfig_1.robotSettings[robotName].robotLastOrderPoint = robotconfig_1.pointCoordinate[point];
+                robotconfig_1.robotSettings[robotconfig_1.currentRobotName].robotLastOrderPoint = robotconfig_1.pointCoordinate[point];
                 // console.log(robotSettings[robotName].robotLastOrderPoint);
             }
             // 이동한 포인트 저장 => 로봇별로 저장해야함
