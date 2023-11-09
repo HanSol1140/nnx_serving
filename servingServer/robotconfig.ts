@@ -1,6 +1,6 @@
 // robotconfig.ts
 // 현재 라즈베리파이와 연결된 로봇명을 기입
-export let currentRobotName = "robot2";
+export let currentRobotName = "robot1";
 
 export function  setCurrentRobotName(robotName:string){
     currentRobotName = robotName;
