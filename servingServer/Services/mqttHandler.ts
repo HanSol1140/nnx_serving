@@ -52,7 +52,7 @@ export function initializeMQTT() {
             console.log("movePoint request");
             // console.log(robotSettings[data.robotName]); // 서빙봇 정보
             console.log(robotSettings[data.robotName]); // IP
-            API.movePoint(data.robotName, data.point);
+            API.movePoint(data.point);
             //
             // var message = {
             //     servingAPI : "movePoint",
