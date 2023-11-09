@@ -47,9 +47,9 @@ import * as API from './Services/robotApiCommands.js';
 // ==========================
 import { fork } from 'child_process';
 
-server2.ts를 별도의 자식 프로세스로 실행합니다.
+// server2.ts를 별도의 자식 프로세스로 실행합니다.
 const server2 = fork('server2.js', [], {
-  env: { PORT: '8084' }
+  env: { PORT: '8084' };
 });
 
 server2.on('message', (message) => {
