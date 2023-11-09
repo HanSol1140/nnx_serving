@@ -110,8 +110,8 @@ export async function detectCollision(robotName: string) {
                 );
                 // console.log("=========================");
                 console.log(laserPoint);
-                console.log(mappingPoint);
-                console.log(distance);
+                // console.log(mappingPoint);
+                // console.log(distance);
                 
                 // 벽충돌은 무시
                 // console.log(distance);
