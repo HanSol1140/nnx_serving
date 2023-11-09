@@ -76,7 +76,20 @@ server2.on('close', (code) => {
 // ==========================
 // SETUP
 RobotSetup.serverSetup();
-500;
+setTimeout(() => {
+    //     // console.log(mappingData);
+    //     API.movePoint("point02");
+    //     API.movePoint("point01");    
+    //     setTimeout(() => {
+    //         API.movePoint("point02");
+    //     }, 20000);
+    //     setInterval(() => {
+    //         API.movePoint("point01");
+    //         setTimeout(() => {
+    //             API.movePoint("point02");
+    //         }, 20000);
+    //     }, 40000);
+}, 500);
 setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
     try {
         API.getSpeed(robotconfig_1.currentRobotName);
