@@ -105,12 +105,13 @@ export async function detectCollision(robotName: string) {
                 const distance = Math.sqrt(
                     Math.pow(laserPoint.x - mappingPoint[0], 2) + Math.pow(laserPoint.y - mappingPoint[1], 2)
                 );
+                // 벽충돌은 무시
                 if (distance < 0.1) {
                     // console.log("벽의 좌표:", laserPoint, mappingPoint);
                     isObstacle = false;
                     break;
                 }
-
+                // 벽이 아닌 장애물의 좌표값 리턴
                 if (isObstacle) {
                     // console.log(robotName + " 장애물의 좌표:", laserPoint);
                     return laserPoint;

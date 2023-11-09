@@ -10,6 +10,14 @@ app.use(express_1.default.json());
 const cors = require('cors');
 app.use(cors()); // 모든 도메인에서의 요청 허용
 const PORT = process.env.PORT || 8085;
+const robotconfig_1 = require("./robotconfig");
+process.on('message', (message) => {
+    if (message.booleanValue !== undefined) {
+        let collisionValue = message.booleanValue;
+        console.log(collisionValue);
+        (0, robotconfig_1.setCollision)(collisionValue);
+    }
+});
 // 서버 시작
 const server = app.listen(PORT, () => {
     console.log(`Server listening on HTTP port ${PORT}`);
