@@ -42,19 +42,17 @@ function checkCrossRoad(robotName) {
         const robotX = robotconfig_1.robotCoordinate[robotName].x;
         const robotY = robotconfig_1.robotCoordinate[robotName].y;
         for (const pointName in robotconfig_1.crossRoadState) {
-            if (pointName.includes('crossCheck')) {
-                const pointX = parseFloat(robotconfig_1.crossRoadCoordinates[pointName].x);
-                const pointY = parseFloat(robotconfig_1.crossRoadCoordinates[pointName].y);
-                const distance = Math.sqrt((pointX - robotX) ** 2 + (pointY - robotY) ** 2);
-                if (distance <= 1.0) {
-                    // console.log(robotName + " 교차로 입장 : ", pointName);
-                    (0, robotconfig_1.setCrossRoadState)(robotName, crossPointName);
-                    return true;
-                }
-                else {
-                    // console.log("교차로가 아닙니다.");
-                    return false;
-                }
+            const pointX = parseFloat(robotconfig_1.crossRoadCoordinates[pointName].x);
+            const pointY = parseFloat(robotconfig_1.crossRoadCoordinates[pointName].y);
+            const distance = Math.sqrt((pointX - robotX) ** 2 + (pointY - robotY) ** 2);
+            if (distance <= 1.0) {
+                // console.log(robotName + " 교차로 입장 : ", pointName);
+                (0, robotconfig_1.setCrossRoadState)(robotName, crossPointName);
+                return true;
+            }
+            else {
+                // console.log("교차로가 아닙니다.");
+                return false;
             }
         }
     });
