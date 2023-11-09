@@ -123,5 +123,5 @@ setInterval(() => {
     
     setTimeout(() => {
         API.movePoint("point02");
-    }, 12000);
-}, 24000);
+    }, 16000);
+}, 32000);
