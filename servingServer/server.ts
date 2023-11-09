@@ -110,7 +110,7 @@ setInterval(async () => {
             // setCollision(true);
             server2.send({ booleanValue: false });
             // // 장애물이 감지됫다면
-            // console.log(currentRobotName + " 장애물 충돌 위험");
+            console.log(currentRobotName + " 장애물 충돌 위험");
             // // // 로봇인지 아닌지 체크
             const checkRobot = await Func.checkRobotCoordinates(currentRobotName, collisionCheck);
             if (checkRobot) {
