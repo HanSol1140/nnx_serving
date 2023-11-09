@@ -109,7 +109,7 @@ setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
         console.log(collisionCheck);
         if (collisionCheck) {
             // setCollision(true);
-            server2.send({ booleanValue: true });
+            server2.send({ booleanValue: false });
             // // 장애물이 감지됫다면
             // console.log(currentRobotName + " 장애물 충돌 위험");
             // // // 로봇인지 아닌지 체크
