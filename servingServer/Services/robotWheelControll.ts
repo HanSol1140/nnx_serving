@@ -11,7 +11,7 @@ let parser3 = new ReadlineParser();
 uart2.pipe(parser2);
 uart3.pipe(parser3);
 
-export async function wheelControll() {
+export async function wheelControll(collision:boolean) {
     uart2.removeAllListeners('readable');
     uart3.removeAllListeners('readable');
     uart2.removeAllListeners('error');

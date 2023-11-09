@@ -6,13 +6,13 @@ const cors = require('cors');
 app.use(cors()); // 모든 도메인에서의 요청 허용
 const PORT = process.env.PORT || 8085;
 import {
-    
     collision, setCollision,
 } from './robotconfig';
 process.on('message', (message:any) => {
     if (message.booleanValue !== undefined) {
       let collisionValue = message.booleanValue;
       console.log(collisionValue);
+    console.log(collision);
       setCollision(collisionValue);
     }
   });
@@ -23,5 +23,5 @@ const server = app.listen(PORT, () => {
 
 import { wheelControll } from './Services/robotWheelControll';
 
-wheelControll();
+wheelControll(collision);
 

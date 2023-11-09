@@ -15,6 +15,7 @@ process.on('message', (message) => {
     if (message.booleanValue !== undefined) {
         let collisionValue = message.booleanValue;
         console.log(collisionValue);
+        console.log(robotconfig_1.collision);
         (0, robotconfig_1.setCollision)(collisionValue);
     }
 });
@@ -23,4 +24,4 @@ const server = app.listen(PORT, () => {
     console.log(`Server listening on HTTP port ${PORT}`);
 });
 const robotWheelControll_1 = require("./Services/robotWheelControll");
-(0, robotWheelControll_1.wheelControll)();
+(0, robotWheelControll_1.wheelControll)(robotconfig_1.collision);
