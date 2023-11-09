@@ -60,19 +60,19 @@ const RobotSetup = __importStar(require("./Services/robotSetup.js"));
 const Func = __importStar(require("./Services/robotCommands.js"));
 const API = __importStar(require("./Services/robotApiCommands.js"));
 // ==========================
-// import { fork } from 'child_process';
-// // server2.ts를 별도의 자식 프로세스로 실행합니다.
-// const server2 = fork('server2.js', [], {
-//   env: { PORT: '8085' }
-// });
-// server2.on('message', (message) => {
-//   console.log('Message from server2:', message);
-// });
-// server2.on('close', (code) => {
-//   console.log(`server2 process exited with code ${code}`);
-// });
-const robotWheelControll_1 = require("./Services/robotWheelControll");
-(0, robotWheelControll_1.wheelControll)();
+const child_process_1 = require("child_process");
+// server2.ts를 별도의 자식 프로세스로 실행합니다.
+const server2 = (0, child_process_1.fork)('server2.js', [], {
+    env: { PORT: '8085' }
+});
+server2.on('message', (message) => {
+    console.log('Message from server2:', message);
+});
+server2.on('close', (code) => {
+    console.log(`server2 process exited with code ${code}`);
+});
+// import { wheelControll } from './Services/robotWheelControll';
+// wheelControll();
 // ==========================
 // SETUP
 RobotSetup.serverSetup();
