@@ -96,7 +96,7 @@ function detectCollision(robotName) {
                     // 벽충돌은 무시
                     // console.log(distance);
                     if (distance < 0.1) {
-                        console.log("벽의 좌표:", laserPoint, mappingPoint);
+                        // console.log("벽의 좌표:", laserPoint, mappingPoint);
                         isObstacle = false;
                         break;
                     }
