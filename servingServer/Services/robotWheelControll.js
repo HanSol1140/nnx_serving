@@ -19,7 +19,7 @@ const uart3 = new serialport_1.SerialPort({ path: '/dev/ttyAMA3', baudRate: 1152
 let parser3 = new serialport_1.ReadlineParser();
 uart2.pipe(parser2);
 uart3.pipe(parser3);
-function wheelControll(check) {
+function wheelControll() {
     return __awaiter(this, void 0, void 0, function* () {
         uart2.removeAllListeners('readable');
         uart3.removeAllListeners('readable');

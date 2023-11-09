@@ -101,29 +101,30 @@ export async function detectCollision(robotName: string) {
             // console.log(mappingData);
             // mappingData와의 거리 계산
             let isObstacle = true;
-            // for (const mappingPoint of mappingData) {
-            //     // console.log(mappingPoint);
-            //     const distance = Math.sqrt(
-            //         Math.pow(laserPoint.x - mappingPoint[0], 2) + Math.pow(laserPoint.y - mappingPoint[1], 2)
-            //     );
-            //     if (distance < 0.1) {
-            //         // console.log("벽의 좌표:", laserPoint, mappingPoint);
-            //         isObstacle = false;
-            //         break;
-            //     }
+            for (const mappingPoint of mappingData) {
+                // console.log(mappingPoint);
+                const distance = Math.sqrt(
+                    Math.pow(laserPoint.x - mappingPoint[0], 2) + Math.pow(laserPoint.y - mappingPoint[1], 2)
+                );
+                if (distance < 0.1) {
+                    // console.log("벽의 좌표:", laserPoint, mappingPoint);
+                    isObstacle = false;
+                    break;
+                }
 
-            // }
-            if (isObstacle) {
-                // console.log(robotName + " 장애물의 좌표:", laserPoint);
-                return laserPoint;
+                // }
+                if (isObstacle) {
+                    // console.log(robotName + " 장애물의 좌표:", laserPoint);
+                    return laserPoint;
+                }
+                // 장애물이 로봇인지, 아닌지 체크
+
+
+
             }
-            // 장애물이 로봇인지, 아닌지 체크
-
-
-
         }
+        return;
     }
-    return;
 }
 // ===============================================================================================================
 // 인식한 장애물이 로봇인지 체크\

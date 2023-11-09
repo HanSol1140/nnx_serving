@@ -49,7 +49,7 @@ import { wheelControll } from './Services/robotWheelControll';
 // SETUP
 RobotSetup.serverSetup();
 
-wheelControll(true);
+wheelControll();
 
 setInterval(async () => {
     try {

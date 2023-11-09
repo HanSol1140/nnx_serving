@@ -62,7 +62,7 @@ const API = __importStar(require("./Services/robotApiCommands.js"));
 const robotWheelControll_1 = require("./Services/robotWheelControll");
 // SETUP
 RobotSetup.serverSetup();
-(0, robotWheelControll_1.wheelControll)(true);
+(0, robotWheelControll_1.wheelControll)();
 setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
     try {
         for (var i in robotconfig_1.robotSettings) { // i = 등록된 로봇Name
