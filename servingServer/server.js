@@ -123,13 +123,13 @@ setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
         console.error("error");
     }
 }), 33);
-API.movePoint("point01");
+API.movePoint("point03");
 setTimeout(() => {
-    API.movePoint("point02");
+    API.movePoint("point04");
 }, 20000);
 setInterval(() => {
-    API.movePoint("point01");
+    API.movePoint("point03");
     setTimeout(() => {
-        API.movePoint("point02");
+        API.movePoint("point04");
     }, 20000);
 }, 40000);
