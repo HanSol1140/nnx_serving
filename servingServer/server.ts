@@ -105,7 +105,7 @@ setInterval(async () => {
         // 레이저 좌표를 받아서 충돌위험 체크
         // mapingServer에서 기록한 맵핑데이터에 의해 벽충돌은 제거함
         let collisionCheck = await Func.detectCollision(currentRobotName); // true / false반환
-        // console.log(collisionCheck);
+        console.log(collisionCheck);
         if (collisionCheck) { 
             // setCollision(true);
             server2.send({ booleanValue: true });
