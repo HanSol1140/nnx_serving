@@ -2,7 +2,15 @@ import { SerialPort, ReadlineParser } from 'serialport';
 import {
     collision
 } from '../robotconfig';
+// ============================================
+let collisionStartTime = 0;
 
+export function setCollision() {
+    collisionStartTime = Date.now(); // collision 상태가 true가 되는 시간을 기록
+}
+
+// ============================================
+//
 // UART2와 UART3 설정
 const uart2 = new SerialPort({ path: '/dev/ttyAMA2', baudRate: 115200 });
 let parser2 = new ReadlineParser();
@@ -19,21 +27,23 @@ export async function wheelControll() {
 
     uart2.on('readable', () => {
         const data = uart2.read();
-        // let hexData1 = data.toString('hex').toUpperCase();
-        // console.log(hexData1);
-        // hexData1 = hexData1.match(/.{1,2}/g)
-        // let byteArray = hexData.match(/.{1,2}/g).map(byte => parseInt(byte, 16));
-        // console.log(`Received from UART2: ${hexData1}`);
         if (data) {
-            if (!collision) {
+            if (collision) {
+                const timeElapsed = Date.now() - collisionStartTime;
+                if (timeElapsed < 1000) { // 1초가 지나지 않았으면 adjustSpeedAndSend1을 호출
+                    console.log("1");
+                    adjustSpeedAndSend1(data);
+                } else { // 1초가 지났으면 adjustSpeedAndSend2를 호출
+                    console.log("2");
+                    adjustSpeedAndSend2(data);
+                }
+            } else {
                 // collision이 false일 때 정상 운행
                 uart3.write(data);
-            } else {
-                // collision이 true일 때 속도 조절
-                adjustSpeedAndSend(data);
             }
         }
     });
+
 
     // UART3
     uart3.on('readable', () => {
@@ -72,7 +82,7 @@ function calculateChecksum(buffer: Buffer) {
     return checksum;
 }
 
-function adjustSpeedAndSend(data: any) {
+function adjustSpeedAndSend1(data: any) {
     // 입력된 데이터를 Buffer 객체로 변환
     let commandBuffer = Buffer.from(data, 'hex');
 
@@ -84,6 +94,41 @@ function adjustSpeedAndSend(data: any) {
 
         // 속도 조정 (예시: 왼쪽 바퀴 50%, 오른쪽 바퀴 25%로 조정)
         let adjustedLeftWheelSpeed = Math.floor(leftWheelSpeed * 0.5);
+        let adjustedRightWheelSpeed = Math.floor(leftWheelSpeed * 1);
+
+        // 조정된 속도값으로 Buffer 업데이트
+        commandBuffer[9] = (adjustedLeftWheelSpeed >> 8) + 0x80;
+        commandBuffer[8] = adjustedLeftWheelSpeed & 0xFF;
+        commandBuffer[12] = (adjustedRightWheelSpeed >> 8);
+        commandBuffer[11] = adjustedRightWheelSpeed & 0xFF;
+
+        // 체크섬 계산을 위해 마지막 바이트 제거
+        commandBuffer = commandBuffer.slice(0, -1);
+
+        // 체크섬 추가
+        commandBuffer = Buffer.concat([commandBuffer, Buffer.from([calculateChecksum(commandBuffer)])]);
+
+        // 명령어 전송
+        uart3.write(commandBuffer);
+
+    } else {
+        // 'D55DFE'로 시작하지 않는 데이터는 그대로 전송
+        uart3.write(data);
+    }
+}
+
+function adjustSpeedAndSend2(data: any) {
+    // 입력된 데이터를 Buffer 객체로 변환
+    let commandBuffer = Buffer.from(data, 'hex');
+
+    if (commandBuffer.slice(0, 3).toString('hex').toUpperCase() === 'D55DFE' && commandBuffer[9] != 0x00) {
+        // 속도 데이터 추출 및 조정
+        const leftWheelSpeed = (commandBuffer[9] - 0x80) * 256 + commandBuffer[8];
+        // 오른쪽 바퀴 속도를 왼쪽 바퀴 속도에 기반하여 계산
+        const rightWheelSpeed = (commandBuffer[12]) * 256 + commandBuffer[11];
+
+        // 속도 조정 (예시: 왼쪽 바퀴 50%, 오른쪽 바퀴 25%로 조정)
+        let adjustedLeftWheelSpeed = Math.floor(leftWheelSpeed * 1);
         let adjustedRightWheelSpeed = Math.floor(leftWheelSpeed * 1);
 
         // 조정된 속도값으로 Buffer 업데이트

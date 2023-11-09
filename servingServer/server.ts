@@ -121,7 +121,7 @@ setInterval(async () => {
         } else {
             // 장애물 충돌 위험 없음
             // setCollision(false);
-            server2.send({ booleanValue: false });
+            // server2.send({ booleanValue: false });
         }
 
         // console.log("======================================");

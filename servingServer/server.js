@@ -125,7 +125,7 @@ setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
         else {
             // 장애물 충돌 위험 없음
             // setCollision(false);
-            server2.send({ booleanValue: false });
+            // server2.send({ booleanValue: false });
         }
         // console.log("======================================");
         // detectCollision 리턴값이 true(충돌위험발생)이라면 

@@ -6,12 +6,16 @@ const cors = require('cors');
 app.use(cors()); // 모든 도메인에서의 요청 허용
 const PORT = process.env.PORT || 8084;
 import {
+    collision,
     setCollision,
 } from './robotconfig';
+let bool =
 process.on('message', (message: any) => {
-    if (message.booleanValue !== undefined) {
-        // console.log(message.booleanValue);
+    if (message.booleanValue == true && collision != true) {
         setCollision(message.booleanValue);
+        setTimeout(()=> {
+            setCollision(false);
+        }, 2500)
     }
 });
 // 서버 시작

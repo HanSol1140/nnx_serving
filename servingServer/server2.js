@@ -11,10 +11,12 @@ const cors = require('cors');
 app.use(cors()); // 모든 도메인에서의 요청 허용
 const PORT = process.env.PORT || 8084;
 const robotconfig_1 = require("./robotconfig");
-process.on('message', (message) => {
-    if (message.booleanValue !== undefined) {
-        // console.log(message.booleanValue);
+let bool = process.on('message', (message) => {
+    if (message.booleanValue == true && robotconfig_1.collision != true) {
         (0, robotconfig_1.setCollision)(message.booleanValue);
+        setTimeout(() => {
+            (0, robotconfig_1.setCollision)(false);
+        }, 2500);
     }
 });
 // 서버 시작
