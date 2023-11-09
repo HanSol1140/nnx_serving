@@ -3,18 +3,9 @@ import axios from 'axios';
 import {
     currentRobotName,
     robotSettings,
-    setRobotSettings,
     pointCoordinate,
-    setPointCoordinate,
-    robotCoordinate,
     setRobotCoordinate,
-    laserCoordinate,
     setLaserCoordinate,
-    crossPointCoordinates,
-    setCrossPointCoordinates,
-    crossRoadState,
-    setCrossRoadState,
-    mappingData
 } from '../robotconfig';
 
 
@@ -168,7 +159,6 @@ export async function charge(robotName: string, point: string) {
     }
 }
 
-// ===============================================================================================================
 // 배터리 체크, 이게 일정 이하가 된다면 charge실행
 export async function checkBattery(robotName: string) {  // 로봇이름
     try {
@@ -183,7 +173,6 @@ export async function checkBattery(robotName: string) {  // 로봇이름
         console.error('Error with API call:', error);
     }
 }
-// ===============================================================================================================
 //속도 변경
 //기본적인 작동테스트만함, 추가코딩필요
 export async function changeSpeed(robotName: string, speed: number) {
@@ -200,7 +189,6 @@ export async function changeSpeed(robotName: string, speed: number) {
         console.error('Error', error);
     }
 }
-// ===============================================================================================================
 // 속도 턴속도 측정이라는데 변하질않음
 export async function getIMUstatus() {
     try {
@@ -214,7 +202,6 @@ export async function getIMUstatus() {
         console.error('Error with API call:', error);
     }
 }
-// ===============================================================================================================
 // 현재 속도 측정 => 가만히 있을땐 error출력, 움직일때만 작동하는 API
 export async function getSpeed() {
     try {
@@ -229,7 +216,6 @@ export async function getSpeed() {
         // console.error('Error with API call:', error);
     }
 }
-// ===============================================================================================================
 // 레이저 데이터 수집
 export async function getLaser(robotName: string) {
     try {
@@ -256,7 +242,7 @@ export async function getLaser(robotName: string) {
 // setLaserCoordinate(robotNumber, centerPortion);
 
 // 레이저 데이터 수집을 통해 방향체크
-// ===============================================================================================================
+// =============================================================================================================
 
 export async function movePointList(robotName: string) {
     let ip: string = robotSettings[robotName].robotIP;

@@ -37,6 +37,8 @@ import {
     currentRobotName,
     setCurrentRobotName,
     crossPointCoordinates,
+    collision,
+    setCollision,
 } from './robotconfig';
 
 import * as RobotSetup from './Services/robotSetup.js';
@@ -44,32 +46,18 @@ import * as Func from './Services/robotCommands.js';
 import * as API from './Services/robotApiCommands.js';
 import { wheelControll } from './Services/robotWheelControll';
 
-// 로봇명 전역변수 설정
+// SETUP
 RobotSetup.serverSetup();
 
-setTimeout(() => {
-    // Func.moveCoordinates("192.168.0.177", "1.92", "7.31", "88");
-    // for(var i in robotSettings){
-    //     console.log(i);
-    // }
-    // console.log(mappingData);
-    // console.log(laserCoordinate);
-    console.log(crossRoadState);
-    console.log(crossPointCoordinates);
-}, 100);
-// ====================================================================================
-// ====================================================================================
-// ====================================================================================
+wheelControll(true);
 
 setInterval(async () => {
     try {
         for (var i in robotSettings) { // i = 등록된 로봇Name
             // 로봇 좌표 받기
             await API.getPose(i);
-            // console.log(i);
-            // console.log(robotCoordinate[i]);
             // 교차로 체크
-            const crossCheck = await Func.checkCrossRoad(i); // true / false반환
+            // const crossCheck = await Func.checkCrossRoad(i); // true / false반환
             // if (crossCheck) {
             //     console.log(crossRoadState);
             // }
@@ -81,22 +69,20 @@ setInterval(async () => {
 
 
         // 레이저 좌표를 받아서 충돌위험 체크
-        // collision => 장애물의 좌표
-        const collision = await Func.detectCollision(currentRobotName); // true / false반환
+        const collisionCheck = await Func.detectCollision(currentRobotName); // true / false반환
+        // setCollision(await Func.detectCollision(currentRobotName));
+        console.log(collisionCheck);
         if (collision) { // mapingServer에서 기록한 맵핑데이터에 의해 벽충돌은 제거함
             // // 장애물이 감지됫다면
             wheelControll(true);
-            console.log(currentRobotName + " 장애물 충돌 위험");
-
-            // console.log(collision); // 장애물 좌표
-            // console.log(robotCoordinate["robot1"].x, robotCoordinate["robot1"].y); // 로봇 좌표
-            // // 로봇인지 아닌지 체크
-            const checkRobot = await Func.checkRobotCoordinates(currentRobotName, collision);
-            if (checkRobot) {
-                console.log("로봇입니다");
-            } else {
-                console.log("로봇이 아닙니다.");
-            }
+            // console.log(currentRobotName + " 장애물 충돌 위험");
+            // // // 로봇인지 아닌지 체크
+            // // const checkRobot = await Func.checkRobotCoordinates(currentRobotName, collisionCheck);
+            // if (checkRobot) {
+            //     console.log("로봇입니다");
+            // } else {
+            //     console.log("로봇이 아닙니다.");
+            // }
         } else {
             // 장애물 충돌 위험 없음
             wheelControll(false);
@@ -114,9 +100,6 @@ setInterval(async () => {
         console.error("error");
     }
 }, 33);
-// ====================================================================================
-// ====================================================================================
-wheelControll(true);
 
 setInterval(() => {
     API.movePoint("point01");

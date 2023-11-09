@@ -60,15 +60,15 @@ export async function checkCrossRoad(robotName: string) {
         const pointX = crossPointCoordinates[pointName].x;
         const pointY = crossPointCoordinates[pointName].y;
 
-        const distance = Math.sqrt((pointX - robotX) ** 2 + (pointY - robotY) ** 2);
-        if (distance <= 1.0) {
-            // console.log(robotName + " 교차로 입장 : ", pointName);
-            setCrossRoadState(robotName, pointName);
-            return true;
-        } else {
-            // console.log("교차로가 아닙니다.");
-            return false;
-        }
+        // const distance = Math.sqrt((pointX - robotX) ** 2 + (pointY - robotY) ** 2);
+        // if (distance <= 1.0) {
+        //     // console.log(robotName + " 교차로 입장 : ", pointName);
+        //     setCrossRoadState(robotName, pointName);
+        //     return true;
+        // } else {
+        //     // console.log("교차로가 아닙니다.");
+        //     return false;
+        // }
 
     }
 

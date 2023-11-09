@@ -11,11 +11,11 @@ uart3.pipe(parser3);
 
 export async function wheelControll(check: boolean) {
     uart2.removeAllListeners('readable');
-    uart2.removeAllListeners('error');
     uart3.removeAllListeners('readable');
-    uart3.removeAllListeners('error');
+    // uart2.removeAllListeners('error');
+    // uart3.removeAllListeners('error');
     if (!check) {
-        console.log("정상운행");
+        // console.log("정상운행");
         // UART2
         uart2.on('readable', () => {
             const data = uart2.read();
@@ -41,20 +41,19 @@ export async function wheelControll(check: boolean) {
         });
 
         // 에러 핸들링
-        uart2.on('error', function (err: any) {
-            console.log('Error on UART2: ', err.message);
-        });
-        uart3.on('error', function (err: any) {
-            console.log('Error on UART3: ', err.message);
-        });
+        // uart2.on('error', function (err: any) {
+        //     console.log('Error on UART2: ', err.message);
+        // });
+        // uart3.on('error', function (err: any) {
+        //     console.log('Error on UART3: ', err.message);
+        // });
     } else {
-        console.log("충돌위험 => 바퀴 회전");
+        // console.log("충돌위험 => 바퀴 회전");
         // UART2
         uart2.on('readable', () => {
             const data = uart2.read();
             if (data) {
                 // let hexData1 = data.toString('hex').toUpperCase();
-                // console.log(hexData1);
                 adjustSpeedAndSend(data)
             }
         });
@@ -62,27 +61,19 @@ export async function wheelControll(check: boolean) {
         uart3.on('readable', () => {
             const data = uart3.read();
             if (data) {
-                // let hexData2 = data.toString('hex').toUpperCase();
-                // hexData2 = hexData2.match(/.{1,2}/g)
-                // let byteArray = hexData.match(/.{1,2}/g).map(byte => parseInt(byte, 16));
-                // console.log(`Received from UART3: ${hexData2}`);
                 uart2.write(data);
             }
         });
 
         // 에러 핸들링
-        uart2.on('error', function (err: any) {
-            console.log('Error on UART2: ', err.message);
-        });
-        uart3.on('error', function (err: any) {
-            console.log('Error on UART3: ', err.message);
-        });
+        // uart2.on('error', function (err: any) {
+        //     console.log('Error on UART2: ', err.message);
+        // });
+        // uart3.on('error', function (err: any) {
+        //     console.log('Error on UART3: ', err.message);
+        // });
     }
 }
-
-// ===================================================================================================================
-// ===================================================================================================================
-
 
 function calculateChecksum(buffer: Buffer) {
     // 체크섬 계산 시 프레임 헤더는 제외
@@ -126,13 +117,6 @@ function adjustSpeedAndSend(data: any) {
         uart3.write(data);
     }
 }
-
-
-
-// ===================================================================================================================
-// ===================================================================================================================
-// ===================================================================================================================
-
 
 // function movingCommandTest() {
 //     const Speed = Buffer.from([0xD5, 0x5D, 0xFE, 0x0A, 0x83, 0x20, 0x02, 0x0A, 0x49, 0x80, 0x0B, 0x49, 0x00, 0xD4]);

@@ -175,7 +175,6 @@ function charge(robotName, point) {
     });
 }
 exports.charge = charge;
-// ===============================================================================================================
 // 배터리 체크, 이게 일정 이하가 된다면 charge실행
 function checkBattery(robotName) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -193,7 +192,6 @@ function checkBattery(robotName) {
     });
 }
 exports.checkBattery = checkBattery;
-// ===============================================================================================================
 //속도 변경
 //기본적인 작동테스트만함, 추가코딩필요
 function changeSpeed(robotName, speed) {
@@ -213,7 +211,6 @@ function changeSpeed(robotName, speed) {
     });
 }
 exports.changeSpeed = changeSpeed;
-// ===============================================================================================================
 // 속도 턴속도 측정이라는데 변하질않음
 function getIMUstatus() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -230,7 +227,6 @@ function getIMUstatus() {
     });
 }
 exports.getIMUstatus = getIMUstatus;
-// ===============================================================================================================
 // 현재 속도 측정 => 가만히 있을땐 error출력, 움직일때만 작동하는 API
 function getSpeed() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -248,7 +244,6 @@ function getSpeed() {
     });
 }
 exports.getSpeed = getSpeed;
-// ===============================================================================================================
 // 레이저 데이터 수집
 function getLaser(robotName) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -277,7 +272,7 @@ exports.getLaser = getLaser;
 // const robotNumber = robotSettings[robotName].robotNumber;
 // setLaserCoordinate(robotNumber, centerPortion);
 // 레이저 데이터 수집을 통해 방향체크
-// ===============================================================================================================
+// =============================================================================================================
 function movePointList(robotName) {
     return __awaiter(this, void 0, void 0, function* () {
         let ip = robotconfig_1.robotSettings[robotName].robotIP;

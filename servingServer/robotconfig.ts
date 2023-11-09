@@ -1,11 +1,16 @@
 // robotconfig.ts
-// 현재 라즈베리파이와 연결된 로봇명을 기입
 export let currentRobotName = "robot1";
 
 export function  setCurrentRobotName(robotName:string){
     currentRobotName = robotName;
 }
 
+// 충돌 체크
+export let collision = false;
+
+export function  setCollision(boolean : boolean){
+    collision = boolean;
+}
 // robotSettings
 type PointCoordinateType = {
     x?: string,
@@ -26,8 +31,6 @@ export function setRobotSettings(name: string, robotNumber:number, robotIP:strin
 }
 
 // pointCoordinate
-import fs from 'fs';
-
 export let pointCoordinate: {
     [key: string]: {
         x: string,
