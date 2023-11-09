@@ -5,7 +5,7 @@ app.use(express.json());
 const cors = require('cors');
 app.use(cors()); // 모든 도메인에서의 요청 허용
 import axios from 'axios';
-const PORT = process.env.PORT || 8083;
+const PORT = process.env.PORT || 8084;
 
 // 서버 시작
 const server = app.listen(PORT, () => {
@@ -49,7 +49,7 @@ import { fork } from 'child_process';
 
 // server2.ts를 별도의 자식 프로세스로 실행합니다.
 const server2 = fork('server2.js', [], {
-  env: { PORT: '8084' };
+  env: { PORT: '8085' }
 });
 
 server2.on('message', (message) => {

@@ -1,38 +1,14 @@
 [
   {
-    "pointName": "crossCheck01",
-    "coordinatesX": "0.23",
-    "coordinatesY": "0.73",
-    "coordinatesTheta": "177.34"
-  },
-  {
-    "pointName": "crossCheck02",
-    "coordinatesX": "-3.06",
-    "coordinatesY": "0.78",
-    "coordinatesTheta": "-179.17"
-  },
-  {
     "pointName": "point01",
-    "coordinatesX": "-7.47",
-    "coordinatesY": "-0.01",
-    "coordinatesTheta": "0.91"
+    "coordinatesX": "0.82",
+    "coordinatesY": "0.04",
+    "coordinatesTheta": "1.35"
   },
   {
     "pointName": "point02",
-    "coordinatesX": "0.61",
-    "coordinatesY": "-0.12",
-    "coordinatesTheta": "178.96"
-  },
-  {
-    "pointName": "point03",
-    "coordinatesX": "-6.73",
-    "coordinatesY": "-0.07",
-    "coordinatesTheta": "0.00"
-  },
-  {
-    "pointName": "point04",
-    "coordinatesX": "-0.26",
-    "coordinatesY": "-0.26",
-    "coordinatesTheta": "180.00"
+    "coordinatesX": "6.40",
+    "coordinatesY": "-0.34",
+    "coordinatesTheta": "170.84"
   }
 ]

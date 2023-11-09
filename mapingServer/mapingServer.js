@@ -19,7 +19,7 @@ const app = (0, express_1.default)();
 app.use(express_1.default.json());
 const cors = require('cors');
 app.use(cors());
-const PORT = process.env.PORT || 8084;
+const PORT = process.env.PORT || 8086;
 const server = app.listen(PORT, () => {
     console.log(`Server listening on HTTP port ${PORT}`);
 });

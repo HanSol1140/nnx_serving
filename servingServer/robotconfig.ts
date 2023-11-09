@@ -1,5 +1,5 @@
 // robotconfig.ts
-export let currentRobotName = "robot2";
+export let currentRobotName = "robot1";
 
 export function  setCurrentRobotName(robotName:string){
     currentRobotName = robotName;
