@@ -92,7 +92,6 @@ function detectCollision(robotName) {
                         isObstacle = false;
                         break;
                     }
-                    // }
                     if (isObstacle) {
                         // console.log(robotName + " 장애물의 좌표:", laserPoint);
                         return laserPoint;
@@ -100,8 +99,8 @@ function detectCollision(robotName) {
                     // 장애물이 로봇인지, 아닌지 체크
                 }
             }
-            return;
         }
+        return;
     });
 }
 exports.detectCollision = detectCollision;

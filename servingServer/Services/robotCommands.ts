@@ -78,7 +78,6 @@ export async function checkCrossRoad(robotName: string) {
 // ===============================================================================================================
 // 충돌 위험 체크
 export async function detectCollision(robotName: string) {
-
     const robotTheta = robotCoordinate[robotName].theta; // 라디안 값
     const robotX = robotCoordinate[robotName].x;
     const robotY = robotCoordinate[robotName].y;
@@ -112,7 +111,6 @@ export async function detectCollision(robotName: string) {
                     break;
                 }
 
-                // }
                 if (isObstacle) {
                     // console.log(robotName + " 장애물의 좌표:", laserPoint);
                     return laserPoint;
@@ -123,8 +121,8 @@ export async function detectCollision(robotName: string) {
 
             }
         }
-        return;
     }
+    return;
 }
 // ===============================================================================================================
 // 인식한 장애물이 로봇인지 체크\
