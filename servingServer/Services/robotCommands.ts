@@ -109,7 +109,7 @@ export async function detectCollision(robotName: string) {
                     Math.pow(laserPoint.x - mappingPoint[0], 2) + Math.pow(laserPoint.y - mappingPoint[1], 2)
                 );
                 // console.log("=========================");
-                console.log(laserPoint);
+                // console.log(laserPoint);
                 // console.log(mappingPoint);
                 // console.log(distance);
                 
