@@ -82,8 +82,8 @@ setTimeout(() => {
 //             API.movePoint("point02");
 //         }, 20000);
 //     }, 40000);
-    
-}, 500)
+    Func.detectCollision(currentRobotName);
+}, 1000)
 
 setInterval(async () => {
     try {
@@ -102,27 +102,29 @@ setInterval(async () => {
 
 
 
-        // 레이저 좌표를 받아서 충돌위험 체크
-        // mapingServer에서 기록한 맵핑데이터에 의해 벽충돌은 제거함
-        let collisionCheck = await Func.detectCollision(currentRobotName); // true / false반환
-        console.log(collisionCheck);
-        if (collisionCheck) { 
-            // setCollision(true);
-            server2.send({ booleanValue: false });
-            // // 장애물이 감지됫다면
-            console.log(currentRobotName + " 장애물 충돌 위험");
-            // // // 로봇인지 아닌지 체크
-            const checkRobot = await Func.checkRobotCoordinates(currentRobotName, collisionCheck);
-            if (checkRobot) {
-                console.log("로봇입니다");
-            } else {
-                console.log("로봇이 아닙니다.");
-            }
-        } else {
-            // 장애물 충돌 위험 없음
-            // setCollision(false);
-            // server2.send({ booleanValue: false });
-        }
+        // // 레이저 좌표를 받아서 충돌위험 체크
+        // // mapingServer에서 기록한 맵핑데이터에 의해 벽충돌은 제거함
+        // let collisionCheck = await Func.detectCollision(currentRobotName); // true / false반환
+        // console.log(collisionCheck);
+        // console.log("test");
+        // console.log("==================");
+        // if (collisionCheck) { 
+        //     // setCollision(true);
+        //     server2.send({ booleanValue: false });
+        //     // // 장애물이 감지됫다면
+        //     console.log(currentRobotName + " 장애물 충돌 위험");
+        //     // // // 로봇인지 아닌지 체크
+        //     const checkRobot = await Func.checkRobotCoordinates(currentRobotName, collisionCheck);
+        //     if (checkRobot) {
+        //         console.log("로봇입니다");
+        //     } else {
+        //         console.log("로봇이 아닙니다.");
+        //     }
+        // } else {
+        //     // 장애물 충돌 위험 없음
+        //     // setCollision(false);
+        //     // server2.send({ booleanValue: false });
+        // }
 
         // console.log("======================================");
         // detectCollision 리턴값이 true(충돌위험발생)이라면 
