@@ -69,6 +69,7 @@ setTimeout(() => {
     // console.log(mappingData);
     // console.log(laserCoordinate);
     console.log(robotconfig_1.crossRoadState);
+    console.log(robotconfig_1.crossPointCoordinates);
 }, 1000);
 // ====================================================================================
 // ====================================================================================

@@ -36,6 +36,7 @@ import {
     crossRoadState,
     currentRobotName,
     setCurrentRobotName,
+    crossPointCoordinates,
 } from './robotconfig';
 
 import * as RobotSetup from './Services/robotSetup.js';
@@ -54,6 +55,7 @@ setTimeout(() => {
     // console.log(mappingData);
     // console.log(laserCoordinate);
     console.log(crossRoadState);
+    console.log(crossPointCoordinates);
 }, 1000);
 // ====================================================================================
 // ====================================================================================

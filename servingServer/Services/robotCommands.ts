@@ -52,14 +52,14 @@ export async function checkCrossRoad(robotName: string) {
     const robotX = robotCoordinate[robotName].x;
     const robotY = robotCoordinate[robotName].y;
 
-    for (const pointName in crossRoadState) {
+    for (const pointName in crossRoadCoordinates) {
         const pointX = parseFloat(crossRoadCoordinates[pointName].x);
         const pointY = parseFloat(crossRoadCoordinates[pointName].y);
 
         const distance = Math.sqrt((pointX - robotX) ** 2 + (pointY - robotY) ** 2);
         if (distance <= 1.0) {
             // console.log(robotName + " 교차로 입장 : ", pointName);
-            setCrossRoadState(robotName, crossPointName);
+            setCrossRoadState(robotName, pointName);
             return true;
         } else {
             // console.log("교차로가 아닙니다.");
