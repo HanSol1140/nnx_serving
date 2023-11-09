@@ -59,6 +59,7 @@ const robotconfig_1 = require("./robotconfig");
 const RobotSetup = __importStar(require("./Services/robotSetup.js"));
 const Func = __importStar(require("./Services/robotCommands.js"));
 const API = __importStar(require("./Services/robotApiCommands.js"));
+const robotWheelControll_1 = require("./Services/robotWheelControll");
 // 로봇명 전역변수 설정
 RobotSetup.serverSetup();
 setTimeout(() => {
@@ -94,7 +95,7 @@ setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
         const collision = yield Func.detectCollision(robotconfig_1.currentRobotName); // true / false반환
         if (collision) { // mapingServer에서 기록한 맵핑데이터에 의해 벽충돌은 제거함
             // // 장애물이 감지됫다면
-            // wheelControll(true);
+            (0, robotWheelControll_1.wheelControll)(true);
             console.log(robotconfig_1.currentRobotName + " 장애물 충돌 위험");
             // console.log(collision); // 장애물 좌표
             // console.log(robotCoordinate["robot1"].x, robotCoordinate["robot1"].y); // 로봇 좌표
@@ -109,7 +110,7 @@ setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
         }
         else {
             // 장애물 충돌 위험 없음
-            // wheelControll(false);
+            (0, robotWheelControll_1.wheelControll)(false);
         }
         // console.log("======================================");
         // detectCollision 리턴값이 true(충돌위험발생)이라면 
