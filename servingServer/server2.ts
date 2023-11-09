@@ -17,7 +17,7 @@ process.on('message', (message:any) => {
     }
   });
 // 서버 시작
-const server     = app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
     console.log(`Server listening on HTTP port ${PORT}`);
 });
 
