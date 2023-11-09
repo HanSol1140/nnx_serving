@@ -66,7 +66,7 @@ server2.on('close', (code) => {
 // ==========================
 // SETUP
 RobotSetup.serverSetup();
-setTimeout(() => {
+setTimeout(async () => {
 //     // console.log(mappingData);
 //     API.movePoint("point02");
 //     API.movePoint("point01");    
@@ -83,14 +83,14 @@ setTimeout(() => {
 //         }, 20000);
 //     }, 40000);
     let collisionCheck = await Func.detectCollision(currentRobotName); // true / false반환
-        console.log(collisionCheck);
-        console.log("test");
-        console.log("==================");
-        if (collisionCheck) { 
-            console.log("값있음");
-        }else{
-            console.log("값없음");
-        }
+    console.log(collisionCheck);
+    console.log("test");
+    console.log("==================");
+    if (collisionCheck) { 
+        console.log("값있음");
+    }else{
+        console.log("값없음");
+    }
 }, 1000)
 
 setInterval(async () => {
