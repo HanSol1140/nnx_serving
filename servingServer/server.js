@@ -78,11 +78,10 @@ setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
         yield API.getLaser(robotconfig_1.currentRobotName);
         // 레이저 좌표를 받아서 충돌위험 체크
         let collisionCheck = yield Func.detectCollision(robotconfig_1.currentRobotName); // true / false반환
-        // setCollision(await Func.detectCollision(currentRobotName));
         console.log(collisionCheck);
         if (collisionCheck) { // mapingServer에서 기록한 맵핑데이터에 의해 벽충돌은 제거함
+            (0, robotconfig_1.setCollision)(true);
             // // 장애물이 감지됫다면
-            (0, robotWheelControll_1.wheelControll)(true);
             // console.log(currentRobotName + " 장애물 충돌 위험");
             // // // 로봇인지 아닌지 체크
             const checkRobot = yield Func.checkRobotCoordinates(robotconfig_1.currentRobotName, collisionCheck);
@@ -95,7 +94,7 @@ setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
         }
         else {
             // 장애물 충돌 위험 없음
-            (0, robotWheelControll_1.wheelControll)(false);
+            (0, robotconfig_1.setCollision)(false);
         }
         // console.log("======================================");
         // detectCollision 리턴값이 true(충돌위험발생)이라면 
