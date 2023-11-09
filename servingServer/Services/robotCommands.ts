@@ -52,9 +52,13 @@ export async function checkCrossRoad(robotName: string) {
     const robotX = robotCoordinate[robotName].x;
     const robotY = robotCoordinate[robotName].y;
 
-    for (const pointName in crossRoadCoordinates) {
-        const pointX = parseFloat(crossRoadCoordinates[pointName].x);
-        const pointY = parseFloat(crossRoadCoordinates[pointName].y);
+    for (const pointName in crossPointCoordinates) {
+        // console.log(crossPointCoordinates);
+        // console.log(pointName);
+        // console.log(crossPointCoordinates[pointName].x);
+        // console.log(crossPointCoordinates[pointName].y);
+        const pointX = crossPointCoordinates[pointName].x;
+        const pointY = crossPointCoordinates[pointName].y;
 
         const distance = Math.sqrt((pointX - robotX) ** 2 + (pointY - robotY) ** 2);
         if (distance <= 1.0) {
