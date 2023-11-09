@@ -109,9 +109,9 @@ setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
         console.error("error");
     }
 }), 33);
-setInterval(() => {
-    API.movePoint("point01");
-    setTimeout(() => {
-        API.movePoint("point02");
-    }, 16000);
-}, 32000);
+// setInterval(() => {
+//     API.movePoint("point01");
+//     setTimeout(() => {
+//         API.movePoint("point02");
+//     }, 16000);
+// }, 32000);
