@@ -89,8 +89,8 @@ function detectCollision(robotName) {
                     // console.log(mappingPoint);
                     const distance = Math.sqrt(Math.pow(laserPoint.x - mappingPoint[0], 2) + Math.pow(laserPoint.y - mappingPoint[1], 2));
                     // 벽충돌은 무시
+                    console.log(distance);
                     if (distance < 15) {
-                        // console.log(distance);
                         // console.log("벽의 좌표:", laserPoint, mappingPoint);
                         isObstacle = false;
                         break;
