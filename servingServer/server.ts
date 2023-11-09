@@ -100,10 +100,10 @@ setInterval(async () => {
     }
 }, 33);
 
-setInterval(() => {
-    API.movePoint("point01");
+// setInterval(() => {
+//     API.movePoint("point01");
     
-    setTimeout(() => {
-        API.movePoint("point02");
-    }, 16000);
-}, 32000);
+//     setTimeout(() => {
+//         API.movePoint("point02");
+//     }, 16000);
+// }, 32000);
