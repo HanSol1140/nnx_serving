@@ -69,6 +69,7 @@ function detectCollision(robotName) {
         const robotX = robotconfig_1.robotCoordinate[robotName].x;
         const robotY = robotconfig_1.robotCoordinate[robotName].y;
         for (const laserPoint of robotconfig_1.laserCoordinate[robotName]) {
+            // console.log(laserPoint);
             const dx = laserPoint.x - robotX;
             const dy = laserPoint.y - robotY;
             const rotatedX = dx * Math.cos(-robotTheta) - dy * Math.sin(-robotTheta);

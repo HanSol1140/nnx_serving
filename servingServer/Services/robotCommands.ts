@@ -83,6 +83,7 @@ export async function detectCollision(robotName: string) {
     const robotY = robotCoordinate[robotName].y;
 
     for (const laserPoint of laserCoordinate[robotName]) {
+        // console.log(laserPoint);
         const dx = laserPoint.x - robotX;
         const dy = laserPoint.y - robotY;
         const rotatedX = dx * Math.cos(-robotTheta) - dy * Math.sin(-robotTheta);
