@@ -10,5 +10,17 @@
     "coordinatesX": "-3.06",
     "coordinatesY": "0.78",
     "coordinatesTheta": "-179.17"
+  },
+  {
+    "pointName": "point01",
+    "coordinatesX": "-7.47",
+    "coordinatesY": "-0.01",
+    "coordinatesTheta": "0.91"
+  },
+  {
+    "pointName": "point02",
+    "coordinatesX": "0.61",
+    "coordinatesY": "-0.12",
+    "coordinatesTheta": "178.96"
   }
 ]

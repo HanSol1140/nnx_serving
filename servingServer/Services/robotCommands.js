@@ -41,9 +41,9 @@ function checkCrossRoad(robotName) {
     return __awaiter(this, void 0, void 0, function* () {
         const robotX = robotconfig_1.robotCoordinate[robotName].x;
         const robotY = robotconfig_1.robotCoordinate[robotName].y;
-        for (const pointName in robotconfig_1.crossRoadCoordinates) {
-            const pointX = parseFloat(robotconfig_1.crossRoadCoordinates[pointName].x);
-            const pointY = parseFloat(robotconfig_1.crossRoadCoordinates[pointName].y);
+        for (const pointName in crossRoadCoordinates) {
+            const pointX = parseFloat(crossRoadCoordinates[pointName].x);
+            const pointY = parseFloat(crossRoadCoordinates[pointName].y);
             const distance = Math.sqrt((pointX - robotX) ** 2 + (pointY - robotY) ** 2);
             if (distance <= 1.0) {
                 // console.log(robotName + " 교차로 입장 : ", pointName);

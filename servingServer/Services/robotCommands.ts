@@ -11,8 +11,8 @@ import {
     setRobotCoordinate,
     laserCoordinate,
     setLaserCoordinate,
-    crossRoadCoordinates,
-    setCrossRoadCoordinates,
+    crossPointCoordinates,
+    setCrossPointCoordinates,
     crossRoadState,
     setCrossRoadState,
     mappingData
