@@ -66,22 +66,22 @@ server2.on('close', (code) => {
 // ==========================
 // SETUP
 RobotSetup.serverSetup();
-setTimeout(() => {
-    // console.log(mappingData);
-    API.movePoint("point02");
-    API.movePoint("point01");    
-    setTimeout(() => {
-        API.movePoint("point02");
-    }, 20000);
+// setTimeout(() => {
+//     // console.log(mappingData);
+//     API.movePoint("point02");
+//     API.movePoint("point01");    
+//     setTimeout(() => {
+//         API.movePoint("point02");
+//     }, 20000);
     
     
-    setInterval(() => {
-        API.movePoint("point01");
+//     setInterval(() => {
+//         API.movePoint("point01");
         
-        setTimeout(() => {
-            API.movePoint("point02");
-        }, 20000);
-    }, 40000);
+//         setTimeout(() => {
+//             API.movePoint("point02");
+//         }, 20000);
+//     }, 40000);
     
 }, 500)
 
@@ -108,7 +108,7 @@ setInterval(async () => {
         console.log(collisionCheck);
         if (collisionCheck) { 
             // setCollision(true);
-            server2.send({ booleanValue: false });
+            server2.send({ booleanValue: true });
             // // 장애물이 감지됫다면
             // console.log(currentRobotName + " 장애물 충돌 위험");
             // // // 로봇인지 아닌지 체크
@@ -121,7 +121,7 @@ setInterval(async () => {
         } else {
             // 장애물 충돌 위험 없음
             // setCollision(false);
-            server2.send({ booleanValue: false });
+            server2.send({ booleanValue: true });
         }
 
         // console.log("======================================");
