@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.wheelControll = void 0;
 const serialport_1 = require("serialport");
+const robotconfig_1 = require("../robotconfig");
 // UART2와 UART3 설정
 const uart2 = new serialport_1.SerialPort({ path: '/dev/ttyAMA2', baudRate: 115200 });
 let parser2 = new serialport_1.ReadlineParser();
@@ -18,7 +19,7 @@ const uart3 = new serialport_1.SerialPort({ path: '/dev/ttyAMA3', baudRate: 1152
 let parser3 = new serialport_1.ReadlineParser();
 uart2.pipe(parser2);
 uart3.pipe(parser3);
-function wheelControll(collision) {
+function wheelControll() {
     return __awaiter(this, void 0, void 0, function* () {
         uart2.removeAllListeners('readable');
         uart3.removeAllListeners('readable');
@@ -32,7 +33,7 @@ function wheelControll(collision) {
             // let byteArray = hexData.match(/.{1,2}/g).map(byte => parseInt(byte, 16));
             // console.log(`Received from UART2: ${hexData1}`);
             if (data) {
-                if (!collision) {
+                if (!robotconfig_1.collision) {
                     // collision이 false일 때 정상 운행
                     uart3.write(data);
                 }
