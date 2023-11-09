@@ -9,13 +9,13 @@ import {
     
     collision, setCollision,
 } from './robotconfig';
-// process.on('message', (message:any) => {
-//     if (message.booleanValue !== undefined) {
-//       let collisionValue = message.booleanValue;
-//       console.log(collisionValue);
-//       setCollision(collisionValue);
-//     }
-//   });
+process.on('message', (message:any) => {
+    if (message.booleanValue !== undefined) {
+      let collisionValue = message.booleanValue;
+      console.log(collisionValue);
+      setCollision(collisionValue);
+    }
+  });
 // 서버 시작
 const server     = app.listen(PORT, () => {
     console.log(`Server listening on HTTP port ${PORT}`);
