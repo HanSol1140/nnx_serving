@@ -49,7 +49,7 @@ function wheelControll() {
                     // adjustSpeedAndSend(data);
                     checkForCollision();
                     const timeElapsed = Date.now() - collisionStartTime;
-                    if (timeElapsed < 1000) { // 1초가 지나지 않았으면 adjustSpeedAndSend1을 호출
+                    if (timeElapsed < 1100) { // 1초가 지나지 않았으면 adjustSpeedAndSend1을 호출
                         // console.log("1");
                         adjustSpeedAndSend1(data);
                     }
