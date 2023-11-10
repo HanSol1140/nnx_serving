@@ -11,7 +11,7 @@ const cors = require('cors');
 app.use(cors()); // 모든 도메인에서의 요청 허용
 const PORT = process.env.PORT || 8085;
 const robotconfig_1 = require("./robotconfig");
-let bool = process.on('message', (message) => {
+process.on('message', (message) => {
     if (message.booleanValue == true && robotconfig_1.collision != true) {
         (0, robotconfig_1.setCollision)(message.booleanValue);
         setTimeout(() => {

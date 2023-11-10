@@ -9,7 +9,7 @@ import {
     collision,
     setCollision,
 } from './robotconfig';
-let bool =
+
 process.on('message', (message: any) => {
     if (message.booleanValue == true && collision != true) {
         setCollision(message.booleanValue);
