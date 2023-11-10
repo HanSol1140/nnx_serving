@@ -55,7 +55,8 @@ function wheelControll() {
                     }
                     else { // 1초가 지났으면 adjustSpeedAndSend2를 호출
                         // console.log("2");
-                        adjustSpeedAndSend2(data);
+                        // adjustSpeedAndSend2(data);
+                        uart3.write(data);
                     }
                 }
                 else {

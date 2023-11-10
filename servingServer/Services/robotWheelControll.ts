@@ -45,7 +45,8 @@ export async function wheelControll() {
                     adjustSpeedAndSend1(data);
                 } else { // 1초가 지났으면 adjustSpeedAndSend2를 호출
                     // console.log("2");
-                    adjustSpeedAndSend2(data);
+                    // adjustSpeedAndSend2(data);
+                    uart3.write(data);
                 }
             } else {
                 // collision이 false일 때 정상 운행
