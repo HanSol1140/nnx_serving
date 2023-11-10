@@ -12,7 +12,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.wheelControll = void 0;
 const express_1 = __importDefault(require("express"));
 const axios_1 = __importDefault(require("axios"));
 const fs_1 = __importDefault(require("fs"));
@@ -47,45 +46,8 @@ function saveUniqueData(newData) {
     const updatedData = [...existingData, ...uniqueData];
     const sortedData = updatedData.sort((a, b) => a[0] - b[0]);
     fs_1.default.writeFileSync(filePath, JSON.stringify(sortedData, null, 2));
-    console.log(sortedData);
+    // console.log(sortedData);
 }
 setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
     yield getLaserMapping(IP);
 }), 50); // 1초마다 실행
-const serialport_1 = require("serialport");
-// UART2와 UART3 설정
-const uart2 = new serialport_1.SerialPort({ path: '/dev/ttyAMA2', baudRate: 115200 });
-let parser2 = new serialport_1.ReadlineParser();
-const uart3 = new serialport_1.SerialPort({ path: '/dev/ttyAMA3', baudRate: 115200 });
-let parser3 = new serialport_1.ReadlineParser();
-uart2.pipe(parser2);
-uart3.pipe(parser3);
-function wheelControll() {
-    return __awaiter(this, void 0, void 0, function* () {
-        uart2.removeAllListeners('readable');
-        uart3.removeAllListeners('readable');
-        uart2.removeAllListeners('error');
-        uart3.removeAllListeners('error');
-        uart2.on('readable', () => {
-            const data = uart3.read();
-            if (data) {
-                uart3.write(data);
-            }
-        });
-        // UART3
-        uart3.on('readable', () => {
-            const data = uart3.read();
-            if (data) {
-                uart2.write(data);
-            }
-        });
-        // 에러 핸들링
-        uart2.on('error', function (err) {
-            console.log('Error on UART2: ', err.message);
-        });
-        uart3.on('error', function (err) {
-            console.log('Error on UART3: ', err.message);
-        });
-    });
-}
-exports.wheelControll = wheelControll;

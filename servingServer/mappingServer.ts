@@ -39,7 +39,7 @@ function saveUniqueData(newData: number[][]): void {
     const updatedData = [...existingData, ...uniqueData];
     const sortedData = updatedData.sort((a, b) => a[0] - b[0]);
     fs.writeFileSync(filePath, JSON.stringify(sortedData, null, 2));
-    console.log(sortedData);
+    // console.log(sortedData);
 }
 
 
@@ -48,41 +48,3 @@ setInterval(async () => {
     await getLaserMapping(IP);
 }, 50); // 1초마다 실행
 
-
-import { SerialPort, ReadlineParser } from 'serialport';
-
-// UART2와 UART3 설정
-const uart2 = new SerialPort({ path: '/dev/ttyAMA2', baudRate: 115200 });
-let parser2 = new ReadlineParser();
-const uart3 = new SerialPort({ path: '/dev/ttyAMA3', baudRate: 115200 });
-let parser3 = new ReadlineParser();
-uart2.pipe(parser2);
-uart3.pipe(parser3);
-
-export async function wheelControll() {
-    uart2.removeAllListeners('readable');
-    uart3.removeAllListeners('readable');
-    uart2.removeAllListeners('error');
-    uart3.removeAllListeners('error');
-    uart2.on('readable', () => {
-        const data = uart3.read();
-        if (data) {
-            uart3.write(data);
-        }
-    });
-    // UART3
-    uart3.on('readable', () => {
-        const data = uart3.read();
-        if (data) {
-            uart2.write(data);
-        }
-    });
-
-    // 에러 핸들링
-    uart2.on('error', function (err: any) {
-        console.log('Error on UART2: ', err.message);
-    });
-    uart3.on('error', function (err: any) {
-        console.log('Error on UART3: ', err.message);
-    });
-}
