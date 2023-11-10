@@ -79,10 +79,16 @@ RobotSetup.serverSetup();
 setTimeout(() => __awaiter(void 0, void 0, void 0, function* () {
     //     // console.log(mappingData);
     //     API.movePoint("point02");
-    //     API.movePoint("point01");    
-    //     setTimeout(() => {
-    //         API.movePoint("point02");
-    //     }, 20000);
+    API.movePoint("point01");
+    setTimeout(() => {
+        API.movePoint("point02");
+    }, 20000);
+    setInterval(() => {
+        API.movePoint("point01");
+        setTimeout(() => {
+            API.movePoint("point02");
+        }, 20000);
+    }, 40000);
 }), 1000);
 // setInterval(async () => {
 function intervalFunction() {
