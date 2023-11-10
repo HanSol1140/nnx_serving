@@ -46,8 +46,10 @@ export async function wheelControll() {
                     // console.log("1");
                     // adjustSpeedAndSend1(data);
                     movingCommandTest(0x99, 0x81, 0x10, 0x01);
+                    readCommandTest();
                 } else {
                     movingCommandTest(0x99, 0x81, 0x99, 0x01);
+                    readCommandTest();
                 }
             } else {
                 // collision이 false일 때 정상 운행
