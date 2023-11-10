@@ -15,7 +15,7 @@ process.on('message', (message: any) => {
         setCollision(message.booleanValue);
         setTimeout(()=> {
             setCollision(false);
-        }, 3000)
+        }, 2500)
     }
     // else{
     //     setCollision(false);

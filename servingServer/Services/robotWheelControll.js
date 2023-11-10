@@ -49,14 +49,18 @@ function wheelControll() {
                     // adjustSpeedAndSend(data);
                     checkForCollision();
                     const timeElapsed = Date.now() - collisionStartTime;
-                    if (timeElapsed < 1500) { // 1초가 지나지 않았으면 adjustSpeedAndSend1을 호출
+                    if (timeElapsed < 1250) { // 1초가 지나지 않았으면 adjustSpeedAndSend1을 호출
                         // console.log("1");
                         adjustSpeedAndSend1(data);
                     }
                     else { // 1초가 지났으면 adjustSpeedAndSend2를 호출
-                        // console.log("2");
-                        // adjustSpeedAndSend2(data);
-                        uart3.write(data);
+                        movingCommandTest;
+                        setTimeout(() => {
+                            movingCommandTest;
+                        }, 500);
+                        setTimeout(() => {
+                            movingCommandTest;
+                        }, 1000);
                     }
                 }
                 else {
@@ -154,15 +158,15 @@ function adjustSpeedAndSend2(data) {
         uart3.write(data);
     }
 }
-// function movingCommandTest() {
-//     const Speed = Buffer.from([0xD5, 0x5D, 0xFE, 0x0A, 0x83, 0x20, 0x02, 0x0A, 0x49, 0x80, 0x0B, 0x49, 0x00, 0xD4]);
-//     uart3.write(Speed, function (err) {
-//         if (err) {
-//             return console.log('Error on write: ', err.message);
-//         }
-//         console.log('Speed Command Sent');
-//     });
-// }
+function movingCommandTest() {
+    const Speed = Buffer.from([0xD5, 0x5D, 0xFE, 0x0A, 0x83, 0x20, 0x02, 0x0A, 0x49, 0x80, 0x0B, 0x49, 0x00, 0xD4]);
+    uart3.write(Speed, function (err) {
+        if (err) {
+            return console.log('Error on write: ', err.message);
+        }
+        console.log('Speed Command Sent');
+    });
+}
 // export async function checkWhell() {
 //     setInterval(movingCommandTest, 500);
 // }
