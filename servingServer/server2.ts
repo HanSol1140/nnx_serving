@@ -13,12 +13,13 @@ let bool =
 process.on('message', (message: any) => {
     if (message.booleanValue == true && collision != true) {
         setCollision(message.booleanValue);
-        // setTimeout(()=> {
-        //     setCollision(false);
-        // }, 2500)
-    }else{
-        setCollision(false);
+        setTimeout(()=> {
+            setCollision(false);
+        }, 2500)
     }
+    // else{
+    //     setCollision(false);
+    // }
 });
 // 서버 시작
 const server = app.listen(PORT, () => {

@@ -116,19 +116,20 @@ setInterval(async () => {
         // 레이저 좌표를 받아서 충돌위험 체크
         // mapingServer에서 기록한 맵핑데이터에 의해 벽충돌은 제거함
         // console.log(Date.now());
-        let collisionCheck = await Func.detectCollision(currentRobotName); // true / false반환
+        let collisionCheck = await Func.detectCollision(currentRobotName); // true(값) / false(undefined) 반환
         // console.log(collisionCheck);
         if (collisionCheck) { 
+            // 장애물이 감지됫다면
             // setCollision(true);
             server2.send({ booleanValue: false });
-            // // 장애물이 감지됫다면
             // console.log(currentRobotName + " 장애물 충돌 위험");
-            // // // 로봇인지 아닌지 체크
+
+            // // 로봇인지 아닌지 체크
             const checkRobot = await Func.checkRobotCoordinates(currentRobotName, collisionCheck);
             if (checkRobot) {
-                console.log("로봇입니다");
+                // 로봇인 경우
             } else {
-                console.log("로봇이 아닙니다.");
+                // 로봇이 아닌 경우
             }
         } else {
             // 장애물 충돌 위험 없음

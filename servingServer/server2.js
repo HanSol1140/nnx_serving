@@ -14,13 +14,13 @@ const robotconfig_1 = require("./robotconfig");
 let bool = process.on('message', (message) => {
     if (message.booleanValue == true && robotconfig_1.collision != true) {
         (0, robotconfig_1.setCollision)(message.booleanValue);
-        // setTimeout(()=> {
-        //     setCollision(false);
-        // }, 2500)
+        setTimeout(() => {
+            (0, robotconfig_1.setCollision)(false);
+        }, 2500);
     }
-    else {
-        (0, robotconfig_1.setCollision)(false);
-    }
+    // else{
+    //     setCollision(false);
+    // }
 });
 // 서버 시작
 const server = app.listen(PORT, () => {

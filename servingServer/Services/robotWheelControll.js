@@ -9,15 +9,24 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.wheelControll = exports.setCollision = void 0;
+exports.wheelControll = void 0;
 const serialport_1 = require("serialport");
 const robotconfig_1 = require("../robotconfig");
 // ============================================
 let collisionStartTime = 0;
-function setCollision() {
-    collisionStartTime = Date.now(); // collision 상태가 true가 되는 시간을 기록
+let collisionDetected = false;
+function checkForCollision() {
+    if (robotconfig_1.collision) {
+        if (!collisionDetected) {
+            collisionStartTime = Date.now();
+            collisionDetected = true;
+        }
+    }
+    else {
+        collisionStartTime = 0;
+        collisionDetected = false;
+    }
 }
-exports.setCollision = setCollision;
 // ============================================
 //
 // UART2와 UART3 설정
@@ -37,18 +46,21 @@ function wheelControll() {
             const data = uart2.read();
             if (data) {
                 if (robotconfig_1.collision) {
-                    adjustSpeedAndSend2(data);
-                    // const timeElapsed = Date.now() - collisionStartTime;
-                    // if (timeElapsed < 1000) { // 1초가 지나지 않았으면 adjustSpeedAndSend1을 호출
-                    //     console.log("1");
-                    //     adjustSpeedAndSend1(data);
-                    // } else { // 1초가 지났으면 adjustSpeedAndSend2를 호출
-                    //     console.log("2");
-                    //     adjustSpeedAndSend2(data);
-                    // }
+                    // adjustSpeedAndSend(data);
+                    checkForCollision();
+                    const timeElapsed = Date.now() - collisionStartTime;
+                    if (timeElapsed < 1000) { // 1초가 지나지 않았으면 adjustSpeedAndSend1을 호출
+                        console.log("1");
+                        adjustSpeedAndSend1(data);
+                    }
+                    else { // 1초가 지났으면 adjustSpeedAndSend2를 호출
+                        console.log("2");
+                        adjustSpeedAndSend2(data);
+                    }
                 }
                 else {
                     // collision이 false일 때 정상 운행
+                    checkForCollision();
                     uart3.write(data);
                 }
             }
