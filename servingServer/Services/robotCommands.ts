@@ -77,6 +77,59 @@ export async function checkCrossRoad(robotName: string) {
 
 // ===============================================================================================================
 // 충돌 위험 체크
+// export async function detectCollision(robotName: string) {
+//     const robotTheta = robotCoordinate[robotName].theta; // 라디안 값
+//     const robotX = robotCoordinate[robotName].x;
+//     const robotY = robotCoordinate[robotName].y;
+
+//     for (const laserPoint of laserCoordinate[robotName]) {
+//         // console.log(laserPoint);
+//         const dx = laserPoint.x - robotX;
+//         const dy = laserPoint.y - robotY;
+//         const rotatedX = dx * Math.cos(-robotTheta) - dy * Math.sin(-robotTheta);
+//         const rotatedY = dx * Math.sin(-robotTheta) + dy * Math.cos(-robotTheta);
+
+//         // 충돌 검사 영역 설정
+//         const rectangleWidth = 2.0; // 감지영역 거리
+//         const rectangleHeight = 0.8; // 감지영역 폭
+
+//         // 충돌 위험 판단
+//         if (rotatedX >= 0 && rotatedX <= rectangleWidth && Math.abs(rotatedY) <= rectangleHeight / 2) {
+//             const direction = rotatedY > 0 ? "left" : "right";
+//             // console.log("충돌 위험:", robotName, laserPoint, direction);
+//             // console.log(laserPoint);
+//             // console.log(mappingData);
+//             // mappingData와의 거리 계산
+//             let isObstacle = true; // 먼저 장애물이라고 가정
+
+//             // 벽인지 아닌지 검사
+//             const xRange = 1; // laserPoint의 x 좌표를 기준으로 할 범위
+//             for (const mappingPoint of mappingData) {
+//                 // x 좌표가 laserPoint의 x 좌표 범위 안에 있는지 확인
+//                 if (Math.abs(laserPoint.x - mappingPoint[0]) <= xRange) {
+//                     const distance = Math.sqrt(
+//                         Math.pow(laserPoint.x - mappingPoint[0], 2) + Math.pow(laserPoint.y - mappingPoint[1], 2)
+//                     );
+
+//                     if (distance < 0.1) {
+//                         // 충돌 위험 판단 로직
+//                         isObstacle = false;
+//                         break;
+//                     }
+//                 }
+//             }
+//             // 벽이 아닌 장애물의 좌표값 리턴
+//             if (isObstacle) {
+//                 // console.log(robotName + " 장애물의 좌표:", laserPoint);
+//                 return laserPoint;
+//             }
+//         }
+//     }
+//     // 장애물이 없으면 undefined를 반환(false)
+//     return;
+// }
+// ===============================================================================================================
+// 충돌 위험 체크
 export async function detectCollision(robotName: string) {
     const robotTheta = robotCoordinate[robotName].theta; // 라디안 값
     const robotX = robotCoordinate[robotName].x;
@@ -101,22 +154,21 @@ export async function detectCollision(robotName: string) {
             // console.log(mappingData);
             // mappingData와의 거리 계산
             let isObstacle = true; // 먼저 장애물이라고 가정
-            
+
             // 벽인지 아닌지 검사
-            for (const mappingPoint of mappingData) {
-                // console.log(mappingPoint);
+            const xRange = 0.3; // laserPoint의 x 좌표를 기준으로 할 범위
+            const indexNumber = binarySearchForRange(mappingData, laserPoint.x, xRange);
+            // console.log(laserPoint);
+            // console.log(indexNumber[0]);
+            // console.log(indexNumber[1]);
+            for (let i = indexNumber[0]; i <= indexNumber[1]; i++) { // startIndex, endIndex
+                const mappingPoint = mappingData[i];
                 const distance = Math.sqrt(
                     Math.pow(laserPoint.x - mappingPoint[0], 2) + Math.pow(laserPoint.y - mappingPoint[1], 2)
                 );
-                // console.log("=========================");
-                // console.log(laserPoint);
-                // console.log(mappingPoint);
-                // console.log(distance);
-                
-                // 벽충돌은 무시
-                // console.log(distance);
+
                 if (distance < 0.1) {
-                    // console.log("벽의 좌표:", laserPoint, mappingPoint);
+                    // 충돌 위험 판단 로직
                     isObstacle = false;
                     break;
                 }
@@ -130,6 +182,106 @@ export async function detectCollision(robotName: string) {
     }
     // 장애물이 없으면 undefined를 반환(false)
     return;
+}
+
+function binarySearchForRange(data: number[][], target: number, range: number): [number, number] {
+    let start = 0;
+    let end = data.length - 1;
+    let middle;
+    let startIndex = -1;
+    let endIndex = -1;
+
+    // 시작 인덱스를 찾기
+    while (start <= end) {
+        middle = Math.floor((start + end) / 2);
+        const currentX = data[middle][0];
+        
+        if (currentX >= target - range && currentX <= target + range) {
+            // 범위 내에 들어왔으므로 다음으로 더 낮은 인덱스를 찾습니다.
+            startIndex = middle;
+            while (middle > 0 && data[middle - 1][0] >= target - range) {
+                middle--;
+            }
+            startIndex = middle;
+            break;
+        } else if (currentX < target - range) {
+            start = middle + 1;
+        } else {
+            end = middle - 1;
+        }
+    }
+
+    // 시작 인덱스를 찾지 못했다면 범위 내에 데이터가 없는 것입니다.
+    if (startIndex === -1) {
+        return [-1, -1];
+    }
+
+    // 끝 인덱스를 찾습니다. 시작 인덱스부터 검색을 시작합니다.
+    start = startIndex;
+    end = data.length - 1;
+    while (start <= end) {
+        middle = Math.floor((start + end) / 2);
+        const currentX = data[middle][0];
+
+        if (currentX <= target + range) {
+            // 범위 내에 들어왔으므로 이제 더 높은 인덱스를 찾습니다.
+            endIndex = middle;
+            while (middle < data.length - 1 && data[middle + 1][0] <= target + range) {
+                middle++;
+            }
+            endIndex = middle;
+            break;
+        } else {
+            end = middle - 1;
+        }
+    }
+
+    return [startIndex, endIndex];
+}
+
+
+// const startIndex = binarySearchForStartIndex(mappingData, laserPoint.x - xRange);
+// console.log(startIndex);
+function binarySearchForStartIndex(data: number[][], target: number): number {
+    let start = 0;
+    let end = data.length - 1;
+    let result = -1;
+
+    while (start <= end) {
+        let middle = Math.floor((start + end) / 2);
+        const currentX = data[middle][0];
+
+        if (currentX >= target) {
+            result = middle;
+            end = middle - 1;
+        } else {
+            start = middle + 1;
+        }
+    }
+
+    return result;
+}
+
+// const endIndex = binarySearchForEndIndex(mappingData, laserPoint.x + xRange);
+// console.log(endIndex);
+function binarySearchForEndIndex(data: number[][], target: number): number {
+    let start = 0;
+    let end = data.length - 1;
+    let result = -1;
+
+    while (start <= end) {
+        let middle = Math.floor((start + end) / 2);
+        const currentX = data[middle][0];
+
+        if (currentX <= target) {
+            result = middle;
+            start = middle + 1;
+        } else {
+            end = middle - 1;
+        }
+    }
+
+    return result;
 }
 
 // ===============================================================================================================
