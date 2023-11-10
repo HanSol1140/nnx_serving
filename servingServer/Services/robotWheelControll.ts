@@ -181,12 +181,20 @@ function movingCommandTest(leftSpeedHigh:any, leftSpeedLow:any, rightSpeedHigh:a
     command[13] = checksum;
 
     // 명령어 전송
-    uart3.write(command, function (err) {
-        if (err) {
-            return console.log('Error on write: ', err.message);
-        }
-        console.log('Command Sent:', command.toString('hex').toUpperCase());
-    });
+    uart3.write(command);
+    // uart3.write(command, function (err) {
+    //     if (err) {
+    //         return console.log('Error on write: ', err.message);
+    //     }
+    //     console.log('Command Sent:', command.toString('hex').toUpperCase());
+    // });
+}
+function readCommandTest(){
+    let command1 = Buffer.from([0xD5, 0x5D, 0x0A, 0x04, 0x02, 0x28, 0x02, 0x3A]);
+    let command2 = Buffer.from([0xD5, 0x5D, 0x0B, 0x04, 0x02, 0x28, 0x02, 0x3B]);
+    uart3.write(command1);
+    uart3.write(command2);
+
 }
 // export async function checkWhell() {
 //     setInterval(movingCommandTest, 500);
