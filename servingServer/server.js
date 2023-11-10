@@ -94,7 +94,7 @@ setTimeout(() => __awaiter(void 0, void 0, void 0, function* () {
 function intervalFunction() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            // console.log(Date.now());
+            console.log(Date.now());
             // API.getSpeed(currentRobotName); // 속도 측정
             for (var i in robotconfig_1.robotSettings) { // i = 등록된 로봇Name
                 // 로봇 좌표 받기
@@ -137,8 +137,8 @@ function intervalFunction() {
             //     // 체크한다
             //     // 
             // }
-            // console.log(Date.now());
-            // console.log("=======");
+            console.log(Date.now());
+            console.log("=======");
         }
         catch (error) {
             console.error("error");
