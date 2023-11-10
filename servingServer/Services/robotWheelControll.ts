@@ -68,10 +68,10 @@ export async function wheelControll() {
 
     // 에러 핸들링
     uart2.on('error', function (err: any) {
-        console.log('Error on UART2: ', err.message);
+        // console.log('Error on UART2: ', err.message);
     });
     uart3.on('error', function (err: any) {
-        console.log('Error on UART3: ', err.message);
+        // console.log('Error on UART3: ', err.message);
     });
 
     // 에러가 나오면 한번만 출력하고 그 이후 에러는 무시
