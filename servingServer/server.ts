@@ -98,6 +98,7 @@ setTimeout(async() => {
 
 setInterval(async () => {
     try {
+        console.log(Date.now());
         // API.getSpeed(currentRobotName); // 속도 측정
         for (var i in robotSettings) { // i = 등록된 로봇Name
             // 로봇 좌표 받기
@@ -115,7 +116,6 @@ setInterval(async () => {
 
         // 레이저 좌표를 받아서 충돌위험 체크
         // mapingServer에서 기록한 맵핑데이터에 의해 벽충돌은 제거함
-        // console.log(Date.now());
         let collisionCheck = await Func.detectCollision(currentRobotName); // true(값) / false(undefined) 반환
         // console.log(collisionCheck);
         if (collisionCheck) { 
@@ -144,7 +144,8 @@ setInterval(async () => {
         //     // 체크한다
         //     // 
         // }
-        // console.log(Date.now());
+        console.log(Date.now());
+        console.log("=======");
     } catch (error) {
         console.error("error");
     }

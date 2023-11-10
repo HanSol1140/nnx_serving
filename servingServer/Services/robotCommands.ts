@@ -156,19 +156,17 @@ export async function detectCollision(robotName: string) {
             let isObstacle = true; // 먼저 장애물이라고 가정
 
             // 벽인지 아닌지 검사
-            const xRange = 0.3; // laserPoint의 x 좌표를 기준으로 할 범위
+            const xRange = 0.5; // laserPoint의 x 좌표를 기준으로 할 범위
             const indexNumber = binarySearchForRange(mappingData, laserPoint.x, xRange);
-            // console.log(laserPoint);
-            // console.log(indexNumber[0]);
-            // console.log(indexNumber[1]);
+
             for (let i = indexNumber[0]; i <= indexNumber[1]; i++) { // startIndex, endIndex
                 const mappingPoint = mappingData[i];
                 const distance = Math.sqrt(
                     Math.pow(laserPoint.x - mappingPoint[0], 2) + Math.pow(laserPoint.y - mappingPoint[1], 2)
                 );
 
+                // 충돌 위험 판단
                 if (distance < 0.1) {
-                    // 충돌 위험 판단 로직
                     isObstacle = false;
                     break;
                 }
