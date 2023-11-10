@@ -107,13 +107,13 @@ function adjustSpeedAndSend1(data) {
         // 오른쪽 바퀴 속도를 왼쪽 바퀴 속도에 기반하여 계산
         const rightWheelSpeed = (commandBuffer[12]) * 256 + commandBuffer[11];
         // 속도 조정 (예시: 왼쪽 바퀴 50%, 오른쪽 바퀴 25%로 조정)
-        let adjustedLeftWheelSpeed = Math.floor(leftWheelSpeed * 0.5);
-        let adjustedRightWheelSpeed = Math.floor(leftWheelSpeed * 1);
+        let adjustedRightWheelSpeed = Math.floor(leftWheelSpeed * 0.5);
+        let adjustedLeftWheelSpeed = Math.floor(leftWheelSpeed * 1);
         // 조정된 속도값으로 Buffer 업데이트
-        commandBuffer[9] = (adjustedLeftWheelSpeed >> 8) + 0x80;
-        commandBuffer[8] = adjustedLeftWheelSpeed & 0xFF;
-        commandBuffer[12] = (adjustedRightWheelSpeed >> 8);
-        commandBuffer[11] = adjustedRightWheelSpeed & 0xFF;
+        commandBuffer[9] = (adjustedRightWheelSpeed >> 8) + 0x80;
+        commandBuffer[8] = adjustedRightWheelSpeed & 0xFF;
+        commandBuffer[12] = (adjustedLeftWheelSpeed >> 8);
+        commandBuffer[11] = adjustedLeftWheelSpeed & 0xFF;
         // 체크섬 계산을 위해 마지막 바이트 제거
         commandBuffer = commandBuffer.slice(0, -1);
         // 체크섬 추가
@@ -135,13 +135,13 @@ function adjustSpeedAndSend2(data) {
         // 오른쪽 바퀴 속도를 왼쪽 바퀴 속도에 기반하여 계산
         const rightWheelSpeed = (commandBuffer[12]) * 256 + commandBuffer[11];
         // 속도 조정 (예시: 왼쪽 바퀴 50%, 오른쪽 바퀴 25%로 조정)
-        let adjustedLeftWheelSpeed = Math.floor(leftWheelSpeed * 1);
         let adjustedRightWheelSpeed = Math.floor(leftWheelSpeed * 1);
+        let adjustedLeftWheelSpeed = Math.floor(leftWheelSpeed * 1);
         // 조정된 속도값으로 Buffer 업데이트
-        commandBuffer[9] = (adjustedLeftWheelSpeed >> 8) + 0x80;
-        commandBuffer[8] = adjustedLeftWheelSpeed & 0xFF;
-        commandBuffer[12] = (adjustedRightWheelSpeed >> 8);
-        commandBuffer[11] = adjustedRightWheelSpeed & 0xFF;
+        commandBuffer[9] = (adjustedRightWheelSpeed >> 8) + 0x80;
+        commandBuffer[8] = adjustedRightWheelSpeed & 0xFF;
+        commandBuffer[12] = (adjustedLeftWheelSpeed >> 8);
+        commandBuffer[11] = adjustedLeftWheelSpeed & 0xFF;
         // 체크섬 계산을 위해 마지막 바이트 제거
         commandBuffer = commandBuffer.slice(0, -1);
         // 체크섬 추가
