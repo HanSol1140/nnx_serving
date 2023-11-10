@@ -44,22 +44,22 @@ export async function wheelControll() {
                     // console.log("1");
                     adjustSpeedAndSend1(data);
                 } else { // 1초가 지났으면 adjustSpeedAndSend2를 호출
-                    movingCommandTest
+                    movingCommandTest();
 
                     setTimeout(()=>{
-                        movingCommandTest
+                        movingCommandTest();
                     }, 500);
 
                     setTimeout(()=>{
-                        movingCommandTest
+                        movingCommandTest();
                     }, 1000);
 
                     setTimeout(()=>{
-                        movingCommandTest
+                        movingCommandTest();                        
                     }, 1500);
 
                     setTimeout(()=>{
-                        movingCommandTest
+                        movingCommandTest();
                     }, 2000);
                 }
             } else {
