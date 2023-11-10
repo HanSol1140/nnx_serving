@@ -143,7 +143,7 @@ export async function detectCollision(robotName: string) {
         const rotatedY = dx * Math.sin(-robotTheta) + dy * Math.cos(-robotTheta);
 
         // 충돌 검사 영역 설정
-        const rectangleWidth = 2.0; // 감지영역 거리
+        const rectangleWidth = 2.5; // 감지영역 거리
         const rectangleHeight = 0.8; // 감지영역 폭
 
         // 충돌 위험 판단
@@ -173,7 +173,7 @@ export async function detectCollision(robotName: string) {
             }
             // 벽이 아닌 장애물의 좌표값 리턴
             if (isObstacle) {
-                // console.log(robotName + " 장애물의 좌표:", laserPoint);
+                console.log(robotName + " 장애물의 좌표:", laserPoint);
                 return laserPoint;
             }
         }
