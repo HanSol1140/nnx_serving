@@ -89,10 +89,6 @@ function detectCollision(robotName) {
                 for (const mappingPoint of robotconfig_1.mappingData) {
                     // console.log(mappingPoint);
                     const distance = Math.sqrt(Math.pow(laserPoint.x - mappingPoint[0], 2) + Math.pow(laserPoint.y - mappingPoint[1], 2));
-                    // console.log("=========================");
-                    // console.log(laserPoint);
-                    // console.log(mappingPoint);
-                    // console.log(distance);
                     // 벽충돌은 무시
                     // console.log(distance);
                     if (distance < 0.1) {
