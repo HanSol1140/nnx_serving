@@ -49,6 +49,7 @@ export async function wheelControll() {
                 }
             } else {
                 // collision이 false일 때 정상 운행
+                console.log("정상운행");
                 checkForCollision();
                 uart3.write(data);
             }
