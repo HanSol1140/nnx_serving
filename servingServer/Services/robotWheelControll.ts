@@ -41,15 +41,15 @@ export async function wheelControll() {
                 checkForCollision();
                 const timeElapsed = Date.now() - collisionStartTime;
                 if (timeElapsed < 1000) { // 1초가 지나지 않았으면 adjustSpeedAndSend1을 호출
-                    console.log("1");
+                    // console.log("1");
                     adjustSpeedAndSend1(data);
                 } else { // 1초가 지났으면 adjustSpeedAndSend2를 호출
-                    console.log("2");
+                    // console.log("2");
                     adjustSpeedAndSend2(data);
                 }
             } else {
                 // collision이 false일 때 정상 운행
-                console.log("정상운행");
+                // console.log("정상운행");
                 checkForCollision();
                 uart3.write(data);
             }
