@@ -16,7 +16,7 @@ process.on('message', (message) => {
         (0, robotconfig_1.setCollision)(message.booleanValue);
         setTimeout(() => {
             (0, robotconfig_1.setCollision)(false);
-        }, 3000);
+        }, 2000);
     }
     // else{
     //     setCollision(false);
