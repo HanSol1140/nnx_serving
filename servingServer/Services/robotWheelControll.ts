@@ -29,14 +29,15 @@ export async function wheelControll() {
         const data = uart2.read();
         if (data) {
             if (collision) {
-                const timeElapsed = Date.now() - collisionStartTime;
-                if (timeElapsed < 1000) { // 1초가 지나지 않았으면 adjustSpeedAndSend1을 호출
-                    console.log("1");
-                    adjustSpeedAndSend1(data);
-                } else { // 1초가 지났으면 adjustSpeedAndSend2를 호출
-                    console.log("2");
-                    adjustSpeedAndSend2(data);
-                }
+                adjustSpeedAndSend2(data);
+                // const timeElapsed = Date.now() - collisionStartTime;
+                // if (timeElapsed < 1000) { // 1초가 지나지 않았으면 adjustSpeedAndSend1을 호출
+                //     console.log("1");
+                //     adjustSpeedAndSend1(data);
+                // } else { // 1초가 지났으면 adjustSpeedAndSend2를 호출
+                //     console.log("2");
+                //     adjustSpeedAndSend2(data);
+                // }
             } else {
                 // collision이 false일 때 정상 운행
                 uart3.write(data);
