@@ -144,8 +144,8 @@ function intervalFunction() {
             console.error("error");
         }
         finally {
-            setTimeout(intervalFunction, 1);
+            setTimeout(intervalFunction, 10);
         }
     });
 }
-setTimeout(intervalFunction, 1);
+setTimeout(intervalFunction, 10);

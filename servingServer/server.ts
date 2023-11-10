@@ -135,10 +135,10 @@ async function intervalFunction() {
     } catch (error) {
         console.error("error");
     }finally {
-        setTimeout(intervalFunction, 1);
+        setTimeout(intervalFunction, 10);
     }
 }
-setTimeout(intervalFunction, 1);
+setTimeout(intervalFunction, 10);
 
 
 
