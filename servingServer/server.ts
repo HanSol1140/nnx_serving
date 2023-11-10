@@ -66,6 +66,7 @@ server2.on('close', (code) => {
 // ==========================
 // SETUP
 RobotSetup.serverSetup();
+
 setTimeout(async() => {
 //     // console.log(mappingData);
 //     API.movePoint("point02");
@@ -148,7 +149,7 @@ setInterval(async () => {
     } catch (error) {
         console.error("error");
     }
-}, 10);
+}, 33);
 
 
 
