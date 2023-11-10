@@ -39,14 +39,14 @@ function getLaserMapping(robotIP) {
         }
     });
 }
+const existingCoord = '';
 function saveUniqueData(newData) {
     const existingData = fs_1.default.existsSync(filePath) ? JSON.parse(fs_1.default.readFileSync(filePath, 'utf8')) : [];
     const roundedNewData = newData.map(coord => coord.map(val => Math.round(val * 100) / 100));
-    const uniqueData = roundedNewData.filter(newCoord => !existingData.some(existingCoord => (Math.abs(existingCoord[0] - newCoord[0]) <= 0.05 && Math.abs(existingCoord[1] - newCoord[1]) <= 0.05)));
+    const uniqueData = roundedNewData.filter(newCoord => !existingData.some((coord) => (Math.abs(coord[0] - newCoord[0]) <= 0.05 && Math.abs(coord[1] - newCoord[1]) <= 0.05)));
     const updatedData = [...existingData, ...uniqueData];
     const sortedData = updatedData.sort((a, b) => a[0] - b[0]);
     fs_1.default.writeFileSync(filePath, JSON.stringify(sortedData, null, 2));
-    // console.log(sortedData);
 }
 setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
     yield getLaserMapping(IP);

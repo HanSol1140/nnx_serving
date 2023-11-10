@@ -26,20 +26,19 @@ async function getLaserMapping(robotIP: string) {
         console.error('Error with API call:', error);
     }
 }
-
+const existingCoord:any = '';
 function saveUniqueData(newData: number[][]): void {
-    const existingData = fs.existsSync(filePath) ? JSON.parse(fs.readFileSync(filePath, 'utf8')) : [];
+    const existingData: number[][] = fs.existsSync(filePath) ? JSON.parse(fs.readFileSync(filePath, 'utf8')) : [];
     const roundedNewData = newData.map(coord => coord.map(val => Math.round(val * 100) / 100) as [number, number]); 
     const uniqueData = roundedNewData.filter(newCoord => 
-        !existingData.some(existingCoord => 
-            (Math.abs(existingCoord[0] - newCoord[0]) <= 0.05 && Math.abs(existingCoord[1] - newCoord[1]) <= 0.05)
+        !existingData.some((coord:any) => 
+            (Math.abs(coord[0] - newCoord[0]) <= 0.05 && Math.abs(coord[1] - newCoord[1]) <= 0.05)
         )
     );
     
     const updatedData = [...existingData, ...uniqueData];
     const sortedData = updatedData.sort((a, b) => a[0] - b[0]);
     fs.writeFileSync(filePath, JSON.stringify(sortedData, null, 2));
-    // console.log(sortedData);
 }
 
 
