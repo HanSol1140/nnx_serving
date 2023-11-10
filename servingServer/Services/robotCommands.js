@@ -166,12 +166,12 @@ function binarySearchForRange(data, target, range) {
     let middle;
     let startIndex = -1;
     let endIndex = -1;
-    // 먼저 시작 인덱스를 찾습니다.
+    // 시작 인덱스를 찾기
     while (start <= end) {
         middle = Math.floor((start + end) / 2);
         const currentX = data[middle][0];
         if (currentX >= target - range && currentX <= target + range) {
-            // 범위 내에 들어왔으므로 이제 더 낮은 인덱스를 찾습니다.
+            // 범위 내에 들어왔으므로 다음으로 더 낮은 인덱스를 찾습니다.
             startIndex = middle;
             while (middle > 0 && data[middle - 1][0] >= target - range) {
                 middle--;
