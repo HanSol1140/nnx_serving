@@ -69,22 +69,22 @@ RobotSetup.serverSetup();
 setTimeout(async() => {
 //     // console.log(mappingData);
 //     API.movePoint("point02");
-    API.movePoint("point01");    
-    setTimeout(() => {
-        API.movePoint("point02");
-    }, 20000);
-    setInterval(() => {
-        API.movePoint("point01");    
-        setTimeout(() => {
-            API.movePoint("point02");
-        }, 20000);
-    }, 40000);
+    // API.movePoint("point01");    
+    // setTimeout(() => {
+    //     API.movePoint("point02");
+    // }, 20000);
+    // setInterval(() => {
+    //     API.movePoint("point01");    
+    //     setTimeout(() => {
+    //         API.movePoint("point02");
+    //     }, 20000);
+    // }, 40000);
 }, 1000)
 
 // setInterval(async () => {
 async function intervalFunction() {
     try {
-        console.log(Date.now());
+        // console.log(Date.now());
         // API.getSpeed(currentRobotName); // 속도 측정
         for (var i in robotSettings) { // i = 등록된 로봇Name
             // 로봇 좌표 받기
@@ -130,8 +130,8 @@ async function intervalFunction() {
         //     // 체크한다
         //     // 
         // }
-        console.log(Date.now());
-        console.log("=======");
+        // console.log(Date.now());
+        // console.log("=======");
     } catch (error) {
         console.error("error");
     }finally {
