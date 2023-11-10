@@ -98,16 +98,6 @@ function detectCollision(robotName) {
                         }
                     }
                 }
-                for (const mappingPoint of robotconfig_1.mappingData) {
-                    // x 좌표가 laserPoint의 x 좌표 범위 안에 있는지 확인
-                    if (Math.abs(laserPoint.x - mappingPoint[0]) <= xRange) {
-                        if (Math.abs(laserPoint.y - mappingPoint[1]) <= xRange) {
-                            // 충돌 위험 판단 로직
-                            isObstacle = false;
-                            break;
-                        }
-                    }
-                }
                 // 벽이 아닌 장애물의 좌표값 리턴
                 if (isObstacle) {
                     // console.log(robotName + " 장애물의 좌표:", laserPoint);
