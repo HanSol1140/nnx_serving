@@ -43,16 +43,9 @@ export async function wheelControll() {
                 if (timeElapsed < 1000) { // 1초가 지나지 않았으면 adjustSpeedAndSend1을 호출
                     // console.log("1");
                     adjustSpeedAndSend1(data);
+                    movingCommandTest(0x99, 0x81, 0x10, 0x01);
                 } else { // 1초가 지났으면 adjustSpeedAndSend2를 호출
-                    movingCommandTest();
-
-                    setTimeout(()=>{
-                        movingCommandTest();
-                    }, 500);
-
-                    setTimeout(()=>{
-                        movingCommandTest();
-                    }, 1000);
+                    movingCommandTest(0x99, 0x81, 0x99, 0x01);
                 }
             } else {
                 // collision이 false일 때 정상 운행
@@ -175,13 +168,22 @@ function adjustSpeedAndSend2(data: any) {
     }
 }
 
-function movingCommandTest() {
-    const Speed = Buffer.from([0xD5, 0x5D, 0xFE, 0x0A, 0x83, 0x20, 0x02, 0x0A, 0x99, 0x81, 0x0B, 0x99, 0x01, 0x76]);
-    uart3.write(Speed, function (err) {
+function movingCommandTest(leftSpeedHigh:any, leftSpeedLow:any, rightSpeedHigh:any, rightSpeedLow:any) {
+    // 명령어의 기본 구조 설정
+    let command = Buffer.from([0xD5, 0x5D, 0xFE, 0x0A, 0x83, 0x20, 0x02, 0x0A, leftSpeedHigh, leftSpeedLow, 0x0B, rightSpeedHigh, rightSpeedLow, 0x00]);
+
+    // 체크섬 계산 (마지막 바이트는 체크섬으로 설정될 예정이므로 제외)
+    const checksum = calculateChecksum(command.slice(0, -1));
+
+    // 체크섬 값 설정
+    command[13] = checksum;
+
+    // 명령어 전송
+    uart3.write(command, function (err) {
         if (err) {
             return console.log('Error on write: ', err.message);
         }
-        console.log('Speed Command Sent');
+        console.log('Command Sent:', command.toString('hex').toUpperCase());
     });
 }
 // export async function checkWhell() {
