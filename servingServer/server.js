@@ -101,55 +101,62 @@ setTimeout(() => __awaiter(void 0, void 0, void 0, function* () {
     // }
     // console.log(Date.now());
 }), 1000);
-setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        console.log(Date.now());
-        // API.getSpeed(currentRobotName); // 속도 측정
-        for (var i in robotconfig_1.robotSettings) { // i = 등록된 로봇Name
-            // 로봇 좌표 받기
-            yield API.getPose(i);
-            // 교차로 체크
-            // const crossCheck = await Func.checkCrossRoad(i); // true / false반환
-            // if (crossCheck) {
-            //     console.log(crossRoadState);
-            // }
-        }
-        // 자신이 쏘는 라이다 좌표 받기
-        yield API.getLaser(robotconfig_1.currentRobotName);
-        // 레이저 좌표를 받아서 충돌위험 체크
-        // mapingServer에서 기록한 맵핑데이터에 의해 벽충돌은 제거함
-        let collisionCheck = yield Func.detectCollision(robotconfig_1.currentRobotName); // true(값) / false(undefined) 반환
-        // console.log(collisionCheck);
-        if (collisionCheck) {
-            // 장애물이 감지됫다면
-            // setCollision(true);
-            server2.send({ booleanValue: true });
-            // console.log(currentRobotName + " 장애물 충돌 위험");
-            // // 로봇인지 아닌지 체크
-            const checkRobot = yield Func.checkRobotCoordinates(robotconfig_1.currentRobotName, collisionCheck);
-            if (checkRobot) {
-                // 로봇인 경우
+// setInterval(async () => {
+function intervalFunction() {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            console.log(Date.now());
+            // API.getSpeed(currentRobotName); // 속도 측정
+            for (var i in robotconfig_1.robotSettings) { // i = 등록된 로봇Name
+                // 로봇 좌표 받기
+                yield API.getPose(i);
+                // 교차로 체크
+                // const crossCheck = await Func.checkCrossRoad(i); // true / false반환
+                // if (crossCheck) {
+                //     console.log(crossRoadState);
+                // }
+            }
+            // 자신이 쏘는 라이다 좌표 받기
+            yield API.getLaser(robotconfig_1.currentRobotName);
+            // 레이저 좌표를 받아서 충돌위험 체크
+            // mapingServer에서 기록한 맵핑데이터에 의해 벽충돌은 제거함
+            let collisionCheck = yield Func.detectCollision(robotconfig_1.currentRobotName); // true(값) / false(undefined) 반환
+            // console.log(collisionCheck);
+            if (collisionCheck) {
+                // 장애물이 감지됫다면
+                // setCollision(true);
+                server2.send({ booleanValue: true });
+                // console.log(currentRobotName + " 장애물 충돌 위험");
+                // // 로봇인지 아닌지 체크
+                const checkRobot = yield Func.checkRobotCoordinates(robotconfig_1.currentRobotName, collisionCheck);
+                if (checkRobot) {
+                    // 로봇인 경우
+                }
+                else {
+                    // 로봇이 아닌 경우
+                }
             }
             else {
-                // 로봇이 아닌 경우
+                // 장애물 충돌 위험 없음
+                // setCollision(false);
+                server2.send({ booleanValue: false });
             }
+            // console.log("======================================");
+            // detectCollision 리턴값이 true(충돌위험발생)이라면 
+            // console.log(robotCoordinate);
+            // if(checkValue){
+            //     // 체크한다
+            //     // 
+            // }
+            console.log(Date.now());
+            console.log("=======");
         }
-        else {
-            // 장애물 충돌 위험 없음
-            // setCollision(false);
-            server2.send({ booleanValue: false });
+        catch (error) {
+            console.error("error");
         }
-        // console.log("======================================");
-        // detectCollision 리턴값이 true(충돌위험발생)이라면 
-        // console.log(robotCoordinate);
-        // if(checkValue){
-        //     // 체크한다
-        //     // 
-        // }
-        console.log(Date.now());
-        console.log("=======");
-    }
-    catch (error) {
-        console.error("error");
-    }
-}), 33);
+        finally {
+            setTimeout(intervalFunction, 33);
+        }
+    });
+}
+setTimeout(intervalFunction, 33);

@@ -96,7 +96,8 @@ setTimeout(async() => {
     // console.log(Date.now());
 }, 1000)
 
-setInterval(async () => {
+// setInterval(async () => {
+async function intervalFunction() {
     try {
         console.log(Date.now());
         // API.getSpeed(currentRobotName); // 속도 측정
@@ -148,9 +149,11 @@ setInterval(async () => {
         console.log("=======");
     } catch (error) {
         console.error("error");
+    }finally {
+        setTimeout(intervalFunction, 33);
     }
-}, 33);
-
+}
+setTimeout(intervalFunction, 33);
 
 
 
