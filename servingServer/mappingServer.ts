@@ -13,7 +13,7 @@ const server = app.listen(PORT, () => {
 });
 
 const IP = "192.168.0.15";
-const filePath = 'MappingData.json';
+const filePath = 'Settings/MappingData.json';
 
 async function getLaserMapping(robotIP: string) {
     try {
