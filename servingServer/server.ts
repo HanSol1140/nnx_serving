@@ -72,13 +72,13 @@ setTimeout(async() => {
     API.movePoint("point01");    
     setTimeout(() => {
         API.movePoint("point02");
-    }, 20000);
+    }, 18000);
     setInterval(() => {
         API.movePoint("point01");    
         setTimeout(() => {
             API.movePoint("point02");
-        }, 20000);
-    }, 40000);
+        }, 18000);
+    }, 36000);
 }, 1000)
 
 // setInterval(async () => {
