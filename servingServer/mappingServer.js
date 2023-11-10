@@ -47,7 +47,7 @@ function saveUniqueData(newData) {
     const updatedData = [...existingData, ...uniqueData];
     const sortedData = updatedData.sort((a, b) => a[0] - b[0]);
     fs_1.default.writeFileSync(filePath, JSON.stringify(sortedData, null, 2));
-    console.log(sortedData);
+    // console.log(sortedData);
 }
 setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
     yield getLaserMapping(IP);

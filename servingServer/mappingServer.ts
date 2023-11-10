@@ -39,7 +39,7 @@ function saveUniqueData(newData: number[][]): void {
     const updatedData = [...existingData, ...uniqueData];
     const sortedData = updatedData.sort((a, b) => a[0] - b[0]);
     fs.writeFileSync(filePath, JSON.stringify(sortedData, null, 2));
-    console.log(sortedData);
+    // console.log(sortedData);
 }
 
 
