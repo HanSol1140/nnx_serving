@@ -195,13 +195,13 @@ export async function getIMUstatus() {
         const response = await axios.get(`http://192.168.0.177/reeman/imu`);
         if (response.status === 200) {
             console.log(response.data);
-            // console.log("!!");
         }
 
     } catch (error) {
         console.error('Error with API call:', error);
     }
 }
+
 // 현재 속도 측정 => 가만히 있을땐 error출력, 움직일때만 작동하는 API
 export async function getSpeed(robotName: string) {
     try {

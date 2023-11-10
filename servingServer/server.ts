@@ -78,9 +78,20 @@ setTimeout(async() => {
     //     }, 18000);
     // }, 36000);
 }, 1000)
+async function getIMUstatus() {
+    try {
+        const response = await axios.get(`http://192.168.0.15/reeman/imu`);
+        if (response.status === 200) {
+            console.log(response.data);
+        }
 
+    } catch (error) {
+        console.error('Error with API call:', error);
+    }
+}
 // setInterval(async () => {
 async function intervalFunction() {
+    getIMUstatus();
     try {
         // console.log(Date.now());
         // API.getSpeed(currentRobotName); // 속도 측정
@@ -105,7 +116,7 @@ async function intervalFunction() {
         if (collisionCheck) { 
             // 장애물이 감지됫다면
             // setCollision(true);
-            server2.send({ booleanValue: true });
+            server2.send({ booleanValue: false });
             // console.log(currentRobotName + " 장애물 충돌 위험");
 
             // // 로봇인지 아닌지 체크

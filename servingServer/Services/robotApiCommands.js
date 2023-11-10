@@ -218,7 +218,6 @@ function getIMUstatus() {
             const response = yield axios_1.default.get(`http://192.168.0.177/reeman/imu`);
             if (response.status === 200) {
                 console.log(response.data);
-                // console.log("!!");
             }
         }
         catch (error) {

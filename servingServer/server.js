@@ -41,6 +41,7 @@ const app = (0, express_1.default)();
 app.use(express_1.default.json());
 const cors = require('cors');
 app.use(cors()); // 모든 도메인에서의 요청 허용
+const axios_1 = __importDefault(require("axios"));
 const PORT = process.env.PORT || 8084;
 // 서버 시작
 const server = app.listen(PORT, () => {
@@ -88,9 +89,23 @@ setTimeout(() => __awaiter(void 0, void 0, void 0, function* () {
     //     }, 18000);
     // }, 36000);
 }), 1000);
+function getIMUstatus() {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const response = yield axios_1.default.get(`http://192.168.0.15/reeman/imu`);
+            if (response.status === 200) {
+                console.log(response.data);
+            }
+        }
+        catch (error) {
+            console.error('Error with API call:', error);
+        }
+    });
+}
 // setInterval(async () => {
 function intervalFunction() {
     return __awaiter(this, void 0, void 0, function* () {
+        getIMUstatus();
         try {
             // console.log(Date.now());
             // API.getSpeed(currentRobotName); // 속도 측정
@@ -112,7 +127,7 @@ function intervalFunction() {
             if (collisionCheck) {
                 // 장애물이 감지됫다면
                 // setCollision(true);
-                server2.send({ booleanValue: true });
+                server2.send({ booleanValue: false });
                 // console.log(currentRobotName + " 장애물 충돌 위험");
                 // // 로봇인지 아닌지 체크
                 const checkRobot = yield Func.checkRobotCoordinates(robotconfig_1.currentRobotName, collisionCheck);
