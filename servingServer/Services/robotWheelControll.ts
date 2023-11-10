@@ -40,7 +40,7 @@ export async function wheelControll() {
                 // adjustSpeedAndSend(data);
                 checkForCollision();
                 const timeElapsed = Date.now() - collisionStartTime;
-                if (timeElapsed < 1250) { // 1초가 지나지 않았으면 adjustSpeedAndSend1을 호출
+                if (timeElapsed < 1500) { // 1초가 지나지 않았으면 adjustSpeedAndSend1을 호출
                     // console.log("1");
                     adjustSpeedAndSend1(data);
                 } else { // 1초가 지났으면 adjustSpeedAndSend2를 호출
