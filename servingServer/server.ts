@@ -121,7 +121,7 @@ setInterval(async () => {
         if (collisionCheck) { 
             // 장애물이 감지됫다면
             // setCollision(true);
-            server2.send({ booleanValue: false });
+            server2.send({ booleanValue: true });
             // console.log(currentRobotName + " 장애물 충돌 위험");
 
             // // 로봇인지 아닌지 체크
@@ -134,7 +134,7 @@ setInterval(async () => {
         } else {
             // 장애물 충돌 위험 없음
             // setCollision(false);
-            // server2.send({ booleanValue: false });
+            server2.send({ booleanValue: false });
         }
 
         // console.log("======================================");

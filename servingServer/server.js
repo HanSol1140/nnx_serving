@@ -123,7 +123,7 @@ setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
         if (collisionCheck) {
             // 장애물이 감지됫다면
             // setCollision(true);
-            server2.send({ booleanValue: false });
+            server2.send({ booleanValue: true });
             // console.log(currentRobotName + " 장애물 충돌 위험");
             // // 로봇인지 아닌지 체크
             const checkRobot = yield Func.checkRobotCoordinates(robotconfig_1.currentRobotName, collisionCheck);
@@ -137,7 +137,7 @@ setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
         else {
             // 장애물 충돌 위험 없음
             // setCollision(false);
-            // server2.send({ booleanValue: false });
+            server2.send({ booleanValue: false });
         }
         // console.log("======================================");
         // detectCollision 리턴값이 true(충돌위험발생)이라면 
