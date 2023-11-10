@@ -83,23 +83,6 @@ setTimeout(() => __awaiter(void 0, void 0, void 0, function* () {
     //     setTimeout(() => {
     //         API.movePoint("point02");
     //     }, 20000);
-    //     setInterval(() => {
-    //         API.movePoint("point01");
-    //         setTimeout(() => {
-    //             API.movePoint("point02");
-    //         }, 20000);
-    //     }, 40000);
-    // console.log(Date.now());
-    // let collisionCheck = await Func.detectCollision(currentRobotName); // true / false반환
-    // console.log("==================");
-    // console.log(collisionCheck);
-    // console.log("test");
-    // if (collisionCheck) { 
-    //     console.log("값있음");
-    // }else{
-    //     console.log("값없음");
-    // }
-    // console.log(Date.now());
 }), 1000);
 // setInterval(async () => {
 function intervalFunction() {
@@ -155,8 +138,8 @@ function intervalFunction() {
             console.error("error");
         }
         finally {
-            setTimeout(intervalFunction, 33);
+            setTimeout(intervalFunction, 10);
         }
     });
 }
-setTimeout(intervalFunction, 33);
+setTimeout(intervalFunction, 10);

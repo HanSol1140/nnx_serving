@@ -61,7 +61,6 @@ server2.on('close', (code) => {
 });
 
 // import { wheelControll } from './Services/robotWheelControll';
-
 // wheelControll();
 // ==========================
 // SETUP
@@ -74,26 +73,6 @@ setTimeout(async() => {
 //     setTimeout(() => {
 //         API.movePoint("point02");
 //     }, 20000);
-    
-    
-//     setInterval(() => {
-//         API.movePoint("point01");
-        
-//         setTimeout(() => {
-//             API.movePoint("point02");
-//         }, 20000);
-//     }, 40000);
-    // console.log(Date.now());
-    // let collisionCheck = await Func.detectCollision(currentRobotName); // true / false반환
-    // console.log("==================");
-    // console.log(collisionCheck);
-    // console.log("test");
-    // if (collisionCheck) { 
-    //     console.log("값있음");
-    // }else{
-    //     console.log("값없음");
-    // }
-    // console.log(Date.now());
 }, 1000)
 
 // setInterval(async () => {
@@ -150,10 +129,10 @@ async function intervalFunction() {
     } catch (error) {
         console.error("error");
     }finally {
-        setTimeout(intervalFunction, 33);
+        setTimeout(intervalFunction, 10);
     }
 }
-setTimeout(intervalFunction, 33);
+setTimeout(intervalFunction, 10);
 
 
 
