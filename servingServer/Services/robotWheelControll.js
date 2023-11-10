@@ -45,7 +45,9 @@ function wheelControll() {
         uart2.on('readable', () => {
             const data = uart2.read();
             if (data) {
-                if (robotconfig_1.collision) {
+                const hexString = data.toString('hex').toUpperCase(); // 16진수 데이터를 문자열로 변환
+                // console.log("uart2 : " + hexString); 
+                if (robotconfig_1.collision && hexString != "D55DFE0A8320020A00000B0000C2") {
                     // adjustSpeedAndSend(data);
                     checkForCollision();
                     const timeElapsed = Date.now() - collisionStartTime;
@@ -54,7 +56,7 @@ function wheelControll() {
                         // adjustSpeedAndSend1(data);
                         movingCommandTest(0x99, 0x81, 0x10, 0x01);
                     }
-                    else { // 1초가 지났으면 adjustSpeedAndSend2를 호출
+                    else {
                         movingCommandTest(0x99, 0x81, 0x99, 0x01);
                     }
                 }
