@@ -45,15 +45,23 @@ export async function wheelControll() {
                     adjustSpeedAndSend1(data);
                 } else { // 1초가 지났으면 adjustSpeedAndSend2를 호출
                     movingCommandTest
-                    // setTimeout(()=>{
-                    //     movingCommandTest
-                    // }, 250)
+
                     setTimeout(()=>{
                         movingCommandTest
-                    }, 750)
+                    }, 500);
+
                     setTimeout(()=>{
                         movingCommandTest
-                    }, 1250)}
+                    }, 1000);
+
+                    setTimeout(()=>{
+                        movingCommandTest
+                    }, 1500);
+
+                    setTimeout(()=>{
+                        movingCommandTest
+                    }, 2000);
+                }
             } else {
                 // collision이 false일 때 정상 운행
                 // console.log("정상운행");

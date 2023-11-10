@@ -55,15 +55,18 @@ function wheelControll() {
                     }
                     else { // 1초가 지났으면 adjustSpeedAndSend2를 호출
                         movingCommandTest;
-                        // setTimeout(()=>{
-                        //     movingCommandTest
-                        // }, 250)
                         setTimeout(() => {
                             movingCommandTest;
-                        }, 750);
+                        }, 500);
                         setTimeout(() => {
                             movingCommandTest;
-                        }, 1250);
+                        }, 1000);
+                        setTimeout(() => {
+                            movingCommandTest;
+                        }, 1500);
+                        setTimeout(() => {
+                            movingCommandTest;
+                        }, 2000);
                     }
                 }
                 else {
