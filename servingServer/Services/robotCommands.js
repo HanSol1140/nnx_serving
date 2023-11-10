@@ -63,54 +63,6 @@ function checkCrossRoad(robotName) {
 exports.checkCrossRoad = checkCrossRoad;
 // ===============================================================================================================
 // 충돌 위험 체크
-// export async function detectCollision(robotName: string) {
-//     const robotTheta = robotCoordinate[robotName].theta; // 라디안 값
-//     const robotX = robotCoordinate[robotName].x;
-//     const robotY = robotCoordinate[robotName].y;
-//     for (const laserPoint of laserCoordinate[robotName]) {
-//         // console.log(laserPoint);
-//         const dx = laserPoint.x - robotX;
-//         const dy = laserPoint.y - robotY;
-//         const rotatedX = dx * Math.cos(-robotTheta) - dy * Math.sin(-robotTheta);
-//         const rotatedY = dx * Math.sin(-robotTheta) + dy * Math.cos(-robotTheta);
-//         // 충돌 검사 영역 설정
-//         const rectangleWidth = 2.0; // 감지영역 거리
-//         const rectangleHeight = 0.8; // 감지영역 폭
-//         // 충돌 위험 판단
-//         if (rotatedX >= 0 && rotatedX <= rectangleWidth && Math.abs(rotatedY) <= rectangleHeight / 2) {
-//             const direction = rotatedY > 0 ? "left" : "right";
-//             // console.log("충돌 위험:", robotName, laserPoint, direction);
-//             // console.log(laserPoint);
-//             // console.log(mappingData);
-//             // mappingData와의 거리 계산
-//             let isObstacle = true; // 먼저 장애물이라고 가정
-//             // 벽인지 아닌지 검사
-//             const xRange = 1; // laserPoint의 x 좌표를 기준으로 할 범위
-//             for (const mappingPoint of mappingData) {
-//                 // x 좌표가 laserPoint의 x 좌표 범위 안에 있는지 확인
-//                 if (Math.abs(laserPoint.x - mappingPoint[0]) <= xRange) {
-//                     const distance = Math.sqrt(
-//                         Math.pow(laserPoint.x - mappingPoint[0], 2) + Math.pow(laserPoint.y - mappingPoint[1], 2)
-//                     );
-//                     if (distance < 0.1) {
-//                         // 충돌 위험 판단 로직
-//                         isObstacle = false;
-//                         break;
-//                     }
-//                 }
-//             }
-//             // 벽이 아닌 장애물의 좌표값 리턴
-//             if (isObstacle) {
-//                 // console.log(robotName + " 장애물의 좌표:", laserPoint);
-//                 return laserPoint;
-//             }
-//         }
-//     }
-//     // 장애물이 없으면 undefined를 반환(false)
-//     return;
-// }
-// ===============================================================================================================
-// 충돌 위험 체크
 function detectCollision(robotName) {
     return __awaiter(this, void 0, void 0, function* () {
         const robotTheta = robotconfig_1.robotCoordinate[robotName].theta; // 라디안 값
@@ -123,7 +75,7 @@ function detectCollision(robotName) {
             const rotatedX = dx * Math.cos(-robotTheta) - dy * Math.sin(-robotTheta);
             const rotatedY = dx * Math.sin(-robotTheta) + dy * Math.cos(-robotTheta);
             // 충돌 검사 영역 설정
-            const rectangleWidth = 2.5; // 감지영역 거리
+            const rectangleWidth = 2.0; // 감지영역 거리
             const rectangleHeight = 0.8; // 감지영역 폭
             // 충돌 위험 판단
             if (rotatedX >= 0 && rotatedX <= rectangleWidth && Math.abs(rotatedY) <= rectangleHeight / 2) {
@@ -134,20 +86,31 @@ function detectCollision(robotName) {
                 // mappingData와의 거리 계산
                 let isObstacle = true; // 먼저 장애물이라고 가정
                 // 벽인지 아닌지 검사
-                const xRange = 0.5; // laserPoint의 x 좌표를 기준으로 할 범위
+                const xRange = 0.1; // laserPoint의 x 좌표를 기준으로 할 범위
                 const indexNumber = binarySearchForRange(robotconfig_1.mappingData, laserPoint.x, xRange);
                 for (let i = indexNumber[0]; i <= indexNumber[1]; i++) { // startIndex, endIndex
                     const mappingPoint = robotconfig_1.mappingData[i];
-                    const distance = Math.sqrt(Math.pow(laserPoint.x - mappingPoint[0], 2) + Math.pow(laserPoint.y - mappingPoint[1], 2));
-                    // 충돌 위험 판단
-                    if (distance < 0.1) {
-                        isObstacle = false;
-                        break;
+                    if (Math.abs(laserPoint.x - mappingPoint[0]) <= xRange) {
+                        if (Math.abs(laserPoint.y - mappingPoint[1]) <= xRange) {
+                            // 충돌 위험 판단 로직
+                            isObstacle = false;
+                            break;
+                        }
+                    }
+                }
+                for (const mappingPoint of robotconfig_1.mappingData) {
+                    // x 좌표가 laserPoint의 x 좌표 범위 안에 있는지 확인
+                    if (Math.abs(laserPoint.x - mappingPoint[0]) <= xRange) {
+                        if (Math.abs(laserPoint.y - mappingPoint[1]) <= xRange) {
+                            // 충돌 위험 판단 로직
+                            isObstacle = false;
+                            break;
+                        }
                     }
                 }
                 // 벽이 아닌 장애물의 좌표값 리턴
                 if (isObstacle) {
-                    console.log(robotName + " 장애물의 좌표:", laserPoint);
+                    // console.log(robotName + " 장애물의 좌표:", laserPoint);
                     return laserPoint;
                 }
             }
@@ -157,6 +120,54 @@ function detectCollision(robotName) {
     });
 }
 exports.detectCollision = detectCollision;
+// ===============================================================================================================
+// 충돌 위험 체크
+// export async function detectCollision(robotName: string) {
+//     const robotTheta = robotCoordinate[robotName].theta; // 라디안 값
+//     const robotX = robotCoordinate[robotName].x;
+//     const robotY = robotCoordinate[robotName].y;
+//     for (const laserPoint of laserCoordinate[robotName]) {
+//         // console.log(laserPoint);
+//         const dx = laserPoint.x - robotX;
+//         const dy = laserPoint.y - robotY;
+//         const rotatedX = dx * Math.cos(-robotTheta) - dy * Math.sin(-robotTheta);
+//         const rotatedY = dx * Math.sin(-robotTheta) + dy * Math.cos(-robotTheta);
+//         // 충돌 검사 영역 설정
+//         const rectangleWidth = 2.5; // 감지영역 거리
+//         const rectangleHeight = 0.8; // 감지영역 폭
+//         // 충돌 위험 판단
+//         if (rotatedX >= 0 && rotatedX <= rectangleWidth && Math.abs(rotatedY) <= rectangleHeight / 2) {
+//             const direction = rotatedY > 0 ? "left" : "right";
+//             // console.log("충돌 위험:", robotName, laserPoint, direction);
+//             // console.log(laserPoint);
+//             // console.log(mappingData);
+//             // mappingData와의 거리 계산
+//             let isObstacle = true; // 먼저 장애물이라고 가정
+//             // 벽인지 아닌지 검사
+//             const xRange = 0.2; // laserPoint의 x 좌표를 기준으로 할 범위
+//             const indexNumber = binarySearchForRange(mappingData, laserPoint.x, xRange);
+//             for (let i = indexNumber[0]; i <= indexNumber[1]; i++) { // startIndex, endIndex
+//                 const mappingPoint = mappingData[i];
+//                 const distance = Math.sqrt(
+//                     Math.pow(laserPoint.x - mappingPoint[0], 2) + Math.pow(laserPoint.y - mappingPoint[1], 2)
+//                 );
+//                 console.log(distance);
+//                 // 충돌 위험 판단
+//                 if (distance < 0.15) {
+//                     isObstacle = false;
+//                     break;
+//                 }
+//             }
+//             // 벽이 아닌 장애물의 좌표값 리턴
+//             if (isObstacle) {
+//                 console.log(robotName + " 장애물의 좌표:", laserPoint);
+//                 return laserPoint;
+//             }
+//         }
+//     }
+//     // 장애물이 없으면 undefined를 반환(false)
+//     return;
+// }
 function binarySearchForRange(data, target, range) {
     let start = 0;
     let end = data.length - 1;

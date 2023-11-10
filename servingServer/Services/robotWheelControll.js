@@ -106,7 +106,7 @@ function adjustSpeedAndSend1(data) {
         const leftWheelSpeed = (commandBuffer[9] - 0x80) * 256 + commandBuffer[8];
         // 오른쪽 바퀴 속도를 왼쪽 바퀴 속도에 기반하여 계산
         const rightWheelSpeed = (commandBuffer[12]) * 256 + commandBuffer[11];
-        // 속도 조정 (예시: 왼쪽 바퀴 50%, 오른쪽 바퀴 25%로 조정)
+        // 속도 조정 (예시: 왼쪽 바퀴 50%, 오른쪽 바퀴 100%로 조정)
         let adjustedRightWheelSpeed = Math.floor(leftWheelSpeed * 1);
         let adjustedLeftWheelSpeed = Math.floor(leftWheelSpeed * 0.5);
         // 조정된 속도값으로 Buffer 업데이트
@@ -134,7 +134,7 @@ function adjustSpeedAndSend2(data) {
         const leftWheelSpeed = (commandBuffer[9] - 0x80) * 256 + commandBuffer[8];
         // 오른쪽 바퀴 속도를 왼쪽 바퀴 속도에 기반하여 계산
         const rightWheelSpeed = (commandBuffer[12]) * 256 + commandBuffer[11];
-        // 속도 조정 (예시: 왼쪽 바퀴 50%, 오른쪽 바퀴 25%로 조정)
+        // 속도 조정 (예시: 왼쪽 바퀴 100%, 오른쪽 바퀴 100%로 조정) => 직진
         let adjustedRightWheelSpeed = Math.floor(leftWheelSpeed * 1);
         let adjustedLeftWheelSpeed = Math.floor(leftWheelSpeed * 1);
         // 조정된 속도값으로 Buffer 업데이트
