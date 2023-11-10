@@ -53,14 +53,6 @@ export async function wheelControll() {
                     setTimeout(()=>{
                         movingCommandTest();
                     }, 1000);
-
-                    setTimeout(()=>{
-                        movingCommandTest();                        
-                    }, 1500);
-
-                    setTimeout(()=>{
-                        movingCommandTest();
-                    }, 2000);
                 }
             } else {
                 // collision이 false일 때 정상 운행
