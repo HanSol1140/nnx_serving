@@ -68,7 +68,7 @@ RobotSetup.serverSetup();
 
 setTimeout(async() => {
     // console.log(mappingData);
-    API.movePoint("point02");
+    // API.movePoint("point02");
     API.movePoint("point01");    
     setTimeout(() => {
         API.movePoint("point02");
