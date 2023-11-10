@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.manualMove = exports.manualTurn = exports.movePointList = exports.getLaser = exports.getSpeed = exports.getIMUstatus = exports.changeSpeed = exports.checkBattery = exports.charge = exports.movePlan = exports.retryMovePoint = exports.moveCoordinates = exports.movePoint = exports.cancle = exports.getPose = void 0;
+exports.relocPose = exports.manualMove = exports.manualTurn = exports.movePointList = exports.getLaser = exports.getSpeed = exports.getIMUstatus = exports.changeSpeed = exports.checkBattery = exports.charge = exports.movePlan = exports.retryMovePoint = exports.moveCoordinates = exports.movePoint = exports.cancle = exports.getPose = void 0;
 const axios_1 = __importDefault(require("axios"));
 const robotconfig_1 = require("../robotconfig");
 // 좌표 받기
@@ -349,21 +349,27 @@ function timerMove(robotName, timer1, timer2) {
 }
 // 사용 보류 기능
 // 해당 로봇 위치 근처의 좌표를 보내주면 로봇이 자신의 위치를 다시 설정함,
-// async function relocPose() {
-//     try {
-//         const response = await axios.get(`http://192.168.0.13/cmd/reloc_pose`,{
-//             x : 0,
-//             y : 0,
-//             theta : 0
-//         });
-//         if (response.status === 200) {
-//             console.log(response.data);
-//         }
-//     } catch (error) {
-//         console.error('Error with API call:', error);
-//         console.log("error : ", error);
-//     }
-// }
+function relocPose(robotName) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const response = yield axios_1.default.get(`http://192.168.0.13/cmd/reloc_pose`, {
+                params: {
+                    x: robotconfig_1.robotCoordinate[robotName].x,
+                    y: robotconfig_1.robotCoordinate[robotName].y,
+                    theta: robotconfig_1.robotCoordinate[robotName].theta
+                }
+            });
+            if (response.status === 200) {
+                console.log(response.data);
+            }
+        }
+        catch (error) {
+            console.error('Error with API call:', error);
+            console.log("error : ", error);
+        }
+    });
+}
+exports.relocPose = relocPose;
 // 로봇 이름 받기
 // async function getRobotName(ip){
 //     try {

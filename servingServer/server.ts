@@ -77,21 +77,26 @@ setTimeout(async() => {
     //         API.movePoint("point02");
     //     }, 18000);
     // }, 36000);
+    relocPose("robot1");
 }, 1000)
-async function getIMUstatus() {
+async function relocPose(robotName:string) {
     try {
-        const response = await axios.get(`http://192.168.0.15/reeman/imu`);
+        const response = await axios.get(`http://192.168.0.13/cmd/reloc_pose`,{
+            params: {
+                x: robotCoordinate[robotName].x,
+                y: robotCoordinate[robotName].y,
+                theta: robotCoordinate[robotName].theta
+            }
+        });
         if (response.status === 200) {
             console.log(response.data);
         }
-
     } catch (error) {
         console.error('Error with API call:', error);
+        console.log("error : ", error);
     }
 }
-// setInterval(async () => {
 async function intervalFunction() {
-    getIMUstatus();
     try {
         // console.log(Date.now());
         // API.getSpeed(currentRobotName); // 속도 측정

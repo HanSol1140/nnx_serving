@@ -2,10 +2,12 @@ import axios from 'axios';
 
 import {
     currentRobotName,
+    robotCoordinate,
     robotSettings,
     pointCoordinate,
     setRobotCoordinate,
     setLaserCoordinate,
+    
 } from '../robotconfig';
 
 
@@ -317,21 +319,23 @@ function timerMove(robotName: string, timer1: number, timer2: number) {
 
 // 사용 보류 기능
 // 해당 로봇 위치 근처의 좌표를 보내주면 로봇이 자신의 위치를 다시 설정함,
-// async function relocPose() {
-//     try {
-//         const response = await axios.get(`http://192.168.0.13/cmd/reloc_pose`,{
-//             x : 0,
-//             y : 0,
-//             theta : 0
-//         });
-//         if (response.status === 200) {
-//             console.log(response.data);
-//         }
-//     } catch (error) {
-//         console.error('Error with API call:', error);
-//         console.log("error : ", error);
-//     }
-// }
+export async function relocPose(robotName:string) {
+    try {
+        const response = await axios.get(`http://192.168.0.13/cmd/reloc_pose`,{
+            params: {
+                x: robotCoordinate[robotName].x,
+                y: robotCoordinate[robotName].y,
+                theta: robotCoordinate[robotName].theta
+            }
+        });
+        if (response.status === 200) {
+            console.log(response.data);
+        }
+    } catch (error) {
+        console.error('Error with API call:', error);
+        console.log("error : ", error);
+    }
+}
 
 // 로봇 이름 받기
 // async function getRobotName(ip){
