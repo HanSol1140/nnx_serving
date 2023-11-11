@@ -16,7 +16,7 @@ process.on('message', (message) => {
         (0, robotconfig_1.setCollision)(message.booleanValue);
         setTimeout(() => {
             (0, robotconfig_1.setCollision)(false);
-        }, 2550);
+        }, 3000);
     }
     if (message.isStopped == true) {
         console.log("stop true");
