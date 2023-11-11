@@ -321,7 +321,7 @@ function timerMove(robotName: string, timer1: number, timer2: number) {
 // 해당 로봇 위치 근처의 좌표를 보내주면 로봇이 자신의 위치를 다시 설정함,
 export async function relocPose(robotName:string) {
     try {
-        const response = await axios.get(`http://192.168.0.13/cmd/reloc_pose`,{
+        const response = await axios.get(`http://${robotSettings[robotName].robotIP}/cmd/reloc_pose`,{
             params: {
                 x: robotCoordinate[robotName].x,
                 y: robotCoordinate[robotName].y,

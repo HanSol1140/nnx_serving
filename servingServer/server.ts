@@ -77,25 +77,8 @@ setTimeout(async() => {
     //         API.movePoint("point02");
     //     }, 18000);
     // }, 36000);
-    relocPose("robot1");
 }, 1000)
-async function relocPose(robotName:string) {
-    try {
-        const response = await axios.get(`http://192.168.0.13/cmd/reloc_pose`,{
-            params: {
-                x: robotCoordinate[robotName].x,
-                y: robotCoordinate[robotName].y,
-                theta: robotCoordinate[robotName].theta
-            }
-        });
-        if (response.status === 200) {
-            console.log(response.data);
-        }
-    } catch (error) {
-        console.error('Error with API call:', error);
-        console.log("error : ", error);
-    }
-}
+
 async function intervalFunction() {
     try {
         // console.log(Date.now());
@@ -121,7 +104,7 @@ async function intervalFunction() {
         if (collisionCheck) { 
             // 장애물이 감지됫다면
             // setCollision(true);
-            server2.send({ booleanValue: false });
+            server2.send({ booleanValue:  });
             // console.log(currentRobotName + " 장애물 충돌 위험");
 
             // // 로봇인지 아닌지 체크
