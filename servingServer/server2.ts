@@ -10,7 +10,7 @@ import {
     setCollision,
     setIsStopped,
 } from './robotconfig';
-
+let stopTimer:any;
 process.on('message', (message: any) => {
     if (message.booleanValue == true && collision != true) {
         setCollision(message.booleanValue);
@@ -18,13 +18,21 @@ process.on('message', (message: any) => {
             setCollision(false);
         }, 3100)
     }
-    if(message.isStopped == true){
+    if (message.isStopped === true) {
         // console.log("stop true");
         setIsStopped(true);
-    }else{
-        // console.log("stop false");
-        setIsStopped(false);
+
+        // 이미 실행 중인 타이머가 있으면 취소
+        if (stopTimer) {
+            clearTimeout(stopTimer);
+        }
+
+        // 10초 후에 setIsStopped(false) 호출
+        stopTimer = setTimeout(() => {
+            setIsStopped(false);
+        }, 10000); // 10초
     }
+
     // else{
     //     setCollision(false);
     // }

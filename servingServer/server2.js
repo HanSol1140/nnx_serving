@@ -11,6 +11,7 @@ const cors = require('cors');
 app.use(cors()); // 모든 도메인에서의 요청 허용
 const PORT = process.env.PORT || 8085;
 const robotconfig_1 = require("./robotconfig");
+let stopTimer;
 process.on('message', (message) => {
     if (message.booleanValue == true && robotconfig_1.collision != true) {
         (0, robotconfig_1.setCollision)(message.booleanValue);
@@ -18,13 +19,17 @@ process.on('message', (message) => {
             (0, robotconfig_1.setCollision)(false);
         }, 3100);
     }
-    if (message.isStopped == true) {
+    if (message.isStopped === true) {
         // console.log("stop true");
         (0, robotconfig_1.setIsStopped)(true);
-    }
-    else {
-        // console.log("stop false");
-        (0, robotconfig_1.setIsStopped)(false);
+        // 이미 실행 중인 타이머가 있으면 취소
+        if (stopTimer) {
+            clearTimeout(stopTimer);
+        }
+        // 10초 후에 setIsStopped(false) 호출
+        stopTimer = setTimeout(() => {
+            (0, robotconfig_1.setIsStopped)(false);
+        }, 10000); // 10초
     }
     // else{
     //     setCollision(false);
