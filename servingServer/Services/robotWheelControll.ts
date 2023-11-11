@@ -37,10 +37,10 @@ export async function wheelControll() {
  
     uart2.on('readable', () => {
         const data = uart2.read();
-        if (data) {
+        if (data) { 
             const hexString = data.toString('hex').toUpperCase(); // 16진수 데이터를 문자열로 변환
-            console.log(hexString);
-            if(hexString == "D55DFE0A8320020A00000B0000C2"){
+            isStopped = false; 
+            if(hexString == "D55DFE0A8320020A00000B0000C2" && hexString.length < 18){
                 isStopped = true; 
             }else{
                 isStopped = false; 
