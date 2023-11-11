@@ -40,6 +40,7 @@ export async function wheelControll() {
             console.log(hexString);
             if(hexString == "D55DFE0A8320020A00000B0000C2"){
                 console.log("정지");
+                return;
             }
 
 
