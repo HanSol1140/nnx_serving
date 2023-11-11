@@ -30,7 +30,7 @@ process.on('message', (message: any) => {
         // 10초 후에 setIsStopped(false) 호출
         stopTimer = setTimeout(() => {
             setIsStopped(false);
-        }, 10000); // 10초
+        }, 15000); // 10초
     }
 
     // else{
