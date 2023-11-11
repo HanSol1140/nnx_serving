@@ -19,11 +19,11 @@ process.on('message', (message) => {
         }, 3100);
     }
     if (message.isStopped == true) {
-        console.log("stop true");
+        // console.log("stop true");
         (0, robotconfig_1.setIsStopped)(true);
     }
     else {
-        console.log("stop false");
+        // console.log("stop false");
         (0, robotconfig_1.setIsStopped)(false);
     }
     // else{

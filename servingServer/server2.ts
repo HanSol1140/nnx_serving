@@ -19,10 +19,10 @@ process.on('message', (message: any) => {
         }, 3100)
     }
     if(message.isStopped == true){
-        console.log("stop true");
+        // console.log("stop true");
         setIsStopped(true);
     }else{
-        console.log("stop false");
+        // console.log("stop false");
         setIsStopped(false);
     }
     // else{
