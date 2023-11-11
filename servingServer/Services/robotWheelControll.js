@@ -48,18 +48,18 @@ function wheelControll() {
                 const hexString = data.toString('hex').toUpperCase(); // 16진수 데이터를 문자열로 변환
                 // console.log("uart2 : " + hexString); 
                 if (robotconfig_1.collision && hexString != "D55DFE0A8320020A00000B0000C2") {
-                    console.log("장애물 이동");
+                    console.log("장애물");
                     // adjustSpeedAndSend(data);
                     checkForCollision();
                     const timeElapsed = Date.now() - collisionStartTime;
                     if (timeElapsed < 1000) { // 1초가 지나지 않았으면 adjustSpeedAndSend1을 호출
                         // console.log("1");
                         // adjustSpeedAndSend1(data);
-                        movingCommandTest(0x99, 0x81, 0xCC, 0x00);
+                        movingCommandTest(0x99, 0x81, 0x10, 0x01);
                         readCommandTest();
                     }
                     else {
-                        movingCommandTest(0x99, 0x81, 0xCC, 0x00);
+                        movingCommandTest(0x99, 0x81, 0x99, 0x01);
                         readCommandTest();
                     }
                 }
