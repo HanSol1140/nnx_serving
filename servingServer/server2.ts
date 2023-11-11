@@ -16,7 +16,7 @@ process.on('message', (message: any) => {
         setCollision(message.booleanValue);
         setTimeout(()=> {
             setCollision(false);
-        }, 3600)
+        }, 3300)
     }
     if (message.isStopped === true) {
         // console.log("stop true");
