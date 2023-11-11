@@ -109,7 +109,7 @@ async function intervalFunction() {
             const dx = collisionCheck.x - robotX;
             const dy = collisionCheck.y - robotY;
             const distance = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
-            if (distance <= 0.8) {
+            if (distance <= 1.0) {
                 // console.log(distance + " : 정지");
                 server2.send({ isStopped: true});
                 return;
