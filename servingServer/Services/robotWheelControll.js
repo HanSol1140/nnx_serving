@@ -67,7 +67,8 @@ function wheelControll() {
                         readCommandTest();
                     }
                     else {
-                        movingCommandTest(0x99, 0x81, 0x99, 0x01);
+                        if (!isStopped)
+                            movingCommandTest(0x99, 0x81, 0x99, 0x01);
                         readCommandTest();
                     }
                 }

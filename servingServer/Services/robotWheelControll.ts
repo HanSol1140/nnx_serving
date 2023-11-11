@@ -59,6 +59,7 @@ export async function wheelControll() {
                     movingCommandTest(0x99, 0x81, 0x10, 0x01);
                     readCommandTest();
                 } else {
+                    if(!isStopped)
                     movingCommandTest(0x99, 0x81, 0x99, 0x01);
                     readCommandTest();
                 }
