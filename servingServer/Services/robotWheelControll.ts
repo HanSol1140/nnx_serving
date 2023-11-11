@@ -59,7 +59,7 @@ export async function wheelControll() {
                     if (timeElapsed < 1550) { // 1초가 지나지 않았으면 adjustSpeedAndSend1을 호출
                         // console.log("1");
                         // adjustSpeedAndSend1(data);
-                        movingCommandTest(0x77, 0x81, 0x11, 0x01);
+                        movingCommandTest(0x77, 0x81, 0x01, 0x01);
                         readCommandTest();
                     } else {
                         movingCommandTest(0x66, 0x81, 0x66, 0x01);
