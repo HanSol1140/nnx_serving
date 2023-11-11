@@ -109,19 +109,18 @@ function intervalFunction() {
             let collisionCheck = yield Func.detectCollision(robotconfig_1.currentRobotName); // true(값) / false(undefined) 반환
             // console.log(collisionCheck);
             if (collisionCheck) {
-                console.log(collisionCheck);
+                // console.log(collisionCheck);
                 const robotX = robotconfig_1.robotCoordinate[robotconfig_1.currentRobotName].x;
                 const robotY = robotconfig_1.robotCoordinate[robotconfig_1.currentRobotName].y;
                 const dx = collisionCheck.x - robotX;
                 const dy = collisionCheck.y - robotY;
                 const distance = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
                 if (distance <= 0.8) {
-                    console.log(distance + " : 정지");
+                    // console.log(distance + " : 정지");
                     server2.send({ isStopped: true });
                     return;
                 }
                 else {
-                    server2.send({ isStopped: false });
                     // 장애물이 감지됫다면
                     // setCollision(true);
                     server2.send({ booleanValue: true });
