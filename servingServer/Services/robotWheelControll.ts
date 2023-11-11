@@ -18,8 +18,8 @@ function checkForCollision() {
     }
 }
 async function checkHex(String1:string) {
-    if (hexString.length > 18) {
-        if (hexString == "D55DFE0A8320020A00000B0000C2") {
+    if (String1.length > 18) {
+        if (String1 == "D55DFE0A8320020A00000B0000C2") {
             console.log(true);
             isStopped = true;
         } else {
@@ -52,7 +52,7 @@ export async function wheelControll() {
         if (data) {
             const hexString = data.toString('hex').toUpperCase(); // 16진수 데이터를 문자열로 변환
             console.log(hexString.length);
-            
+            checkHex(hexString);
 
             // console.log("uart2 : " + hexString); 
             if (!isStopped) {
