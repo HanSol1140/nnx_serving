@@ -114,21 +114,20 @@ async function intervalFunction() {
                 return;
             }else{
                 server2.send({ isStopped: false});
+                 // 장애물이 감지됫다면
+                // setCollision(true);
+                server2.send({ booleanValue: true});
+                // console.log(currentRobotName + " 장애물 충돌 위험");
+
+                // // 로봇인지 아닌지 체크
+                const checkRobot = await Func.checkRobotCoordinates(currentRobotName, collisionCheck);
+                if (checkRobot) {
+                    // 로봇인 경우
+                } else {
+                    // 로봇이 아닌 경우
+                }
             }
-
-
-            // 장애물이 감지됫다면
-            // setCollision(true);
-            server2.send({ booleanValue: true});
-            // console.log(currentRobotName + " 장애물 충돌 위험");
-
-            // // 로봇인지 아닌지 체크
-            const checkRobot = await Func.checkRobotCoordinates(currentRobotName, collisionCheck);
-            if (checkRobot) {
-                // 로봇인 경우
-            } else {
-                // 로봇이 아닌 경우
-            }
+           
         } else {
             // 장애물 충돌 위험 없음
             // setCollision(false);
