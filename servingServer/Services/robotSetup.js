@@ -109,8 +109,8 @@ function serverSetup() {
         });
         // 포인트 좌표 설정
         const points = yield setupPoints();
-        console.log("포인트 리스트");
-        console.log(points);
+        // console.log("포인트 리스트");
+        // console.log(points);
         points.forEach(point => {
             (0, robotconfig_1.setPointCoordinate)(point.pointName, point.coordinatesX, point.coordinatesY, point.coordinatesTheta);
         });
@@ -128,8 +128,8 @@ function serverSetup() {
                 (0, robotconfig_1.setCrossRoadState)(point.pointName, "");
             }
         });
-        console.log("교차로 리스트");
-        console.log(robotconfig_1.crossPointCoordinates);
+        // console.log("교차로 리스트"); 
+        // console.log(crossPointCoordinates);
         // 맵핑데이터 변수에 할당
         yield setupMappingData();
         // 핀출력으로 로봇명 확인

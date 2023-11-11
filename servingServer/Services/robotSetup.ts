@@ -118,8 +118,8 @@ export async function serverSetup() {
     // 포인트 좌표 설정
     const points: pointsInfo[] = await setupPoints();
     
-    console.log("포인트 리스트");
-    console.log(points);
+    // console.log("포인트 리스트");
+    // console.log(points);
 
     points.forEach(point => {
         setPointCoordinate(point.pointName, point.coordinatesX, point.coordinatesY, point.coordinatesTheta);
@@ -142,8 +142,8 @@ export async function serverSetup() {
         }
     });
 
-    console.log("교차로 리스트"); 
-    console.log(crossPointCoordinates);
+    // console.log("교차로 리스트"); 
+    // console.log(crossPointCoordinates);
     // 맵핑데이터 변수에 할당
     await setupMappingData();
     // 핀출력으로 로봇명 확인
