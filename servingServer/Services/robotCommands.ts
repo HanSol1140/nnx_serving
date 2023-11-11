@@ -105,7 +105,7 @@ export async function detectCollision(robotName: string) {
             let isObstacle = true; // 먼저 장애물이라고 가정
 
             // 벽인지 아닌지 검사
-            const xRange = 0.1; // laserPoint의 x 좌표를 기준으로 할 범위
+            const xRange = 0.2; // laserPoint의 x 좌표를 기준으로 할 범위
             const indexNumber = binarySearchForRange(mappingData, laserPoint.x, xRange);
             for (let i = indexNumber[0]; i <= indexNumber[1]; i++) { // startIndex, endIndex
                 const mappingPoint = mappingData[i];
