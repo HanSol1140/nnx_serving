@@ -91,6 +91,7 @@ setTimeout(() => __awaiter(void 0, void 0, void 0, function* () {
 }), 1000);
 function intervalFunction() {
     return __awaiter(this, void 0, void 0, function* () {
+        console.log(robotconfig_1.robotCoordinate[robotconfig_1.currentRobotName]);
         try {
             // console.log(Date.now());
             // API.getSpeed(currentRobotName); // 속도 측정

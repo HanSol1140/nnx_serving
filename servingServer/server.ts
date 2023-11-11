@@ -81,6 +81,7 @@ setTimeout(async() => {
 }, 1000)
 
 async function intervalFunction() {
+    console.log(robotCoordinate[currentRobotName]);
     try {
         // console.log(Date.now());
         // API.getSpeed(currentRobotName); // 속도 측정
