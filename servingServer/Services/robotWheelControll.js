@@ -46,8 +46,11 @@ function wheelControll() {
             const data = uart2.read();
             if (data) {
                 const hexString = data.toString('hex').toUpperCase(); // 16진수 데이터를 문자열로 변환
+                if (hexString != "D55DFE0A8320020A00000B0000C2") {
+                    return;
+                }
                 // console.log("uart2 : " + hexString); 
-                if (robotconfig_1.collision && hexString != "D55DFE0A8320020A00000B0000C2") {
+                if (robotconfig_1.collision) {
                     console.log("장애물");
                     // adjustSpeedAndSend(data);
                     checkForCollision();
