@@ -41,6 +41,8 @@ export async function wheelControll() {
             if(hexString == "D55DFE0A8320020A00000B0000C2"){
                 console.log("정지");
             }
+
+
             // console.log("uart2 : " + hexString); 
             if (collision) {
                 console.log("장애물");
@@ -59,6 +61,7 @@ export async function wheelControll() {
             } else {
                 // collision이 false일 때 정상 운행
                 console.log("정상운행");
+                console.log("==========");
                 // const hexString = data.toString('hex').toUpperCase(); // 16진수 데이터를 문자열로 변환
                 // console.log("uart2 : " + hexString); 
                 checkForCollision();
