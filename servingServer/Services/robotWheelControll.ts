@@ -76,6 +76,13 @@ export async function wheelControll() {
                     checkForCollision();
                     uart3.write(data);
                 }
+            }else{
+                // collision이 false일 때 정상 운행
+                console.log("정상운행");
+                // const hexString = data.toString('hex').toUpperCase(); // 16진수 데이터를 문자열로 변환
+                // console.log("uart2 : " + hexString); 
+                checkForCollision();
+                uart3.write(data);
             }
         }
     });
