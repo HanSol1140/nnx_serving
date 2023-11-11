@@ -32,7 +32,7 @@ export async function wheelControll() {
     uart3.removeAllListeners('readable');
     uart2.removeAllListeners('error');
     uart3.removeAllListeners('error');
-
+ 
     uart2.on('readable', () => {
         const data = uart2.read();
         if (data) {

@@ -352,7 +352,7 @@ function timerMove(robotName, timer1, timer2) {
 function relocPose(robotName) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const response = yield axios_1.default.get(`http://192.168.0.13/cmd/reloc_pose`, {
+            const response = yield axios_1.default.get(`http://${robotconfig_1.robotSettings[robotName].robotIP}/cmd/reloc_pose`, {
                 params: {
                     x: robotconfig_1.robotCoordinate[robotName].x,
                     y: robotconfig_1.robotCoordinate[robotName].y,

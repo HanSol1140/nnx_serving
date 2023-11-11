@@ -41,7 +41,6 @@ const app = (0, express_1.default)();
 app.use(express_1.default.json());
 const cors = require('cors');
 app.use(cors()); // 모든 도메인에서의 요청 허용
-const axios_1 = __importDefault(require("axios"));
 const PORT = process.env.PORT || 8084;
 // 서버 시작
 const server = app.listen(PORT, () => {
@@ -88,28 +87,7 @@ setTimeout(() => __awaiter(void 0, void 0, void 0, function* () {
     //         API.movePoint("point02");
     //     }, 18000);
     // }, 36000);
-    relocPose("robot1");
 }), 1000);
-function relocPose(robotName) {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const response = yield axios_1.default.get(`http://192.168.0.13/cmd/reloc_pose`, {
-                params: {
-                    x: robotconfig_1.robotCoordinate[robotName].x,
-                    y: robotconfig_1.robotCoordinate[robotName].y,
-                    theta: robotconfig_1.robotCoordinate[robotName].theta
-                }
-            });
-            if (response.status === 200) {
-                console.log(response.data);
-            }
-        }
-        catch (error) {
-            console.error('Error with API call:', error);
-            console.log("error : ", error);
-        }
-    });
-}
 function intervalFunction() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -133,7 +111,7 @@ function intervalFunction() {
             if (collisionCheck) {
                 // 장애물이 감지됫다면
                 // setCollision(true);
-                server2.send({ booleanValue: false });
+                server2.send({ booleanValue: true });
                 // console.log(currentRobotName + " 장애물 충돌 위험");
                 // // 로봇인지 아닌지 체크
                 const checkRobot = yield Func.checkRobotCoordinates(robotconfig_1.currentRobotName, collisionCheck);

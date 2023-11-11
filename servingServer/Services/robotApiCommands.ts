@@ -316,7 +316,7 @@ function timerMove(robotName: string, timer1: number, timer2: number) {
         }, timer2);
     }, timer1);
 }
-
+ 
 // 사용 보류 기능
 // 해당 로봇 위치 근처의 좌표를 보내주면 로봇이 자신의 위치를 다시 설정함,
 export async function relocPose(robotName:string) {
