@@ -77,6 +77,7 @@ setTimeout(async() => {
     //         API.movePoint("point02");
     //     }, 18000);
     // }, 36000);
+    console.log(laserCoordinate);
 }, 1000)
 
 async function intervalFunction() {

@@ -87,6 +87,7 @@ setTimeout(() => __awaiter(void 0, void 0, void 0, function* () {
     //         API.movePoint("point02");
     //     }, 18000);
     // }, 36000);
+    console.log(robotconfig_1.laserCoordinate);
 }), 1000);
 function intervalFunction() {
     return __awaiter(this, void 0, void 0, function* () {
