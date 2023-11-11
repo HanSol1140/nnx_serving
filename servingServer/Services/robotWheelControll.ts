@@ -17,6 +17,18 @@ function checkForCollision() {
         collisionDetected = false;
     }
 }
+async function checkHex(String1:string) {
+    if (hexString.length > 18) {
+        if (hexString == "D55DFE0A8320020A00000B0000C2") {
+            console.log(true);
+            isStopped = true;
+        } else {
+            console.log(false);
+            isStopped = false;
+        }
+    }
+
+}
 // ============================================
 //
 // UART2와 UART3 설정
@@ -34,50 +46,47 @@ export async function wheelControll() {
     uart3.removeAllListeners('readable');
     uart2.removeAllListeners('error');
     uart3.removeAllListeners('error');
- 
+
     uart2.on('readable', () => {
         const data = uart2.read();
         if (data) {
             const hexString = data.toString('hex').toUpperCase(); // 16진수 데이터를 문자열로 변환
             console.log(hexString.length);
-            if(hexString.length > 18){
-                if(hexString == "D55DFE0A8320020A00000B0000C2"){
-                    isStopped = true; 
-                }else{
-                    isStopped = false; 
-                }
-            }
-
+            
 
             // console.log("uart2 : " + hexString); 
-            if (collision) {
-                console.log("장애물");
-                // adjustSpeedAndSend(data);
-                checkForCollision();
-                const timeElapsed = Date.now() - collisionStartTime;
-                if (timeElapsed < 1000 && !isStopped) { // 1초가 지나지 않았으면 adjustSpeedAndSend1을 호출
-                    // console.log("1");
-                    // adjustSpeedAndSend1(data);
-                    movingCommandTest(0x99, 0x81, 0x10, 0x01);
-                    readCommandTest();
+            if (!isStopped) {
+                if (collision) {
+                    console.log("장애물");
+                    // adjustSpeedAndSend(data);
+                    checkForCollision();
+                    const timeElapsed = Date.now() - collisionStartTime;
+                    if (timeElapsed < 1000) { // 1초가 지나지 않았으면 adjustSpeedAndSend1을 호출
+                        // console.log("1");
+                        // adjustSpeedAndSend1(data);
+                        movingCommandTest(0x99, 0x81, 0x10, 0x01);
+                        readCommandTest();
+                    } else {
+
+                        movingCommandTest(0x99, 0x81, 0x99, 0x01);
+                        readCommandTest();
+
+                    }
                 } else {
-                    if(!isStopped)
-                    movingCommandTest(0x99, 0x81, 0x99, 0x01);
-                    readCommandTest();
+                    // collision이 false일 때 정상 운행
+                    console.log("정상운행");
+                    // const hexString = data.toString('hex').toUpperCase(); // 16진수 데이터를 문자열로 변환
+                    // console.log("uart2 : " + hexString); 
+                    checkForCollision();
+                    uart3.write(data);
                 }
-            } else {
-                // collision이 false일 때 정상 운행
-                console.log("정상운행");
-                // const hexString = data.toString('hex').toUpperCase(); // 16진수 데이터를 문자열로 변환
-                // console.log("uart2 : " + hexString); 
-                checkForCollision();
-                uart3.write(data);
             }
         }
     });
 
 
     // UART3
+    
     uart3.on('readable', () => {
         const data = uart3.read();
         if (data) {
@@ -186,7 +195,7 @@ function adjustSpeedAndSend2(data: any) {
     }
 }
 
-function movingCommandTest(leftSpeedHigh:any, leftSpeedLow:any, rightSpeedHigh:any, rightSpeedLow:any) {
+function movingCommandTest(leftSpeedHigh: any, leftSpeedLow: any, rightSpeedHigh: any, rightSpeedLow: any) {
     // 명령어의 기본 구조 설정
     let command = Buffer.from([0xD5, 0x5D, 0xFE, 0x0A, 0x83, 0x20, 0x02, 0x0A, leftSpeedHigh, leftSpeedLow, 0x0B, rightSpeedHigh, rightSpeedLow, 0x00]);
 
@@ -205,7 +214,7 @@ function movingCommandTest(leftSpeedHigh:any, leftSpeedLow:any, rightSpeedHigh:a
     //     console.log('Command Sent:', command.toString('hex').toUpperCase());
     // });
 }
-function readCommandTest(){
+function readCommandTest() {
     let command1 = Buffer.from([0xD5, 0x5D, 0x0A, 0x04, 0x02, 0x28, 0x02, 0x3A]);
     let command2 = Buffer.from([0xD5, 0x5D, 0x0B, 0x04, 0x02, 0x28, 0x02, 0x3B]);
     uart3.write(command1);
