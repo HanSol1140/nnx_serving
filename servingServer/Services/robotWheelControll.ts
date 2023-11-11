@@ -37,8 +37,9 @@ export async function wheelControll() {
         const data = uart2.read();
         if (data) {
             const hexString = data.toString('hex').toUpperCase(); // 16진수 데이터를 문자열로 변환
+            console.log(hexString);
             if(hexString == "D55DFE0A8320020A00000B0000C2"){
-                return;
+                console.log("정지");
             }
             // console.log("uart2 : " + hexString); 
             if (collision) {
