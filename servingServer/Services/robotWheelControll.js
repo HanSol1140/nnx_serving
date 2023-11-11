@@ -27,20 +27,17 @@ function checkForCollision() {
         collisionDetected = false;
     }
 }
-function checkHex(String1) {
-    return __awaiter(this, void 0, void 0, function* () {
-        if (String1.length > 18) {
-            if (String1 == "D55DFE0A8320020A00000B0000C2") {
-                console.log(true);
-                isStopped = true;
-            }
-            else {
-                console.log(false);
-                isStopped = false;
-            }
-        }
-    });
-}
+// async function checkHex(String1:string) {
+//     if (String1.length > 18) {
+//         if (String1 == "D55DFE0A8320020A00000B0000C2") {
+//             console.log(true);
+//             isStopped = true;
+//         } else {
+//             console.log(false);
+//             isStopped = false;
+//         }
+//     }
+// }
 // ============================================
 //
 // UART2와 UART3 설정
@@ -50,7 +47,6 @@ const uart3 = new serialport_1.SerialPort({ path: '/dev/ttyAMA3', baudRate: 1152
 let parser3 = new serialport_1.ReadlineParser();
 uart2.pipe(parser2);
 uart3.pipe(parser3);
-let isStopped = false;
 function wheelControll() {
     return __awaiter(this, void 0, void 0, function* () {
         uart2.removeAllListeners('readable');
@@ -61,10 +57,9 @@ function wheelControll() {
             const data = uart2.read();
             if (data) {
                 const hexString = data.toString('hex').toUpperCase(); // 16진수 데이터를 문자열로 변환
-                console.log(hexString.length);
-                checkHex(hexString);
+                // console.log(hexString.length);
                 // console.log("uart2 : " + hexString); 
-                if (!isStopped) {
+                if (!robotconfig_1.isStopped) {
                     if (robotconfig_1.collision) {
                         console.log("장애물");
                         // adjustSpeedAndSend(data);

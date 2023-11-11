@@ -3,6 +3,8 @@ import axios from 'axios';
 import fs from 'fs';
 import {
     currentRobotName,
+    isStopped,
+    setIsStopped,
     robotSettings,
     setRobotSettings,
     pointCoordinate,
@@ -101,11 +103,7 @@ export async function detectCollision(robotName: string) {
             // console.log(mappingData);
             // mappingData와의 거리 계산
             let isObstacle = true; // 먼저 장애물이라고 가정
-            const distance = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
-            if (distance <= 1.0) {
-                console.log(distance + " : 정지");
-                return;
-            }
+
             // 벽인지 아닌지 검사
             const xRange = 0.1; // laserPoint의 x 좌표를 기준으로 할 범위
             const indexNumber = binarySearchForRange(mappingData, laserPoint.x, xRange);

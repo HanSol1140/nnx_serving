@@ -11,6 +11,12 @@ export let collision = false;
 export function  setCollision(boolean : boolean){
     collision = boolean;
 }
+
+// 정지 신호
+export let isStopped = false;
+export function  setIsStopped(boolean : boolean){
+    isStopped = boolean;
+}
 // robotSettings
 type PointCoordinateType = {
     x?: string,

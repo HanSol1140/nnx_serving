@@ -1,6 +1,6 @@
 import { SerialPort, ReadlineParser } from 'serialport';
 import {
-    collision
+    collision, isStopped
 } from '../robotconfig';
 // ============================================
 let collisionStartTime = 0;
@@ -17,18 +17,17 @@ function checkForCollision() {
         collisionDetected = false;
     }
 }
-async function checkHex(String1:string) {
-    if (String1.length > 18) {
-        if (String1 == "D55DFE0A8320020A00000B0000C2") {
-            console.log(true);
-            isStopped = true;
-        } else {
-            console.log(false);
-            isStopped = false;
-        }
-    }
-
-}
+// async function checkHex(String1:string) {
+//     if (String1.length > 18) {
+//         if (String1 == "D55DFE0A8320020A00000B0000C2") {
+//             console.log(true);
+//             isStopped = true;
+//         } else {
+//             console.log(false);
+//             isStopped = false;
+//         }
+//     }
+// }
 // ============================================
 //
 // UART2와 UART3 설정
@@ -39,7 +38,6 @@ let parser3 = new ReadlineParser();
 uart2.pipe(parser2);
 uart3.pipe(parser3);
 
-let isStopped = false;
 
 export async function wheelControll() {
     uart2.removeAllListeners('readable');
@@ -51,9 +49,7 @@ export async function wheelControll() {
         const data = uart2.read();
         if (data) {
             const hexString = data.toString('hex').toUpperCase(); // 16진수 데이터를 문자열로 변환
-            console.log(hexString.length);
-            checkHex(hexString);
-
+            // console.log(hexString.length);
             // console.log("uart2 : " + hexString); 
             if (!isStopped) {
                 if (collision) {

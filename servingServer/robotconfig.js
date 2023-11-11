@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.setMappingData = exports.mappingData = exports.setCrossRoadState = exports.crossRoadState = exports.setCrossPointCoordinates = exports.crossPointCoordinates = exports.setLaserCoordinate = exports.laserCoordinate = exports.setRobotCoordinate = exports.robotCoordinate = exports.setPointCoordinate = exports.pointCoordinate = exports.setRobotSettings = exports.robotSettings = exports.setCollision = exports.collision = exports.setCurrentRobotName = exports.currentRobotName = void 0;
+exports.setMappingData = exports.mappingData = exports.setCrossRoadState = exports.crossRoadState = exports.setCrossPointCoordinates = exports.crossPointCoordinates = exports.setLaserCoordinate = exports.laserCoordinate = exports.setRobotCoordinate = exports.robotCoordinate = exports.setPointCoordinate = exports.pointCoordinate = exports.setRobotSettings = exports.robotSettings = exports.setIsStopped = exports.isStopped = exports.setCollision = exports.collision = exports.setCurrentRobotName = exports.currentRobotName = void 0;
 // robotconfig.ts
 exports.currentRobotName = "robot1";
 function setCurrentRobotName(robotName) {
@@ -13,6 +13,12 @@ function setCollision(boolean) {
     exports.collision = boolean;
 }
 exports.setCollision = setCollision;
+// 정지 신호
+exports.isStopped = false;
+function setIsStopped(boolean) {
+    exports.isStopped = boolean;
+}
+exports.setIsStopped = setIsStopped;
 exports.robotSettings = {};
 function setRobotSettings(name, robotNumber, robotIP, robotRunningState, robotLastOrderPoint) {
     exports.robotSettings[name] = { robotNumber, robotIP, robotRunningState, robotLastOrderPoint };

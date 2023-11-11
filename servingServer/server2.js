@@ -18,6 +18,14 @@ process.on('message', (message) => {
             (0, robotconfig_1.setCollision)(false);
         }, 2500);
     }
+    if (message.isStopped == true) {
+        console.log("stop true");
+        (0, robotconfig_1.setIsStopped)(true);
+    }
+    else {
+        console.log("stop false");
+        (0, robotconfig_1.setIsStopped)(false);
+    }
     // else{
     //     setCollision(false);
     // }

@@ -8,6 +8,7 @@ const PORT = process.env.PORT || 8085;
 import {
     collision,
     setCollision,
+    setIsStopped,
 } from './robotconfig';
 
 process.on('message', (message: any) => {
@@ -16,6 +17,13 @@ process.on('message', (message: any) => {
         setTimeout(()=> {
             setCollision(false);
         }, 2500)
+    }
+    if(message.isStopped == true){
+        console.log("stop true");
+        setIsStopped(true);
+    }else{
+        console.log("stop false");
+        setIsStopped(false);
     }
     // else{
     //     setCollision(false);
