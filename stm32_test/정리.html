@@ -1,0 +1,618 @@
+<ESP32를 이용한 회피정리>
+    서버에서 장애물을 인식한순간 - 회피명령
+    1. S자로 이동중, 서로 중간지점을 넘어가면 강제명령을 풀고 자율주행모드로 이행하여 제자리로 이동
+    2. 회피로직 수행후 중앙으로 이동한다면 그때 자율주행모드로 이행
+
+    ※ 체크사항
+    로봇에서, 센서에 접근했을때 <정지명령>이 나오는지 확인
+
+<로봇 최소속력, 최대속력>
+D5 5D FE A 83 20 2 A 0 0 B 0 0 C2 
+A 0 80 B 0 0으로 시작 <!-- 속도 0 -->
+A 1 80 B 1 0 <!-- 속도 1 -->
+A FF 80 B FF 0  <!-- 속도 255 -->
+A 0 81 B 0 1 <!-- 속도 256 -->
+A 1 81 B 1 1 <!-- 속도 257  -->
+A 2 81 B 2 1 <!-- 속도 258 -->
+A 99 81 B 99 1 <!-- 속도409 => 수동 조작시 이동 최대속도, 이 이상은 안올라감 -->
+
+<A바퀴 B바퀴 바퀴의 위치>
+    <!-- 바퀴에 속도 데이터 전송 -->
+    void sendBytes(const byte* sequence, size_t size) {
+        for (size_t i = 0; i < size; ++i) {
+            Serial2.write(sequence[i]);
+        }
+    }
+    byte Speed[] = {0xD5, 0x5D, 0xFE, 0x0A, 0x83, 0x20, 0x02, 0x0A, 0x99, 0x81, 0x0B, 0x10, 0x00, 0xEC};
+    이렇게 양바퀴의 속력을 거의 최소속도와 일정이상의 속도로 다르게해서 육안으로 비교
+    A는 오른쪽 바퀴 => 사람으로 치면 오른손
+    B는 왼쪽 바퀴 => 사람으로 치면 왼손
+
+
+
+<벽과 이격거리 10cm가 나오는 각도 60도>
+
+
+
+<아두이노 PICO 다운로드>
+    아두이노 IDE - 보드 매니저 - PICO 검색- Arduino Mbed OS RP2040 Boards 다운로드(작성당시 버전 4.0.8)
+<코드>
+<!-- UART Serial2(8, 9, 0, 0); -->
+UART Serial2(8, 9);
+
+void setup() {
+  Serial.begin(115200);  // USB 연결을 통한 시리얼 (디버깅 용도)
+  Serial1.begin(115200); // UART0 (GP0 & GP1)
+  Serial2.begin(115200); // UART1 (GP8 & GP9)
+}
+
+void loop() {
+  // UART0에서 데이터 수신
+  // 로봇 본체에서 데이터 수신
+  while (Serial1.available()) {
+    char data = Serial1.read();
+    if (data == 0xD5) {
+        Serial.println();  
+        Serial.print("1번 RX : ");
+        Serial.print(data, HEX);
+        Serial.print(" ");
+        Serial2.write(data);
+        
+    } else {
+        Serial.print(data, HEX);
+        Serial.print(" ");
+        Serial2.write(data);
+        
+    }
+  }
+
+  // UART1에서 데이터 수신
+  // 바퀴(모터)에서 데이터 수신  
+  while (Serial2.available()) {
+    char data = Serial2.read();
+    if (data == 0xD5) {
+        // Serial.println();
+        // Serial.print("3번 RX : ");
+        // Serial.print(data, HEX);
+        // Serial.print(" ");
+        Serial1.print(data);
+        
+    } else {
+        // Serial.print(data, HEX);
+        // Serial.print(" ");
+        Serial1.print(data);
+    }
+  }
+}
+    <!-- 해설 -->
+        보드 매니저에 의하여 자체적으로 Serial1에 GPIO 0, 1번이 UART0 TX,RX로 매칭되어 있음
+        그러나 UART2번은 자동매칭이 되어있지않음
+
+        따라서 UART Serial2(8, 9);를 통해 Serial2를 선언
+
+<통신 프로토콜>
+16진수로 이루어진 데이터 
+    <예시>
+    D5 5D FE A 83 20 2 A 0 0 B 0 0 C2
+    D5 5D A  4  2 28 2 3A 
+    D5 5D B  4  2 28 2 3B 
+
+    D5 5D FE 0A 83 20 02 0A 99 81 0B 99 01 76
+    D5 5D 0A 04 02 28 02 3A
+    D5 5D 0B 04 02 28 02 3B
+    D5 5D 0B 04 10 98 3E F5
+    D5 5D 0A 04 10 42 BA 1A
+
+    1-2. <프레임 헤더>
+        D5 5D
+        => 프레임 헤더
+    
+    3. <ID>
+        FE, A, B
+        => ID
+    
+    4. <데이터 길이>
+        A, 4, 4
+        => 데이터 길이 (매개변수+2) => 지침 + 체크섬으로 인해 +2 
+        이후의 데이터 길이를 읽어보면
+        A => 16진수로 변환 => 10 => 83 20 2 A 0 0 B 0 0 C2 => 10개의 데이터
+        4 =                      => 4 2 28 2 3A => 4개의 데이터
+        4 =                      => 4 2 28 2 3B => 4개의 데이터
+    5. <지침>
+        83
+        2
+        2
+        => 83 여러 슬레이브 동시 제어기능(기능 코드 0x83)
+        => 2
+    6. <체크섬>
+        프레임헤더를 제외한 모든 값을 합친 값
+
+        D5 5D A  4  2 28 2 3A 
+        => A + 4 + 2 + 28 + 2 = 3A
+        => 10 + 4 + 2 + 40 + 2 = 58
+
+        D5 5D B  4  2 28 2 3B
+        => B + 4 + 2 + 28 + 2 = 3B
+        => 11 + 4 + 2 + 40 + 2 = 59
+
+    <예시의 명령을 해석하면>
+    D5 5D A  4  2 28 2 3A
+    D5 5D B  4  2 28 2 3B
+    D5 5D A와 B에게 데이터길이 4의 2번 지침(소프트웨어 버전확인0x02)을 보내면
+    2(2) / 28(40)이라는 값이 들어옴
+
+<바퀴 굴려보기>
+<!-- 라즈베리파이 피코(RP2040_PICO)를 사용 -->
+UART Serial2(8, 9);
+
+void setup() {
+  Serial.begin(115200);  // USB 디버깅용, 추후 삭제
+  Serial1.begin(115200); // UART0 (GP0 & GP1)
+  Serial2.begin(115200); // UART1 (GP8 & GP9)
+}
+// ==============================================================================================================
+void sendBytes(const byte* sequence, size_t size) {
+  for (size_t i = 0; i < size; ++i) {
+    Serial2.write(sequence[i]);
+  }
+}
+// ==============================================================================================================
+void loop() { // 아래로 갈수록 빨라짐                                이곳 값만 변함
+  //                                                                  ↓     ↓           ↓     ↓     ↓
+  // byte Speed[] = {0xD5, 0x5D, 0xFE, 0x0A, 0x83, 0x20, 0x02, 0x0A, 0x05, 0x80, 0x0B, 0x05, 0x00, 0x4C};
+  // byte Speed[] = {0xD5, 0x5D, 0xFE, 0x0A, 0x83, 0x20, 0x02, 0x0A, 0x18, 0x80, 0x0B, 0x18, 0x00, 0x72};
+  // byte Speed[] = {0xD5, 0x5D, 0xFE, 0x0A, 0x83, 0x20, 0x02, 0x0A, 0x31, 0x80, 0x0B, 0x31, 0x00, 0x31};
+  // byte Speed[] = {0xD5, 0x5D, 0xFE, 0x0A, 0x83, 0x20, 0x02, 0x0A, 0x49, 0x80, 0x0B, 0x49, 0x00, 0xD4};
+  // byte Speed[] = {0xD5, 0x5D, 0xFE, 0x0A, 0x83, 0x20, 0x02, 0x0A, 0x62, 0x80, 0x0B, 0x62, 0x00, 0x06};
+  // byte Speed[] = {0xD5, 0x5D, 0xFE, 0x0A, 0x83, 0x20, 0x02, 0x0A, 0x7A, 0x80, 0x0B, 0x7A, 0x00, 0x36};
+  // byte Speed[] = {0xD5, 0x5D, 0xFE, 0x0A, 0x83, 0x20, 0x02, 0x0A, 0x93, 0x80, 0x0B, 0x93, 0x00, 0x68};
+  // byte Speed[] = {0xD5, 0x5D, 0xFE, 0x0A, 0x83, 0x20, 0x02, 0x0A, 0xAB, 0x80, 0x0B, 0xAB, 0x00, 0x98};
+  // byte Speed[] = {0xD5, 0x5D, 0xFE, 0x0A, 0x83, 0x20, 0x02, 0x0A, 0xC4, 0x80, 0x0B, 0xC4, 0x00, 0xCA};
+  // byte Speed[] = {0xD5, 0x5D, 0xFE, 0x0A, 0x83, 0x20, 0x02, 0x0A, 0xDC, 0x80, 0x0B, 0xDC, 0x00, 0xFA};
+  // byte Speed[] = {0xD5, 0x5D, 0xFE, 0x0A, 0x83, 0x20, 0x02, 0x0A, 0xF5, 0x80, 0x0B, 0xF5, 0x00, 0x2C};
+  // byte Speed[] = {0xD5, 0x5D, 0xFE, 0x0A, 0x83, 0x20, 0x02, 0x0A, 0x0E, 0x81, 0x0B, 0x0E, 0x01, 0x60};
+  // byte Speed[] = {0xD5, 0x5D, 0xFE, 0x0A, 0x83, 0x20, 0x02, 0x0A, 0x26, 0x81, 0x0B, 0x26, 0x01, 0x90};
+  // byte Speed[] = {0xD5, 0x5D, 0xFE, 0x0A, 0x83, 0x20, 0x02, 0x0A, 0x3F, 0x81, 0x0B, 0x3F, 0x01, 0xC2};
+  // byte Speed[] = {0xD5, 0x5D, 0xFE, 0x0A, 0x83, 0x20, 0x02, 0x0A, 0x57, 0x81, 0x0B, 0x57, 0x01, 0xF2};
+  // byte Speed[] = {0xD5, 0x5D, 0xFE, 0x0A, 0x83, 0x20, 0x02, 0x0A, 0x70, 0x81, 0x0B, 0x70, 0x01, 0x24};
+  // byte Speed[] = {0xD5, 0x5D, 0xFE, 0x0A, 0x83, 0x20, 0x02, 0x0A, 0x88, 0x81, 0x0B, 0x88, 0x01, 0x54};
+  // byte Speed[] = {0xD5, 0x5D, 0xFE, 0x0A, 0x83, 0x20, 0x02, 0x0A, 0x99, 0x81, 0x0B, 0x99, 0x01, 0x76}; // 웹상 최대속도 => 더안올라감
+  // byte Speed[] = {0xD5, 0x5D, 0xFE, 0x0A, 0x83, 0x20, 0x02, 0x0A, 0xDC, 0x81, 0x0B, 0xDC, 0x01, 0xFC}; 
+  // byte Speed[] = {0xD5, 0x5D, 0xFE, 0x0A, 0x83, 0x20, 0x02, 0x0A, 0xFF, 0x81, 0x0B, 0xFF, 0x01, 0x42}; 
+  // byte Speed[] = {0xD5, 0x5D, 0xFE, 0x0A, 0x83, 0x20, 0x02, 0x0A, 0xFF, 0x82, 0x0B, 0xFF, 0x02, 0x44}; // 수치를 올리면 속도는 계속 올라가는 것으로 확인
+
+  // 역방향(후진)
+  // A의 두번째 값과 B의 두번째 값 변경하면 역방향으로 진행함           ↓                 ↓     
+  // byte Speed[] = {0xD5, 0x5D, 0xFE, 0x0A, 0x83, 0x20, 0x02, 0x0A, 0x18, 0x00, 0x0B, 0x18, 0x80, 0x72};
+
+  // 속도차이로 좌측 / 우측바퀴 구분하기 => A가 로봇기준 우측바퀴(오른손), B가 좌측바퀴(왼손)
+  // byte Speed[] = {0xD5, 0x5D, 0xFE, 0x0A, 0x83, 0x20, 0x02, 0x0A, 0x99, 0x81, 0x0B, 0x10, 0x0, 0xEC};
+  // sendBytes(Speed, sizeof(Speed));
+  // delay(10);
+
+  // byte A_Wheel[] = {0xD5, 0x5D, 0x0A, 0x04, 0x02, 0x28, 0x02, 0x3A};
+  // sendBytes(A_Wheel, sizeof(A_Wheel));
+  // delay(10);
+
+  // byte B_Wheel[] = {0xD5, 0x5D, 0x0B, 0x04, 0x02, 0x28, 0x02, 0x3B};  
+  // sendBytes(B_Wheel, sizeof(B_Wheel));
+  // delay(10);
+  
+  
+  // UART0에서 데이터 수신
+  // 로봇 본체에서 데이터 수신
+  // 모터로 통신을 전달
+  // while (Serial1.available()) {
+  //   char data = Serial1.read();
+  //   if (data == 0xD5) {
+  //       Serial.println();  
+  //       Serial.print("본체 요청 : ");
+  //       Serial.print(data, HEX);
+  //       Serial.print(" ");
+  //       Serial2.write(data);
+        
+  //   } else {
+  //       Serial.print(data, HEX);
+  //       Serial.print(" ");
+  //       Serial2.write(data);
+        
+  //   }
+  // }
+
+  // UART1에서 데이터 수신
+  // 모터에서 데이터를 수신
+  // 본체로 응답을 보냄
+  // while (Serial2.available()) {
+  //   char data = Serial2.read();
+  //   if (data == 0xD5) {
+  //       Serial.println();
+  //       Serial.print("모터 응답 : ");
+  //       Serial.print(data, HEX);
+  //       Serial.print(" ");
+  //       Serial1.print(data);
+        
+  //   } else {
+  //       Serial.print(data, HEX);
+  //       Serial.print(" ");
+  //       Serial1.print(data);
+  //   }
+  // }
+  // delay(100);
+  Serial1.write(10);
+  Serial2.write(20);
+  
+}
+
+<본체와 모터사이에 통신 전달>
+#include <WiFi.h>      // 와이파이를 사용하기 위해
+    #include <WebServer.h> // 웹서버를 사용하기 위해
+    #include <HTTPClient.h>
+    
+    // SSID & Password
+    const char *ssid = "NNX2-2.4G";
+    const char *password = "$@43skshslrtm";
+    bool autoMode = true;
+    const char* robotIP = "192.168.0.15";
+    String receivedData1 = "";
+    String receivedData2 = "";
+    const int bufferSize = 512; 
+    
+    unsigned long startTime = 0;
+    WebServer server(80); // Object of WebServer(HTTP port, 80 is defult)
+    
+    // 자동 모드
+    void onAuto(){
+      autoMode = true;
+      server.send(200, "text/plain", "AutoMode ON");
+    }
+    
+    // 수동 모드
+    void offAuto(){
+      autoMode = false;
+      server.send(200, "text/plain", "AutoMode OFF");
+    }
+    
+    void InitWebServer(){
+        // 요청 처리 함수 등록
+        server.on("/onauto", onAuto);
+        server.on("/offauto", offAuto);
+        server.begin();
+    }
+    
+    //---------------------------------------------------------------
+    //---------------------------------------------------------------
+    void getPose(const char* IP) {
+      // HTTPClient 객체 생성
+      HTTPClient http;
+      
+      // HTTP 요청 URL 생성
+      char url[bufferSize];
+      snprintf(url, bufferSize, "http://%s/reeman/pose", IP);
+      
+      // HTTP 요청 초기화
+      http.begin(url);
+    
+      // HTTP GET 요청 보내기
+      int httpCode = http.GET();
+      
+      // 서버에서 응답을 받았다면
+      if (httpCode > 0) {
+        // HTTP 코드 200 => 응답 출력
+        if (httpCode == HTTP_CODE_OK) {
+          String payload = http.getString();
+          Serial.println(payload.c_str());
+        }
+      } else {
+        // 연결 실패 시 오류 메시지
+        Serial.printf("[HTTP] GET... failed, error: %s\n", http.errorToString(httpCode).c_str());
+      }
+      
+      // HTTP 연결 종료
+      http.end();
+    }
+    
+    
+    void getLaser(const char* IP) {
+      // HTTPClient 객체 생성
+      HTTPClient http;
+      
+      // HTTP 요청 URL 생성
+      char url[bufferSize];
+      snprintf(url, bufferSize, "http://%s/reeman/laser", IP);
+      
+      // HTTP 요청 초기화
+      http.begin(url);
+    
+      // HTTP GET 요청 보내기
+      int httpCode = http.GET();
+      
+      // 서버에서 응답을 받았다면
+      if (httpCode > 0) {
+        // HTTP 코드 200 => 응답 출력
+        if (httpCode == HTTP_CODE_OK) {
+          String payload = http.getString();
+          Serial.println(payload.c_str());
+        }
+      } else {
+        // 연결 실패 시 오류 메시지
+        Serial.printf("[HTTP] GET... failed, error: %s\n", http.errorToString(httpCode).c_str());
+      }
+      // HTTP 연결 종료
+      http.end();
+    }
+    
+    //---------------------------------------------------------------
+    //---------------------------------------------------------------
+    
+    void setup(){                       // 실행시
+        Serial.begin(115200); // 시리얼 통신 초기화(실행), 전송속도 설정
+        Serial.println("ESP32 WEB Start");
+        Serial.println(ssid);
+    
+        // WiFi 접속
+        WiFi.begin(ssid, password);
+        // 접속 완료 할때까지 재시도
+        while (WiFi.status() != WL_CONNECTED)
+        {
+            Serial.println("접속시도중");
+            delay(1000);
+        }
+        // WIFI에 접속이 된다면 IP번호 출력
+        Serial.print("Wifi IP: ");
+        Serial.println(WiFi.localIP());
+    
+        InitWebServer();
+    
+        Serial.println("HTTP server started");
+        delay(3000);
+    
+    
+    
+      // UART1 초기화(RX: GPIO 16, TX: GPIO 17)
+      Serial1.begin(115200, SERIAL_8N1, 16, 17);
+    
+      // UART2 초기화(RX: GPIO 18, TX: GPIO 19)
+      Serial2.begin(115200, SERIAL_8N1, 18, 19);
+    }
+    
+    //---------------------------------------------------------------
+    // 바퀴에 속도 데이터 전송
+    void sendBytes(const byte* sequence, size_t size) {
+      for (size_t i = 0; i < size; ++i) {
+        Serial2.write(sequence[i]);
+      }
+    }
+    //---------------------------------------------------------------
+    
+    
+    
+    void loop(){
+      server.handleClient();
+    // --------------------------------------------
+      if(autoMode){
+        // UART1(본체)에서 데이터를 읽어서 모터로 전송
+        while (Serial1.available()) {
+          char data1 = Serial1.read();
+          Serial2.write(data1);
+    
+          if (data1 == 0xD5) {
+            if (receivedData1.length() >= 30) { // 속도만 받기 위함
+              receivedData1.toUpperCase();
+              Serial.println(receivedData1);
+            }
+            receivedData1 = "";
+          }
+          receivedData1 += String(data1, HEX);
+          receivedData1 += String(" ");
+        } 
+    
+        
+        // UART2(모터)에서 데이터를 읽어서 본체로 전송
+        while (Serial2.available()) {
+          char data2 = Serial2.read();
+          Serial1.write(data2);
+    
+          if (data2 == 0xD5) {
+            receivedData2.toUpperCase();
+            // Serial.println(receivedData2);
+            receivedData2 = "";
+            
+          }
+          receivedData2 += String(data2, HEX);
+          receivedData2 += String(" ");
+        } 
+    
+      
+    // --------------------------------------------
+      }else{
+    // --------------------------------------------
+        // 수동 회피
+        byte Speed[] = {0xD5, 0x5D, 0xFE, 0x0A, 0x83, 0x20, 0x02, 0x0A, 0x49, 0x80, 0x0B, 0x49, 0x00, 0xD4};
+        sendBytes(Speed, sizeof(Speed));
+        delay(10);
+    
+        // UART1(본체)에서 데이터를 읽어서 모터로 전송
+        while (Serial1.available()) {
+          char data = Serial1.read();
+    
+          if (data == 0xD5) {
+            receivedData1.toUpperCase();
+            Serial.println(receivedData1);
+            receivedData1 = "";
+            
+          }
+          receivedData1 += String(data, HEX);
+        }    
+      }
+    // --------------------------------------------
+      // 모터 외 로직
+      getPose(robotIP);
+      getLaser(robotIP);
+      // Serial.println("timeCheck");
+    // --------------------------------------------
+    }
+    
+    
+    
+    //---------------------------------------------------------------
+    //---------------------------------------------------------------
+    void setup_wifi() {
+        // 먼저 WiFi 네트워크에 연결합니다.
+        Serial.println();
+        Serial.print("Connecting to ");
+        Serial.println(ssid);
+    
+        WiFi.begin(ssid, password);
+    
+        while (WiFi.status() != WL_CONNECTED) {
+            delay(1000);
+            Serial.print("연결 시도중!");
+        }
+    
+        Serial.println("");
+        Serial.println("WiFi connected");
+        Serial.println("IP address: ");
+        Serial.println(WiFi.localIP());
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 이전 데이터, 이 아래부분은 현상황에 쓸모가 없음 -->
+<!-- =================================================================================================================================================== -->
+<!-- =================================================================================================================================================== -->
+<!-- =================================================================================================================================================== -->
+<!-- =================================================================================================================================================== -->
+<!-- =================================================================================================================================================== -->
+<!-- =================================================================================================================================================== -->
+<!-- =================================================================================================================================================== -->
+<STM32Duino 설치>
+    <STM32Duino를 사용하기 위한 프로그램 다운로드>
+        https://www.st.com/en/development-tools/stm32cubeprog.html
+
+    <ArduinoIDE에 STM32Duino 라이브러리 다운로드>
+        아두이노 실행
+        파일 - 기본 설정 - 추가 보드 관리자 URL - 보드 매니저 - STM32 검색
+        STM32 MCU based boards by STMicroelectronics 설치
+
+
+<PWM 받을 수 있는 GPIO단자>
+    STM32G431KBT6U
+        <TX / RX>
+            (USB가 위로향해있을때, QR코드 붙은 네모난 칩셋이 위에있는 방향)
+            우측상단 1번이 PA9(TX) 2번이 PA10(RX)  
+            PA9 - TX - USART1
+            PA10 - RX - USART1
+            PA2 - TX - USART2
+            PA3 - RX - USART2
+        <TIM>
+            (PA8)D9 - TIM1_CH1
+            <!-- (PA11)D10 - TIM1_CH4 -->
+            (PA15)D5 - TIM2_CH1 / TIM8_CH1
+            (PA1)A1 - TIM2_CH2
+            (PB4)D12 - TIM3_CH1
+            (PB5)D11 - TIM3_CH2
+            <!-- (PB0)D3 - TIM3_CH3 -->
+            (PB6)D6 - TIM4_CH1
+            <!-- (PB7)D4 - TIM4_CH2 -->
+
+    NUCLEO-F103RB
+
+        PA0 (A0)
+        PA1 (A1)
+        PA4 (A2)
+        PB0 (A3)
+        PB1 (A4)
+        PC0 (A5)
+
+
+        PA10 (D2)
+        PB3 (D3)
+        PB5 (D4)
+        PB4 (D5)
+        PB10 (D6)
+        PA8 (D7)
+
+        PA9 (D8)
+        PC7 (D9)
+        PB6 (D10)
+        PA7 (D11)
+        PA6 (D12)
+        PA5 (D13)
+        => 아두이노에서 STM32Duino를 통해 받을 수 있음
+
+
+정해놓은 핀번호
+
+PA8(D7) - TIM1 - 1CH
+PA10(D2) - TIM  1 - 3CH
+
+PA0(A0) - TIM2 - 1CH
+PB10(D6) - TIM2 - 3CH
+
+PB4(D5) - TIM3 - 1CH
+PC8 - TIM3 - 3CH
+<RS485통신>
+    유의사항
+    A가 +
+    B가 -
+
+    내가지금 전원을 넣기전에 불안해서그런데
+    아두이노 -> 컨버터(RX,TX,GND,VCC(5V))연결 -> 컨버터 A(+) / B(-) 컨버터 -> 서로 A - A / B / B 연결 <- 컨버터 A(+) / B(-) 컨버터 <- 컨버터(RX,TX,GND,VCC(5V))연결 <- 라즈베리파이  
+<Arduino IDE에 STM32Duino 라이브러리 설치>
+    파일 - 기본 설정 - 추가 보드 관리자 URL
+    http://dan.drown.org/stm32duino/package_STM32duino_index.json
+
+    라이브러리 설치
+
+    보드선택 - STM Nucleo F103RB(STLink)
+
+    현재 테스트 기종
+    NUCLEO-F103RB
+
+
+<STM32Duino가 제대로 작동하는지 확인>
+
+    const int ledPin = PA5; // NUCLEO-F103RB의 LD2 LED는 D13 핀에 연결되어 있습니다.
+
+    void setup() {
+      pinMode(ledPin, OUTPUT); // LED 핀을 출력 모드로 설정합니다.
+    }
+    
+    void loop() {
+      digitalWrite(ledPin, HIGH);   // LED를 켭니다.
+      delay(1000);                  // 1초 동안 대기합니다.
+      digitalWrite(ledPin, LOW);    // LED를 끕니다.
+      delay(1000);                  // 1초 동안 대기합니다.
+    }
+    이렇게 코드를 업로드해보면, LD2 LED가 1초간격으로 감빡이는것을 볼 수 있습니다.
+
+
+
+
+
+<콘솔에 println출력하기>
+    void setup() {
+        Serial2.begin(115200); <!-- 원래는 Serial로 썻는데 여기에는 Serial2로 해야함 -->
+    }
+    void loop() {
+        Serial2.println("!!!!!");
+        delay(1000);
+    }
