@@ -3,8 +3,8 @@ import mqtt from 'mqtt';
 import axios from 'axios';
 import fs from 'fs';
 import { robotSettings, setRobotSettings, pointCoordinate, setPointCoordinate } from '../robotconfig';
-import * as Func from '../Services/robotCommands.js';
-import * as API from '../Services/robotApiCommands';
+import * as Func from './robotCommands.js';
+import * as API from './robotApiCommands';
 export function initializeMQTT() {
     const mqttClient = mqtt.connect('mqtt://192.168.0.137:1883');
     mqttClient.on('error', function (err) {
@@ -37,13 +37,6 @@ export function initializeMQTT() {
             // console.log(robotSettings[data.robotName]); // 서빙봇 정보
             console.log(robotSettings[data.robotName].robotIP); // IP
             API.cancle(data.robotName);
-            //
-            // var message = {
-            //     servingAPI : "cancle",
-            //     robotName : "robot1",
-            //   };
-            // client.publish('servingserver', JSON.stringify(message));
-            //
         }
 
 

@@ -80,77 +80,77 @@ setTimeout(async() => {
     // console.log(laserCoordinate);
 }, 1000)
 
-async function intervalFunction() {
-    console.log(robotCoordinate[currentRobotName]);
-    try {
-        // console.log(Date.now());
-        // API.getSpeed(currentRobotName); // 속도 측정
-        for (var i in robotSettings) { // i = 등록된 로봇Name
-            // 로봇 좌표 받기
-            await API.getPose(i);
-            // 교차로 체크
-            // const crossCheck = await Func.checkCrossRoad(i); // true / false반환
-            // if (crossCheck) {
-            //     console.log(crossRoadState);
-            // }
-        }
-        // 자신이 쏘는 라이다 좌표 받기
-        await API.getLaser(currentRobotName);
+// async function intervalFunction() {
+//     console.log(robotCoordinate[currentRobotName]);
+//     try {
+//         // console.log(Date.now());
+//         // API.getSpeed(currentRobotName); // 속도 측정
+//         for (var i in robotSettings) { // i = 등록된 로봇Name
+//             // 로봇 좌표 받기
+//             await API.getPose(i);
+//             // 교차로 체크
+//             // const crossCheck = await Func.checkCrossRoad(i); // true / false반환
+//             // if (crossCheck) {
+//             //     console.log(crossRoadState);
+//             // }
+//         }
+//         // 자신이 쏘는 라이다 좌표 받기
+//         await API.getLaser(currentRobotName);
 
 
 
-        // 레이저 좌표를 받아서 충돌위험 체크
-        // mapingServer에서 기록한 맵핑데이터에 의해 벽충돌은 제거함
-        let collisionCheck = await Func.detectCollision(currentRobotName); // true(값) / false(undefined) 반환
-        // console.log(collisionCheck);
-        if (collisionCheck) { 
-            // console.log(collisionCheck);
-            const robotX = robotCoordinate[currentRobotName].x;
-            const robotY = robotCoordinate[currentRobotName].y;
-            const dx = collisionCheck.x - robotX;
-            const dy = collisionCheck.y - robotY;
-            const distance = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
-            if (distance <= 0.7) {
-                // console.log(distance + " : 정지");
-                server2.send({ isStopped: true});
-                return;
-            }else{
-                 // 장애물이 감지됫다면
-                // setCollision(true);
-                server2.send({ booleanValue: true});
-                // console.log(currentRobotName + " 장애물 충돌 위험");
+//         // 레이저 좌표를 받아서 충돌위험 체크
+//         // mapingServer에서 기록한 맵핑데이터에 의해 벽충돌은 제거함
+//         let collisionCheck = await Func.detectCollision(currentRobotName); // true(값) / false(undefined) 반환
+//         // console.log(collisionCheck);
+//         if (collisionCheck) { 
+//             // console.log(collisionCheck);
+//             const robotX = robotCoordinate[currentRobotName].x;
+//             const robotY = robotCoordinate[currentRobotName].y;
+//             const dx = collisionCheck.x - robotX;
+//             const dy = collisionCheck.y - robotY;
+//             const distance = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
+//             if (distance <= 0.7) {
+//                 // console.log(distance + " : 정지");
+//                 server2.send({ isStopped: true});
+//                 return;
+//             }else{
+//                  // 장애물이 감지됫다면
+//                 // setCollision(true);
+//                 server2.send({ booleanValue: true});
+//                 // console.log(currentRobotName + " 장애물 충돌 위험");
 
-                // // 로봇인지 아닌지 체크
-                const checkRobot = await Func.checkRobotCoordinates(currentRobotName, collisionCheck);
-                if (checkRobot) {
-                    // 로봇인 경우
-                } else {
-                    // 로봇이 아닌 경우
-                }
-            }
+//                 // // 로봇인지 아닌지 체크
+//                 const checkRobot = await Func.checkRobotCoordinates(currentRobotName, collisionCheck);
+//                 if (checkRobot) {
+//                     // 로봇인 경우
+//                 } else {
+//                     // 로봇이 아닌 경우
+//                 }
+//             }
            
-        } else {
-            // 장애물 충돌 위험 없음
-            // setCollision(false);
-            server2.send({ booleanValue: false });
-        }
+//         } else {
+//             // 장애물 충돌 위험 없음
+//             // setCollision(false);
+//             server2.send({ booleanValue: false });
+//         }
 
-        // console.log("======================================");
-        // detectCollision 리턴값이 true(충돌위험발생)이라면 
-        // console.log(robotCoordinate);
-        // if(checkValue){
-        //     // 체크한다
-        //     // 
-        // }
-        // console.log(Date.now());
-        // console.log("=======");
-    } catch (error) {
-        console.error("error");
-    }finally {
-        setTimeout(intervalFunction, 10);
-    }
-}
-setTimeout(intervalFunction, 10);
+//         // console.log("======================================");
+//         // detectCollision 리턴값이 true(충돌위험발생)이라면 
+//         // console.log(robotCoordinate);
+//         // if(checkValue){
+//         //     // 체크한다
+//         //     // 
+//         // }
+//         // console.log(Date.now());
+//         // console.log("=======");
+//     } catch (error) {
+//         console.error("error");
+//     }finally {
+//         setTimeout(intervalFunction, 10);
+//     }
+// }
+// setTimeout(intervalFunction, 10);
 
 
 

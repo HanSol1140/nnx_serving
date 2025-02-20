@@ -64,7 +64,7 @@ export async function wheelControll() {
                     } else {
                         movingCommandTest(0x99, 0x81, 0x99, 0x01);
                         readCommandTest();
-
+                      
                     }
                 } else {
                     // collision이 false일 때 정상 운행
@@ -136,7 +136,7 @@ function adjustSpeedAndSend1(data: any) {
         // 오른쪽 바퀴 속도를 왼쪽 바퀴 속도에 기반하여 계산
         const rightWheelSpeed = (commandBuffer[12]) * 256 + commandBuffer[11];
 
-        // 속도 조정 (예시: 왼쪽 바퀴 50%, 오른쪽 바퀴 100%로 조정)
+        // 속도 조정 (예시: 왼쪽 바퀴 n%, 오른쪽 바퀴 100%로 조정)
         let adjustedRightWheelSpeed = Math.floor(leftWheelSpeed * 1);
         let adjustedLeftWheelSpeed = Math.floor(leftWheelSpeed * 0.75);
 
@@ -196,10 +196,12 @@ function adjustSpeedAndSend2(data: any) {
     }
 }
 
-function movingCommandTest(leftSpeedHigh: any, leftSpeedLow: any, rightSpeedHigh: any, rightSpeedLow: any) {
-    // 명령어의 기본 구조 설정
-    let command = Buffer.from([0xD5, 0x5D, 0xFE, 0x0A, 0x83, 0x20, 0x02, 0x0A, leftSpeedHigh, leftSpeedLow, 0x0B, rightSpeedHigh, rightSpeedLow, 0x00]);
-
+// function movingCommandTest(leftSpeedHigh: any, leftSpeedLow: any, rightSpeedHigh: any, rightSpeedLow: any) {
+    function movingCommandTest() {
+        // 명령어의 기본 구조 설정
+        // let command = Buffer.from([0xD5, 0x5D, 0xFE, 0x0A, 0x83, 0x20, 0x02, 0x0A, leftSpeedHigh, leftSpeedLow, 0x0B, rightSpeedHigh, rightSpeedLow, 0x00]);
+        let command = Buffer.from([0xD5, 0x5D, 0xFE, 0x0A, 0x83, 0x20, 0x02, 0x0A, 0x99, 0x81, 0x0B, 0x99, 0x01, 0x76]);
+    
     // 체크섬 계산 (마지막 바이트는 체크섬으로 설정될 예정이므로 제외)
     const checksum = calculateChecksum(command.slice(0, -1));
 
@@ -220,7 +222,6 @@ function readCommandTest() {
     let command2 = Buffer.from([0xD5, 0x5D, 0x0B, 0x04, 0x02, 0x28, 0x02, 0x3B]);
     uart3.write(command1);
     uart3.write(command2);
-
 }
 // export async function checkWhell() {
 //     setInterval(movingCommandTest, 500);
